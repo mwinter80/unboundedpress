@@ -44,6 +44,8 @@ docker-compose exec --user www-data nextcloud php occ maintenance:repair
 # GITEA
 # install gitea through the web-interface and create and fill in Administrator Account Settings
 # this might make nginx time out, but that should be ok. It is still running scripts server side
+# set ROOT_URL in gitea/gitea/app.ini and restart container
+ROOT_URL = https://gitea.unboundedpress.org
 # TODO: change gitea to reroute to /mwinter
 # TODO: migrate repose from github
 
