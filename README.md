@@ -46,7 +46,6 @@ docker-compose exec --user www-data nextcloud php occ maintenance:repair
 # this might make nginx time out, but that should be ok. It is still running scripts server side
 # set ROOT_URL in gitea/gitea/app.ini and restart container
 ROOT_URL = https://gitea.unboundedpress.org
-# TODO: change gitea to reroute to /mwinter
 #  migrate repose from github
 
 # UNBOUNDEDPRESS
@@ -57,8 +56,17 @@ mongorestore --host localhost --port 27017 -d unboundedpress -u username -p pass
 # TODO: example of mongodb dump
 # TODO: examples of the nextcloud and gitea dump and restore
 # TODO: maybe try to add some kind of caching
-# TODOL update the docker file
+# TODO: update the docker file
+# TODO: consider making mongodb a replica set
 
 # SERVER MAINTANENCE
+# update dynamic dns script and make cron
+#!/bin/bash
+
+curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=unboundedpress.org&ip="
+curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=www.unboundedpress.org&ip="
+curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=restheart.unboundedpress.org&ip="
+curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=gitea.unboundedpress.org&ip="
+curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=nextcloud.unboundedpress.org&ip="
+curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=dev.unboundedpress.org&ip="
 # TODO: backup cron
-# TODO: update dynamic dns cron

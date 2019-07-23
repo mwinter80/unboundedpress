@@ -21,11 +21,10 @@ services:
          - unboundedpress
          - restheart
       volumes:
-         - ./../nginx/conf.d:/etc/nginx/conf.d
-         - ./../nginx/vhost.d:/etc/nginx/vhost.d
+         - ./nginx/conf.d:/etc/nginx/conf.d
+         - ./nginx/vhost.d:/etc/nginx/vhost.d
          - ./../nginx/html:/usr/share/nginx/html
-         - ./../nginx/certs:/etc/nginx/certs:ro
-         - ./nginx/conf.d/uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf:ro
+         - ./../nginx/certs:/etc/nginx/certs:ro 
          - /var/run/docker.sock:/tmp/docker.sock:ro
 
    letsencrypt:
@@ -33,10 +32,10 @@ services:
       container_name: letsencrypt
       restart: always
       volumes:
-         - ./../nginx/conf.d:/etc/nginx/conf.d
-         - ./../nginx/certs:/etc/nginx/certs
-         - ./../nginx/vhost.d:/etc/nginx/vhost.d
+         - ./nginx/conf.d:/etc/nginx/conf.d
+         - ./nginx/vhost.d:/etc/nginx/vhost.d
          - ./../nginx/html:/usr/share/nginx/html
+         - ./../nginx/certs:/etc/nginx/certs:ro
          - /var/run/docker.sock:/var/run/docker.sock:ro
       depends_on:
          - nginx-proxy
@@ -46,11 +45,10 @@ services:
       container_name: restheart
       depends_on:
          - mongodb
-         - unboundedpress
       environment:
          - VIRTUAL_HOST=restheart.unboundedpress.org
          - VIRTUAL_PORT=8080
-         - LETSENCRYPT_HOST=restheart.unboundedpress.org
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org
          - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
       ports:
          - "8080:8080"
@@ -62,7 +60,7 @@ services:
       image: mongo:3.6
       container_name: mongo
       environment:
-            MONGO_INITDB_ROOT_USERNAME: username
+            MONGO_INITDB_ROOT_USERNAME: mwinter
             MONGO_INITDB_ROOT_PASSWORD: password
       command: --bind_ip_all --auth
       restart: always
@@ -82,12 +80,12 @@ services:
          - DB_TYPE=mysql
          - DB_HOST=mariadb:3306
          - DB_NAME=gitea
-         - DB_USER=username
+         - DB_USER=mwinter
          - DB_PASSWD=password
          - HTTP_PORT=4000
          - VIRTUAL_HOST=gitea.unboundedpress.org
          - VIRTUAL_PORT=4000
-         - LETSENCRYPT_HOST=gitea.unboundedpress.org
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org
          - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
          - LFS_START_SERVER=true
          - DISABLE_REGISTRATION=true
@@ -106,8 +104,6 @@ services:
       image: mariadb:10.1.40
       container_name: mariadb
       restart: always
-      #depends_on: 
-      #   - unboundedpress
       environment:
          - MYSQL_ROOT_PASSWORD=password
       volumes:
@@ -119,8 +115,8 @@ services:
       build: .
       container_name: unboundedpress
       environment:
-         - VIRTUAL_HOST=www.unboundedpress.org
-         - LETSENCRYPT_HOST=www.unboundedpress.org
+         - VIRTUAL_HOST=www.unboundedpress.org,unboundedpress.org
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org
          - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
       volumes:
          - ./:/usr/src/unboundedpress
@@ -129,6 +125,7 @@ services:
       restart: always
       depends_on:
          - mongodb
+         - restheart
 
    nextcloud:
       image: nextcloud:stable-apache
@@ -138,15 +135,15 @@ services:
          - ./../nextcloud:/var/www/html
       environment:
          - MYSQL_DATABASE=nextcloud
-         - MYSQL_USER=username
+         - MYSQL_USER=mwinter
          - MYSQL_PASSWORD=password
          - MYSQL_HOST=mariadb
-         - NEXTCLOUD_ADMIN_USER=username
+         - NEXTCLOUD_ADMIN_USER=mwinter
          - NEXTCLOUD_ADMIN_PASSWORD=password
          - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.unboundedpress.org
          - REDIS_HOST=redis
          - VIRTUAL_HOST=nextcloud.unboundedpress.org
-         - LETSENCRYPT_HOST=nextcloud.unboundedpress.org 
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org 
          - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org 
       depends_on:
          - mariadb
@@ -182,5 +179,3 @@ services:
       image: redis:5.0.5-alpine
       container_name: redis
       restart: always
-      #volumes:
-      #   - ./../nextcloud/redis:/data
