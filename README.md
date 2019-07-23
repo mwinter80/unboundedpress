@@ -47,7 +47,7 @@ docker-compose exec --user www-data nextcloud php occ maintenance:repair
 # set ROOT_URL in gitea/gitea/app.ini and restart container
 ROOT_URL = https://gitea.unboundedpress.org
 # TODO: change gitea to reroute to /mwinter
-# TODO: migrate repose from github
+#  migrate repose from github
 
 # UNBOUNDEDPRESS
 # example of restoring the mongodb
