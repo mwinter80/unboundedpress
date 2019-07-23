@@ -1,0 +1,186 @@
+version: '3'
+
+### Creates a named network with the default bridge driver
+# See: https://docs.docker.com/engine/userguide/networking/dockernetworks/
+# See: https://docs.docker.com/engine/reference/commandline/network_create/
+#networks:
+   #backend:
+       
+services:
+
+   nginx-proxy:
+      image: jwilder/nginx-proxy
+      container_name: nginx-proxy
+      ports:
+         - "80:80"
+         - "443:443"
+      labels: 
+         com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+      restart: always
+      depends_on:
+         - unboundedpress
+         - restheart
+      volumes:
+         - ./../nginx/conf.d:/etc/nginx/conf.d
+         - ./../nginx/vhost.d:/etc/nginx/vhost.d
+         - ./../nginx/html:/usr/share/nginx/html
+         - ./../nginx/certs:/etc/nginx/certs:ro
+         - ./nginx/conf.d/uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf:ro
+         - /var/run/docker.sock:/tmp/docker.sock:ro
+
+   letsencrypt:
+      image: jrcs/letsencrypt-nginx-proxy-companion
+      container_name: letsencrypt
+      restart: always
+      volumes:
+         - ./../nginx/conf.d:/etc/nginx/conf.d
+         - ./../nginx/certs:/etc/nginx/certs
+         - ./../nginx/vhost.d:/etc/nginx/vhost.d
+         - ./../nginx/html:/usr/share/nginx/html
+         - /var/run/docker.sock:/var/run/docker.sock:ro
+      depends_on:
+         - nginx-proxy
+
+   restheart:
+      image: softinstigate/restheart:3.10.1
+      container_name: restheart
+      depends_on:
+         - mongodb
+         - unboundedpress
+      environment:
+         - VIRTUAL_HOST=restheart.unboundedpress.org
+         - VIRTUAL_PORT=8080
+         - LETSENCRYPT_HOST=restheart.unboundedpress.org
+         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
+      ports:
+         - "8080:8080"
+      restart: always
+      volumes:
+         - ./restheart/etc:/opt/restheart/etc:ro
+
+   mongodb:
+      image: mongo:3.6
+      container_name: mongo
+      environment:
+            MONGO_INITDB_ROOT_USERNAME: username
+            MONGO_INITDB_ROOT_PASSWORD: password
+      command: --bind_ip_all --auth
+      restart: always
+      volumes:
+         - ./../mongodb:/data/db
+         - ./../mongodb_backup:/backup
+      ### Uncoment below if you want to map mongodb port
+      #ports:
+      #   - "27017:27017"
+
+   gitea:
+      image: gitea/gitea:1.8.3
+      container_name: gitea
+      environment:
+         - USER_UID=1000
+         - USER_GID=1000
+         - DB_TYPE=mysql
+         - DB_HOST=mariadb:3306
+         - DB_NAME=gitea
+         - DB_USER=username
+         - DB_PASSWD=password
+         - HTTP_PORT=4000
+         - VIRTUAL_HOST=gitea.unboundedpress.org
+         - VIRTUAL_PORT=4000
+         - LETSENCRYPT_HOST=gitea.unboundedpress.org
+         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
+         - LFS_START_SERVER=true
+         - DISABLE_REGISTRATION=true
+         - RUN_MODE=prod
+      restart: always
+      volumes:
+         - ./../gitea:/data
+      ports:
+         - "4000:4000"
+         - "222:22"
+      depends_on:
+         - mariadb
+         
+
+   mariadb:
+      image: mariadb:10.1.40
+      container_name: mariadb
+      restart: always
+      #depends_on: 
+      #   - unboundedpress
+      environment:
+         - MYSQL_ROOT_PASSWORD=password
+      volumes:
+         - ./../mysql:/var/lib/mysql
+         - ./mysql/etc:/etc/mysql/conf.d
+         - ./mysql/init:/docker-entrypoint-initdb.d
+
+   unboundedpress:
+      build: .
+      container_name: unboundedpress
+      environment:
+         - VIRTUAL_HOST=www.unboundedpress.org
+         - LETSENCRYPT_HOST=www.unboundedpress.org
+         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
+      volumes:
+         - ./:/usr/src/unboundedpress
+      ports:
+         - "3000:3000"
+      restart: always
+      depends_on:
+         - mongodb
+
+   nextcloud:
+      image: nextcloud:stable-apache
+      container_name: nextcloud
+      restart: always
+      volumes:
+         - ./../nextcloud:/var/www/html
+      environment:
+         - MYSQL_DATABASE=nextcloud
+         - MYSQL_USER=username
+         - MYSQL_PASSWORD=password
+         - MYSQL_HOST=mariadb
+         - NEXTCLOUD_ADMIN_USER=username
+         - NEXTCLOUD_ADMIN_PASSWORD=password
+         - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.unboundedpress.org
+         - REDIS_HOST=redis
+         - VIRTUAL_HOST=nextcloud.unboundedpress.org
+         - LETSENCRYPT_HOST=nextcloud.unboundedpress.org 
+         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org 
+      depends_on:
+         - mariadb
+         - redis
+         - solr
+      ports:
+         - 8888:80
+
+   nc_cron:
+      image: nextcloud:stable-apache
+      container_name: nc_cron
+      restart: always
+      volumes:
+         - ./../nextcloud:/var/www/html
+      entrypoint: /cron.sh
+      depends_on:
+         - mariadb
+         - redis
+         - solr
+
+   solr:
+      image: solr:8.1.1
+      container_name: solr
+      restart: always
+      volumes:
+         - ./../nextcloud/solr:/opt/solr/server/solr/mycores
+      entrypoint:
+         - docker-entrypoint.sh
+         - solr-precreate
+         - nextant
+
+   redis:
+      image: redis:5.0.5-alpine
+      container_name: redis
+      restart: always
+      #volumes:
+      #   - ./../nextcloud/redis:/data

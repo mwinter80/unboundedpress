@@ -1,0 +1,117 @@
+/* Resume styles */
+
+body {
+    font-size: 12px;
+}
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+a {
+  color: black;
+  text-decoration: none; /* no underline */
+}
+
+.name {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 24px;
+}
+
+.title {
+    float: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 200;
+    font-size: 18px;
+}
+
+.contact-info ul {
+    list-style-type: none;
+}
+
+.section-title {
+    font-size: 14px;
+    margin-top: 0px;
+}
+
+.skill {
+    font-weight: bold;
+}
+
+.skills-ul {
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.skills-ul li {
+    float: left;
+    margin-right: 8px;
+}
+
+.company, .school {
+    font-size: 14px;
+}
+
+.section {
+    margin-left: 100px;
+}
+
+.company-position {
+}
+
+.company-summary {
+    margin-bottom: 5px;
+}
+
+.company-description {
+    margin-bottom: 0px;
+}
+
+.company-description ul {
+    padding-left: 0px;
+    list-style-type: none;
+}
+
+.education-section {
+    margin-bottom: 5px;
+}
+
+.education-gpa {
+    padding-left: 2px;
+}
+
+.education-gpa-text {
+    padding-left: 4px;
+}
+
+.pagebreak { page-break-before: always; }
+
+@media print {
+  @page {
+    size: 330mm 427mm;
+    margin: 14mm;
+  }
+  .container {
+    width: 1170px;
+  }
+
+  .entry { page-break-inside: avoid;}
+  .col-xs-1 { page-break-after: avoid;}
+  .section { page-break-before: avoid;}
+  
+}
+
+@page {
+    counter-increment: page;
+    counter-reset: page 1;
+    @bottom-middle {
+        content: counter(page);
+    }
+}
+
+

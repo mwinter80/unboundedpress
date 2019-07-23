@@ -1,0 +1,7 @@
+
+*config.js
+*docker-compose.yml
+*config.properties
+*restheart.yml
+*security.yml
+*init_dbs.sql
