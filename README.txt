@@ -60,7 +60,7 @@ mongorestore --host localhost --port 27017 -d unboundedpress -u username -p pass
 # TODO: consider making mongodb a replica set
 
 # SERVER MAINTANENCE
-# update dynamic dns script and make cron
+# update dynamic dns script and make cron (currently in /etc/cron.hourly/update_dns.sh
 #!/bin/bash
 
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=unboundedpress.org&ip="
@@ -69,4 +69,4 @@ curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=restheart.unbound
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=gitea.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=nextcloud.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=dev.unboundedpress.org&ip="
-# TODO: backup cron
+# Backups are done using rsnapshot (currently in /etc/cron.weekly/backup.sh)
