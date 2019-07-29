@@ -58,9 +58,10 @@ mongorestore --host localhost --port 27017 -d unboundedpress -u username -p pass
 # TODO: maybe try to add some kind of caching
 # TODO: update the docker file
 # TODO: consider making mongodb a replica set
+# TODO: example of restheart file upload
 
 # SERVER MAINTANENCE
-# update dynamic dns script and make cron (currently in /etc/cron.hourly/update_dns.sh
+# update dynamic dns script and make cron (currently in /etc/cron.hourly/update_dns
 #!/bin/bash
 
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=unboundedpress.org&ip="
@@ -69,4 +70,4 @@ curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=restheart.unbound
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=gitea.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=nextcloud.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=dev.unboundedpress.org&ip="
-# Backups are done using rsnapshot (currently in /etc/cron.weekly/backup.sh)
+# Backups are done using rsnapshot (currently in /etc/cron.weekly/backup)
