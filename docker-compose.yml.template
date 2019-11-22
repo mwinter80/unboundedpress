@@ -1,3 +1,4 @@
+
 version: '3'
 
 ### Creates a named network with the default bridge driver
@@ -5,7 +6,7 @@ version: '3'
 # See: https://docs.docker.com/engine/reference/commandline/network_create/
 #networks:
    #backend:
-       
+
 services:
 
    nginx-proxy:
@@ -14,7 +15,7 @@ services:
       ports:
          - "80:80"
          - "443:443"
-      labels: 
+      labels:
          com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
       restart: always
       depends_on:
@@ -24,7 +25,7 @@ services:
          - ./nginx/conf.d:/etc/nginx/conf.d
          - ./nginx/vhost.d:/etc/nginx/vhost.d
          - ./../nginx/html:/usr/share/nginx/html
-         - ./../nginx/certs:/etc/nginx/certs:ro 
+         - ./../nginx/certs:/etc/nginx/certs:ro
          - /var/run/docker.sock:/tmp/docker.sock:ro
 
    letsencrypt:
@@ -35,7 +36,7 @@ services:
          - ./nginx/conf.d:/etc/nginx/conf.d
          - ./nginx/vhost.d:/etc/nginx/vhost.d
          - ./../nginx/html:/usr/share/nginx/html
-         - ./../nginx/certs:/etc/nginx/certs:ro
+         - ./../nginx/certs:/etc/nginx/certs:rw
          - /var/run/docker.sock:/var/run/docker.sock:ro
       depends_on:
          - nginx-proxy
@@ -48,8 +49,8 @@ services:
       environment:
          - VIRTUAL_HOST=restheart.unboundedpress.org
          - VIRTUAL_PORT=8080
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org
-         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
+         - LETSENCRYPT_EMAIL=email@address
+         -LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
       ports:
          - "8080:8080"
       restart: always
@@ -60,19 +61,20 @@ services:
       image: mongo:3.6
       container_name: mongo
       environment:
-            MONGO_INITDB_ROOT_USERNAME: mwinter
-            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_ROOT_USERNAME: user
+            MONGO_INITDB_ROOT_PASSWORD: pass
       command: --bind_ip_all --auth
       restart: always
       volumes:
          - ./../mongodb:/data/db
          - ./../mongodb_backup:/backup
+         - ./../mongodb_file_stage:/file_stage
       ### Uncoment below if you want to map mongodb port
-      #ports:
-      #   - "27017:27017"
+      ports:
+         - "27017:27017"
 
    gitea:
-      image: gitea/gitea:1.8.3
+      image: gitea/gitea:1.10.0
       container_name: gitea
       environment:
          - USER_UID=1000
@@ -80,13 +82,13 @@ services:
          - DB_TYPE=mysql
          - DB_HOST=mariadb:3306
          - DB_NAME=gitea
-         - DB_USER=mwinter
-         - DB_PASSWD=password
+         - DB_USER=user
+         - DB_PASSWD=pass
          - HTTP_PORT=4000
          - VIRTUAL_HOST=gitea.unboundedpress.org
          - VIRTUAL_PORT=4000
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org
-         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+         - LETSENCRYPT_EMAIL=email@address
          - LFS_START_SERVER=true
          - DISABLE_REGISTRATION=true
          - RUN_MODE=prod
@@ -98,14 +100,14 @@ services:
          - "222:22"
       depends_on:
          - mariadb
-         
+
 
    mariadb:
       image: mariadb:10.1.40
       container_name: mariadb
       restart: always
       environment:
-         - MYSQL_ROOT_PASSWORD=password
+         - MYSQL_ROOT_PASSWORD=pass
       volumes:
          - ./../mysql:/var/lib/mysql
          - ./mysql/etc:/etc/mysql/conf.d
@@ -116,8 +118,8 @@ services:
       container_name: unboundedpress
       environment:
          - VIRTUAL_HOST=www.unboundedpress.org,unboundedpress.org
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org
-         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+         - LETSENCRYPT_EMAIL=email@address
       volumes:
          - ./:/usr/src/unboundedpress
       ports:
@@ -135,16 +137,16 @@ services:
          - ./../nextcloud:/var/www/html
       environment:
          - MYSQL_DATABASE=nextcloud
-         - MYSQL_USER=mwinter
-         - MYSQL_PASSWORD=password
+         - MYSQL_USER=user
+         - MYSQL_PASSWORD=pass
          - MYSQL_HOST=mariadb
-         - NEXTCLOUD_ADMIN_USER=mwinter
-         - NEXTCLOUD_ADMIN_PASSWORD=password
+         - NEXTCLOUD_ADMIN_USER=user
+         - NEXTCLOUD_ADMIN_PASSWORD=pass
          - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.unboundedpress.org
          - REDIS_HOST=redis
          - VIRTUAL_HOST=nextcloud.unboundedpress.org
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org 
-         - LETSENCRYPT_EMAIL=mwinter@unboundedpress.org 
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+         - LETSENCRYPT_EMAIL=email@address
       depends_on:
          - mariadb
          - redis
@@ -179,3 +181,29 @@ services:
       image: redis:5.0.5-alpine
       container_name: redis
       restart: always
+
+   mongo-express:
+      image: mongo-express
+      container_name: mongo-express
+      restart: always
+      environment:
+         - ME_CONFIG_MONGODB_SERVER=mongodb
+         - ME_CONFIG_MONGODB_PORT=27017
+         - ME_CONFIG_MONGODB_ADMINUSERNAME=user
+         - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
+         - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+         - ME_CONFIG_BASICAUTH_USERNAME=user
+         - ME_CONFIG_BASICAUTH_PASSWORD=pass
+         - ME_CONFIG_SITE_GRIDFS_ENABLED=true
+         - VIRTUAL_HOST=express.unboundedpress.org
+         - VIRTUAL_PORT=8081
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+         - LETSENCRYPT_EMAIL=email@address
+      #volumes:
+      #   - ./../nginx/certs:/etc/nginx/certs:ro
+      depends_on:
+         - mongodb
+      ports:
+         - "8081:8081"
+
+
