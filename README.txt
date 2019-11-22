@@ -53,10 +53,11 @@ ROOT_URL = https://gitea.unboundedpress.org
 # move database backup to unboundedpress/mongodb_backup
 docker exec -it mongo bash
 mongorestore --host localhost --port 27017 -d unboundedpress -u username -p password --authenticationDatabase admin /backup/db_dump_2019_07_12/unboundedpress
+# here is an example of a file upload:
+curl -v -u user:pass -X POST -F 'properties={"filename":"filename"}' -F "file=@filepath_here" https://restheart.unboundedpress.org/unboundedpress/scores.files
 # TODO: example of mongodb dump
 # TODO: examples of the nextcloud and gitea dump and restore
 # TODO: maybe try to add some kind of caching
-# TODO: update the docker file
 # TODO: consider making mongodb a replica set
 
 # SERVER MAINTANENCE
@@ -69,4 +70,5 @@ curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=restheart.unbound
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=gitea.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=nextcloud.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=dev.unboundedpress.org&ip="
+curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=express.unboundedpress.org&ip="
 # Backups are done using rsnapshot (currently in /etc/cron.weekly/backup.sh)
