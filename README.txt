@@ -59,9 +59,10 @@ curl -v -u user:pass -X POST -F 'properties={"filename":"filename"}' -F "file=@f
 # TODO: examples of the nextcloud and gitea dump and restore
 # TODO: maybe try to add some kind of caching
 # TODO: consider making mongodb a replica set
+# TODO: example of restheart file upload
 
 # SERVER MAINTANENCE
-# update dynamic dns script and make cron (currently in /etc/cron.hourly/update_dns.sh
+# update dynamic dns script and make cron (currently in /etc/cron.hourly/update_dns
 #!/bin/bash
 
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=unboundedpress.org&ip="
@@ -70,5 +71,9 @@ curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=restheart.unbound
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=gitea.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=nextcloud.unboundedpress.org&ip="
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=dev.unboundedpress.org&ip="
+<<<<<<< HEAD
 curl "https://api.1984.is/1.0/freedns/?apikey={{{KEY}}}&domain=express.unboundedpress.org&ip="
 # Backups are done using rsnapshot (currently in /etc/cron.weekly/backup.sh)
+=======
+# Backups are done using rsnapshot (currently in /etc/cron.weekly/backup)
+>>>>>>> 29c197a67b7278fe73cead0708e8d73fe06f1d11

@@ -7,6 +7,3 @@ location ^~ /.well-known/acme-challenge/ {
     break;
 }
 ## End of configuration add by letsencrypt container
-location = / {
-     rewrite ^ http://gitea.unboundedpress.org/mwinter/ redirect;
-}
