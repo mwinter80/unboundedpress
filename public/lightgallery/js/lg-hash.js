@@ -47,6 +47,7 @@
     Hash.prototype.destroy = function() {
 
         // Reset to old hash value
+
         if (this.oldHash && this.oldHash.indexOf('lg=' + this.core.s.galleryId) < 0) {
             window.location.hash = this.oldHash;
         } else {
@@ -57,6 +58,24 @@
             }
         }
 
+
+// Reset to old hash value
+/*
+        if (this.oldHash && this.oldHash.indexOf('lg=' + this.core.s.galleryId) < 0) {
+            if (history.replaceState) {
+                history.replaceState(null, null, this.oldHash);
+            } else {
+                window.location.hash = this.oldHash;
+            }
+        } else {
+            if (history.replaceState) {
+                history.replaceState(null, document.title, window.location.pathname + window.location.search);
+            } else {
+                window.location.hash = '';
+            }
+        }
+this.core.$el.off('.lg.hash');
+*/
     };
 
     $.fn.lightGallery.modules.hash = Hash;

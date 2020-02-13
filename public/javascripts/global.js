@@ -34,7 +34,7 @@ $(document).ready(function() {
     $('html, body').animate({
       scrollTop: $(target).offset().top - 210
     }, 500);
-
+    window.history.pushState("object or string", "Title", this.getAttribute('data-target'));
   });
 
   $(window).scroll(function(event) {
@@ -353,8 +353,25 @@ function populatePieces(type) {
         documentButton.lightGallery({
           selector: 'this',
           width: '90%',
+          //hash: false,
           galleryId: 'score_viewer_'+index
         });
+
+        if(typeof doc != 'undefined'){
+			} else{
+        documentButton.on('onSlideItemLoad.lg', function(event, index){
+            window.history.pushState(null, null, "/scores/" + score_data.filename);
+        //location.replace("/scores/" + score_data.filename);
+//window.location.hash = "test";
+//console.log(window.location.hash);
+        });
+
+        documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
+            window.history.pushState("object or string", "Title", "/");
+//console.log("test");
+        })
+
+        }
 
       } else {
         documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "score"}).addClass('score_icon');

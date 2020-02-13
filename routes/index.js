@@ -182,6 +182,11 @@ router.get('/cv', function(req, res, next) {
       request("http://legacy.unboundedpress.org/"+file).pipe(res);
     });
 
+    /* catch all */
+      router.get('/*', function(req, res, next) {
+      res.render('index', { title: 'Michael Winter' });
+    });
+
     Handlebars.registerHelper("prettifyDayDate", function(resumeDate) {
       if (!resumeDate) {
         return 'present';
