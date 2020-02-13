@@ -13,7 +13,6 @@
         speed: 400, //ms'
         auto: false,
         pauseOnHover: false,
-        dropOnHover: true,
         loop: false,
         slideEndAnimation: true,
         pause: 2000,
@@ -358,11 +357,7 @@
                         if (settings.gallery === true) {
                             pagers += '<li style="width:100%;' + property + ':' + thumbWidth + 'px;' + gutter + ':' + settings.thumbMargin + 'px"><a href="#"><img src="' + thumb + '" /></a></li>';
                         } else {
-                            if (i == 0){
-                                pagers += '<li>upcoming  <a href="#">' + (i + 1) + '</a></li>';
-                            } else {
-                                pagers += '<li><a href="#">' + (i + 1) + '</a></li>';
-                            }
+                            pagers += '<li><a href="#">' + (i + 1) + '</a></li>';
                         }
                         if (settings.mode === 'slide') {
                             if ((v) >= w - elSize - settings.slideMargin) {
@@ -419,7 +414,7 @@
                     if (settings.gallery) {
                         cl = 'lSGallery';
                     }
-                    $slide.before('<ul class="lSPager ' + cl + '"></ul>');
+                    $slide.after('<ul class="lSPager ' + cl + '"></ul>');
                     var gMargin = (settings.vertical) ? 'margin-left' : 'margin-top';
                     $slide.parent().find('.lSPager').css(gMargin, settings.galleryMargin + 'px');
                     refresh.createPager();
@@ -458,7 +453,7 @@
                             $this.auto();
                         }   
                     }else{
-                        obj.find('img').load(function () {
+                        obj.find('img').on('load', function () {
                             setTimeout(function () {
                                 setCss();
                                 if (!interval) {
@@ -665,26 +660,6 @@
                         if (!$slide.find('.lightSlider').hasClass('lsGrabbing')) {
                             $this.auto();
                         }
-                    });
-                }
-            },
-            dropOnHover: function(){
-                var $this = this;
-                if (settings.dropOnHover) {
-                    $slide.on('mouseenter', function(){
-                        $(this).addClass('ls-hover');
-                        $el.pause();
-                        $el.css('height', '190px');
-                        $('.videoGalleryFrame').css('height', '190px');
-                        $('.video-inner').css('height', '190px');
-                        $el.css('padding-bottom','0px')   
-                    });
-                    $slide.on('mouseleave',function(){
-                        $(this).removeClass('ls-hover');
-                        $el.css('height', '140px');
-                        $('.videoGalleryFrame').css('height', '140px');
-                        $('.video-inner').css('height', '140px');
-                        $el.css('padding-bottom','0px')   
                     });
                 }
             },
@@ -909,7 +884,6 @@
 
                 $this.pager();
                 $this.pauseOnHover();
-                $this.dropOnHover();
                 $this.controls();
                 $this.keyPress();
             }

@@ -40,7 +40,6 @@
     transition-duration: inherit !important;
     -webkit-transition-timing-function: inherit !important;
     transition-timing-function: inherit !important;
-    cursor: pointer;
 }
 .lSSlideWrapper .lSFade {
     position: relative;
@@ -82,7 +81,6 @@
     cursor: pointer;
     display: inline-block;
     padding: 0 5px;
-    margin-bottom: 2px;
 }
 .lSSlideOuter .lSPager.lSpg > li a {
     background-color: #222222;
@@ -154,7 +152,7 @@
 .lSAction > a {
     width: 32px;
     display: block;
-    top: 25px;
+    top: 50%;
     height: 32px;
     background-image: url('../img/controls.png');
     cursor: pointer;
@@ -376,7 +374,7 @@
     animation: rightEnd 0.3s;
     position: relative;
 }
-/*/  GRab lscursor */
+/*/  GRab cursor */
 .lightSlider.lsGrab > * {
   cursor: -webkit-grab;
   cursor: -moz-grab;
