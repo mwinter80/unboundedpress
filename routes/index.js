@@ -139,6 +139,13 @@ router.get('/cv', function(req, res, next) {
       });
     });
 
+    /* redirect catch */
+      router.get('/redirect=*', function(req, res, next) {
+      var link = req.url.split('=').pop();
+      request(link).pipe(res);
+    });
+
+
     router.get('/*/*', function(req, res) {
       var db = req.db;
       var splitreq = req.url.split('/');
@@ -177,15 +184,19 @@ router.get('/cv', function(req, res, next) {
     */
 
     //legacy file handler
+/*
     router.get('/*.*', function(req, res) {
       var file = req.url.split('/').pop()
       request("http://legacy.unboundedpress.org/"+file).pipe(res);
     });
+*/
 
-    /* catch all */
+
+    /* catch all*/
       router.get('/*', function(req, res, next) {
       res.render('index', { title: 'Michael Winter' });
     });
+
 
     Handlebars.registerHelper("prettifyDayDate", function(resumeDate) {
       if (!resumeDate) {

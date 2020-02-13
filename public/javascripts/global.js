@@ -18,7 +18,10 @@ $(document).ready(function() {
     populateAbout();
 
     populateGallerySelector();
-  }
+    if (window.location.href.split('/').pop().substring(0,3) != "#lg") {
+      window.history.replaceState("object or string", "Title", "/");
+  }  
+}
 
   $( window ).resize(function() {
     resetDivHeights();
@@ -34,7 +37,7 @@ $(document).ready(function() {
     $('html, body').animate({
       scrollTop: $(target).offset().top - 210
     }, 500);
-    window.history.pushState("object or string", "Title", this.getAttribute('data-target'));
+    //window.history.pushState("object or string", "Title", this.getAttribute('data-target'));
   });
 
   $(window).scroll(function(event) {
@@ -353,22 +356,18 @@ function populatePieces(type) {
         documentButton.lightGallery({
           selector: 'this',
           width: '90%',
-          //hash: false,
-          galleryId: 'score_viewer_'+index
+          hash: false,
+          galleryId: "score_viewer_"+index
         });
 
         if(typeof doc != 'undefined'){
 			} else{
         documentButton.on('onSlideItemLoad.lg', function(event, index){
-            window.history.pushState(null, null, "/scores/" + score_data.filename);
-        //location.replace("/scores/" + score_data.filename);
-//window.location.hash = "test";
-//console.log(window.location.hash);
+           window.history.replaceState(null, null, "/scores/" + score_data.filename);
         });
 
         documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
-            window.history.pushState("object or string", "Title", "/");
-//console.log("test");
+            window.history.replaceState("object or string", "Title", "/");
         })
 
         }
@@ -733,20 +732,39 @@ console.log(href);
 	     documentButton = $('<button id=piece_document_button_'+index+" onclick=' window.open('" + href.replace(/\//g, '\/') + "','_blank')>")
 		.attr({title: "view"}).addClass('score_icon');
 	} else {
+console.log(href);
 	     documentButton = $('<button id=piece_document_button_'+index+" data-iframe='true' data-src='"+href+download+"'>")
 		.attr({title: "view"}).addClass('score_icon');
 
 		 documentButton.lightGallery({
 			  selector: 'this',
 			  width: '90%',
+                          hash: false,
 			  galleryId: 'pub_viewer_'+index
 			});
 
 			if(typeof doc != 'undefined'){
+                          documentButton.on('onSlideItemLoad.lg', function(event, index){
+                           window.history.replaceState(null, null, href);
+                          });
+
+                          documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
+                            window.history.replaceState("object or string", "Title", "/");
+                          })
+
 			} else{
 			  documentButton.on('onBeforeSlide.lg', function(event, prevIndex, index){
 			    $('.lg-inner').css('background-color', 'white')
 			  });
+
+                          documentButton.on('onSlideItemLoad.lg', function(event, index){
+                           window.history.replaceState("object or string", "Title", "/redirect=" + href);
+                          });
+
+                          documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
+                            window.history.replaceState("object or string", "Title", "/");
+                          })
+
 			}
 	}
 
