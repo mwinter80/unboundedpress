@@ -732,9 +732,11 @@ console.log(href);
 	     documentButton = $('<button id=piece_document_button_'+index+" onclick=' window.open('" + href.replace(/\//g, '\/') + "','_blank')>")
 		.attr({title: "view"}).addClass('score_icon');
 	} else {
-console.log(href);
+
 	     documentButton = $('<button id=piece_document_button_'+index+" data-iframe='true' data-src='"+href+download+"'>")
 		.attr({title: "view"}).addClass('score_icon');
+
+		if(typeof doc != 'undefined'){
 
 		 documentButton.lightGallery({
 			  selector: 'this',
@@ -766,6 +768,12 @@ console.log(href);
                           })
 
 			}
+		} else {
+			documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "view"}).addClass('score_icon');
+			documentButton.click(function() {
+			  window.open=href;
+			});
+		}
 	}
 
 
