@@ -769,9 +769,9 @@ console.log(href);
 
 			}
 		} else {
-			documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "view"}).addClass('score_icon');
+			//documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "view"}).addClass('score_icon');
 			documentButton.click(function() {
-			  window.open=href;
+                          window.open(href);
 			});
 		}
 	}
