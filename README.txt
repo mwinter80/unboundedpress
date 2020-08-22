@@ -34,6 +34,7 @@ docker-compose up -d
 # NEXTCLOUD
 # update nextcloud since the dbs were initialized to handle 4-byte characters
 docker exec -it mariadb mysql -u root -p
+use nextcloud;
 set global innodb_file_format=Barracuda;
 set global innodb_large_prefix=on;
 ALTER DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -56,6 +57,7 @@ mongorestore --host localhost --port 27017 -d unboundedpress -u username -p pass
 # here is an example of a file upload:
 curl -v -u user:pass -X POST -F 'properties={"filename":"filename"}' -F "file=@filepath_here" https://restheart.unboundedpress.org/unboundedpress/scores.files
 # TODO: example of mongodb dump
+mongodump --host localhost --port 27017 -d unboundedpress -o /backup/db_dump_2020_03_30 -u username -p password --authenticationDatabase admin
 # TODO: examples of the nextcloud and gitea dump and restore
 # TODO: maybe try to add some kind of caching
 # TODO: consider making mongodb a replica set
