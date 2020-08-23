@@ -4,7 +4,7 @@ body, html {
   padding:0px;
   /*background-color: #ABABAB;*/
   background-color: #FDFDFD;
-  min-width: 980px;
+  min-width: 1000px;
 }
 
 h1 {
@@ -21,6 +21,7 @@ h2 {
   font-weight: 100;
   margin-top: 0px;
   margin-bottom: -20px;
+  margin-left: -25px;
   padding:0px;
 }
 
@@ -246,7 +247,7 @@ iframe.videoGalleryFrame:hover {height: 190px; width:300px}
 
 .inline-list li {
     display: inline;
-    padding-left: 8px;
+    padding-left: 5px;
     padding-right: 20px;
 }
     
