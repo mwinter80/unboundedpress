@@ -99,11 +99,12 @@ function resetDivHeights(){
   //$('#pieces').height($('#releases').height());
   //$('#releases').height($('#writings').height());
 
-  if($('#writings').height() >= $('#releases').height()){
-    $('#pieces').height($('#writings').height() + 200);
-  } else {
-    $('#pieces').height($('#releases').height());
-  }
+  $('#pieces').css('height', '1850px');
+  //if($('#writings').height() >= $('#releases').height()){
+  //  $('#pieces').height($('#writings').height());
+  //} else {
+  //  $('#pieces').height($('#releases').height());
+  //}
 
   $('#talks').css('height', 'auto');
   $('#performances').css('height', 'auto');
