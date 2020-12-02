@@ -13,14 +13,14 @@ $(document).ready(function() {
     populatePieces('secondary');
     populatePublications();
     populateReleases();
-    populatePerformances(2019, 'composer', true);
-    populateTalks(2019, true);
+    populatePerformances(2020, 'composer', true);
+    populateTalks(2020, true);
     populateAbout();
 
     populateGallerySelector();
     if (window.location.href.split('/').pop().substring(0,3) != "#lg") {
       window.history.replaceState("object or string", "Title", "/");
-  }  
+  }
 }
 
   $( window ).resize(function() {
@@ -606,7 +606,7 @@ function populatePerformances(year, eventType, loadUpcoming) {
       //console.log(upcomingCount);
       if (upcomingLoadedCount==2) {
 
-        if(upcomingCount == 0 && year == 2019){
+        if(upcomingCount == 0 && year == 2020){
 
           $('#upcoming').css('visibility', 'hidden')
         } else {
