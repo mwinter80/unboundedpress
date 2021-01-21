@@ -37,20 +37,13 @@
         }
     }
 
-    .lg-has-iframe {
-        .lg-video {
-            -webkit-overflow-scrolling: touch;
-            overflow: auto;
-        }
-    }
-
     .lg-has-vimeo{
         .lg-video-play{
-            background: url("#{$lg-path-images}/vimeo-play.png") no-repeat scroll 0 0 transparent;
+            background: url("../img/vimeo-play.png") no-repeat scroll 0 0 transparent;
         }
         &:hover{
             .lg-video-play{
-                background: url("#{$lg-path-images}/vimeo-play.png") no-repeat scroll 0 -58px transparent;
+                background: url("../img/vimeo-play.png") no-repeat scroll 0 -58px transparent;
             } 
 
         }  
@@ -58,7 +51,7 @@
 
     .lg-has-html5{
         .lg-video-play{
-            background: transparent url("#{$lg-path-images}/video-play.png") no-repeat scroll 0 0;
+            background: transparent url("../img/video-play.png") no-repeat scroll 0 0;
             height: 64px;
             margin-left: -32px;
             margin-top: -32px;
@@ -75,11 +68,11 @@
 
     .lg-has-youtube{
         .lg-video-play{
-            background: url("#{$lg-path-images}/youtube-play.png") no-repeat scroll 0 0 transparent;
+            background: url("../img/youtube-play.png") no-repeat scroll 0 0 transparent;
         }
         &:hover{
             .lg-video-play{
-                background: url("#{$lg-path-images}/youtube-play.png") no-repeat scroll 0 -60px transparent;
+                background: url("../img/youtube-play.png") no-repeat scroll 0 -60px transparent;
             } 
 
         }  
@@ -97,7 +90,7 @@
             visibility: hidden;
         }
 
-        &.lg-video-playing {
+        &.lg-video-palying {
             .lg-object, .lg-video-play {
                 display: none;
             }

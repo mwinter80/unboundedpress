@@ -1,25 +1,11 @@
-/*! lg-autoplay - v1.0.4 - 2017-03-28
-* http://sachinchoolur.github.io/lightGallery
-* Copyright (c) 2017 Sachin N; Licensed GPLv3 */
+/**
+ * Autoplay Plugin
+ * @version 1.2.0
+ * @author Sachin N - @sachinchoolur
+ * @license MIT License (MIT)
+ */
 
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module unless amdModuleId is set
-    define(['jquery'], function (a0) {
-      return (factory(a0));
-    });
-  } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
-    module.exports = factory(require('jquery'));
-  } else {
-    factory(jQuery);
-  }
-}(this, function ($) {
-
-
-(function() {
+(function($, window, document, undefined) {
 
     'use strict';
 
@@ -42,7 +28,7 @@
 
         this.$el = $(element);
 
-        // Execute only if items are above 1
+        // Exicute only if items are above 1
         if (this.core.$items.length < 2) {
             return false;
         }
@@ -87,9 +73,7 @@
 
         // Start autoplay
         if (_this.core.s.autoplay) {
-            _this.$el.one('onSlideItemLoad.lg.tm', function() {
-                _this.startlAuto();
-            });
+            _this.startlAuto();
         }
 
         // cancel interval on touchstart and dragstart
@@ -132,7 +116,7 @@
                 }
             }
 
-            // Remove setinterval if slide is triggered manually and fourceautoplay is false
+            // Remove setinterval if slide is trigered manualy and fourceautoplay is false
             if (!_this.fromAuto && !_this.core.s.fourceAutoplay) {
                 _this.cancelAuto();
             }
@@ -173,17 +157,18 @@
 
         _this.interval = setInterval(function() {
             if (_this.core.index + 1 < _this.core.$items.length) {
-                _this.core.index++;
+                _this.core.index = _this.core.index;
             } else {
-                _this.core.index = 0;
+                _this.core.index = -1;
             }
 
+            _this.core.index++;
             _this.fromAuto = true;
-            _this.core.slide(_this.core.index, false, false, 'next');
+            _this.core.slide(_this.core.index, false, false);
         }, _this.core.s.speed + _this.core.s.pause);
     };
 
-    // cancel Autostart
+    // cancel  Autostart
     Autoplay.prototype.cancelAuto = function() {
         clearInterval(this.interval);
         this.interval = false;
@@ -200,7 +185,4 @@
 
     $.fn.lightGallery.modules.autoplay = Autoplay;
 
-})();
-
-
-}));
+})(jQuery, window, document);

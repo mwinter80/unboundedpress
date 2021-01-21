@@ -122,6 +122,24 @@
     hyphens: $mode;
 }
 
+// Placeholder text
+@mixin placeholder($color: $input-color-placeholder) {
+    // Firefox
+    &::-moz-placeholder {
+        color: $color;
+        opacity: 1; // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526
+   
+    }
+
+    &:-ms-input-placeholder {
+        color: $color;
+    } // Internet Explorer 10+
+
+    &::-webkit-input-placeholder {
+        color: $color;
+    } // Safari and Chrome
+}
+
 // Transformations
 @mixin scale($ratio...) {
     -webkit-transform: scale($ratio);
@@ -286,10 +304,8 @@
         $prop-opts: ();
         $length: length($declaration);
 
-        @if $length >= 2 {
-            @for $i from 2 through $length {
-                $prop-opts: append($prop-opts, nth($declaration, $i));
-            }
+        @for $i from 2 through $length {
+            $prop-opts: append($prop-opts, nth($declaration, $i));
         }
         $trans: $prop, $prop-opts;
         $transitions: append($transitions, $trans, comma);

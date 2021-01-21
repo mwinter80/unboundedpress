@@ -1,43 +1,17 @@
-/*! lg-zoom - v1.1.0 - 2017-08-08
-* http://sachinchoolur.github.io/lightGallery
-* Copyright (c) 2017 Sachin N; Licensed GPLv3 */
-
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module unless amdModuleId is set
-    define(['jquery'], function (a0) {
-      return (factory(a0));
-    });
-  } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
-    module.exports = factory(require('jquery'));
-  } else {
-    factory(jQuery);
-  }
-}(this, function ($) {
-
-(function() {
+/**
+ * Zoom Plugin
+ * @version 1.2.0
+ * @author Sachin N - @sachinchoolur
+ * @license MIT License (MIT)
+ */
+(function($, window, document, undefined) {
 
     'use strict';
-
-    var getUseLeft = function() {
-        var useLeft = false;
-        var isChrome = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
-        if (isChrome && parseInt(isChrome[2], 10) < 54) {
-            useLeft = true;
-        }
-
-        return useLeft;
-    };
 
     var defaults = {
         scale: 1,
         zoom: true,
-        actualSize: true,
-        enableZoomAfter: 300,
-        useLeftForZoom: getUseLeft()
+        enableZoomAfter: 300
     };
 
     var Zoom = function(element) {
@@ -52,7 +26,7 @@
             // Store the zoomable timeout value just to clear it while closing
             this.zoomabletimeout = false;
 
-            // Set the initial value center
+            // Set the initial value center 
             this.pageX = $(window).width() / 2;
             this.pageY = ($(window).height() / 2) + $(window).scrollTop();
         }
@@ -65,16 +39,6 @@
         var _this = this;
         var zoomIcons = '<span id="lg-zoom-in" class="lg-icon"></span><span id="lg-zoom-out" class="lg-icon"></span>';
 
-        if (_this.core.s.actualSize) {
-            zoomIcons += '<span id="lg-actual-size" class="lg-icon"></span>';
-        }
-
-        if (_this.core.s.useLeftForZoom) {
-            _this.core.$outer.addClass('lg-use-left-for-zoom');
-        } else {
-            _this.core.$outer.addClass('lg-use-transition-for-zoom');
-        }
-
         this.core.$outer.find('.lg-toolbar').append(zoomIcons);
 
         // Add zoomable class
@@ -86,7 +50,7 @@
             // set _speed value 0 if gallery opened from direct url and if it is first slide
             if ($('body').hasClass('lg-from-hash') && delay) {
 
-                // will execute only once
+                // will execute only once 
                 _speed = 0;
             } else {
 
@@ -113,8 +77,8 @@
             var _y;
 
             // Find offset manually to avoid issue after zoom
-            var offsetX = ($(window).width() - $image.prop('offsetWidth')) / 2;
-            var offsetY = (($(window).height() - $image.prop('offsetHeight')) / 2) + $(window).scrollTop();
+            var offsetX = ($(window).width() - $image.width()) / 2;
+            var offsetY = (($(window).height() - $image.height()) / 2) + $(window).scrollTop();
 
             _x = _this.pageX - offsetX;
             _y = _this.pageY - offsetY;
@@ -124,14 +88,7 @@
 
             $image.css('transform', 'scale3d(' + scaleVal + ', ' + scaleVal + ', 1)').attr('data-scale', scaleVal);
 
-            if (_this.core.s.useLeftForZoom) {
-                $image.parent().css({
-                    left: -x + 'px',
-                    top: -y + 'px'
-                }).attr('data-x', x).attr('data-y', y);
-            } else {
-                $image.parent().css('transform', 'translate3d(-' + x + 'px, -' + y + 'px, 0)').attr('data-x', x).attr('data-y', y);
-            }
+            $image.parent().css('transform', 'translate3d(-' + x + 'px, -' + y + 'px, 0)').attr('data-x', x).attr('data-y', y);
         };
 
         var callScale = function() {
@@ -148,64 +105,33 @@
             zoom(scale);
         };
 
-        var actualSize = function(event, $image, index, fromIcon) {
-            var w = $image.prop('offsetWidth');
-            var nw;
-            if (_this.core.s.dynamic) {
-                nw = _this.core.s.dynamicEl[index].width || $image[0].naturalWidth || w;
-            } else {
-                nw = _this.core.$items.eq(index).attr('data-width') || $image[0].naturalWidth || w;
-            }
-
-            var _scale;
-
-            if (_this.core.$outer.hasClass('lg-zoomed')) {
-                scale = 1;
-            } else {
-                if (nw > w) {
-                    _scale = nw / w;
-                    scale = _scale || 2;
-                }
-            }
-
-            if (fromIcon) {
-                _this.pageX = $(window).width() / 2;
-                _this.pageY = ($(window).height() / 2) + $(window).scrollTop();
-            } else {
-                _this.pageX = event.pageX || event.originalEvent.targetTouches[0].pageX;
-                _this.pageY = event.pageY || event.originalEvent.targetTouches[0].pageY;
-            }
-
-            callScale();
-            setTimeout(function() {
-                _this.core.$outer.removeClass('lg-grabbing').addClass('lg-grab');
-            }, 10);
-        };
-
-        var tapped = false;
-
         // event triggered after appending slide content
         _this.core.$el.on('onAferAppendSlide.lg.tm.zoom', function(event, index) {
 
             // Get the current element
             var $image = _this.core.$slide.eq(index).find('.lg-image');
 
-            $image.on('dblclick', function(event) {
-                actualSize(event, $image, index);
-            });
+            $image.dblclick(function(event) {
 
-            $image.on('touchstart', function(event) {
-                if (!tapped) {
-                    tapped = setTimeout(function() {
-                        tapped = null;
-                    }, 300);
+                var w = $image.width();
+                var nw = _this.core.$items.eq(index).attr('data-width') || $image[0].naturalWidth || w;
+                var _scale;
+
+                if (_this.core.$outer.hasClass('lg-zoomed')) {
+                    scale = 1;
                 } else {
-                    clearTimeout(tapped);
-                    tapped = null;
-                    actualSize(event, $image, index);
+                    if (nw > w) {
+                        _scale = nw / w;
+                        scale = _scale || 2;
+                    }
                 }
 
-                event.preventDefault();
+                _this.pageX = event.pageX;
+                _this.pageY = event.pageY;
+                callScale();
+                setTimeout(function() {
+                    _this.core.$outer.removeClass('lg-grabbing').addClass('lg-grab');
+                }, 10);
             });
 
         });
@@ -231,20 +157,19 @@
             }
         });
 
-        $('#lg-actual-size').on('click.lg', function(event) {
-            actualSize(event, _this.core.$slide.eq(_this.core.index).find('.lg-image'), _this.core.index, true);
-        });
-
         // Reset zoom on slide change
         _this.core.$el.on('onBeforeSlide.lg.tm', function() {
-            scale = 1;
             _this.resetZoom();
         });
 
         // Drag option after zoom
-        _this.zoomDrag();
+        if (!_this.core.isTouch) {
+            _this.zoomDrag();
+        }
 
-        _this.zoomSwipe();
+        if (_this.core.isTouch) {
+            _this.zoomSwipe();
+        }
 
     };
 
@@ -276,8 +201,8 @@
             if (_this.core.$outer.hasClass('lg-zoomed')) {
                 var $image = _this.core.$slide.eq(_this.core.index).find('.lg-object');
 
-                allowY = $image.prop('offsetHeight') * $image.attr('data-scale') > _this.core.$outer.find('.lg').height();
-                allowX = $image.prop('offsetWidth') * $image.attr('data-scale') > _this.core.$outer.find('.lg').width();
+                allowY = $image.outerHeight() * $image.attr('data-scale') > _this.core.$outer.find('.lg').height();
+                allowX = $image.outerWidth() * $image.attr('data-scale') > _this.core.$outer.find('.lg').width();
                 if ((allowX || allowY)) {
                     e.preventDefault();
                     startCoords = {
@@ -299,6 +224,7 @@
 
                 e.preventDefault();
                 isMoved = true;
+                endCoords = e.originalEvent.targetTouches[0].pageX;
 
                 endCoords = {
                     x: e.originalEvent.targetTouches[0].pageX,
@@ -320,17 +246,7 @@
                     distanceX = -Math.abs(_$el.attr('data-x'));
                 }
 
-                if ((Math.abs(endCoords.x - startCoords.x) > 15) || (Math.abs(endCoords.y - startCoords.y) > 15)) {
-
-                    if (_this.core.s.useLeftForZoom) {
-                        _$el.css({
-                            left: distanceX + 'px',
-                            top: distanceY + 'px'
-                        });
-                    } else {
-                        _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)');
-                    }
-                }
+                _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)');
 
             }
 
@@ -368,8 +284,8 @@
             // execute only on .lg-object
             var $image = _this.core.$slide.eq(_this.core.index).find('.lg-object');
 
-            allowY = $image.prop('offsetHeight') * $image.attr('data-scale') > _this.core.$outer.find('.lg').height();
-            allowX = $image.prop('offsetWidth') * $image.attr('data-scale') > _this.core.$outer.find('.lg').width();
+            allowY = $image.outerHeight() * $image.attr('data-scale') > _this.core.$outer.find('.lg').height();
+            allowX = $image.outerWidth() * $image.attr('data-scale') > _this.core.$outer.find('.lg').width();
 
             if (_this.core.$outer.hasClass('lg-zoomed')) {
                 if ($(e.target).hasClass('lg-object') && (allowX || allowY)) {
@@ -417,14 +333,7 @@
                     distanceX = -Math.abs(_$el.attr('data-x'));
                 }
 
-                if (_this.core.s.useLeftForZoom) {
-                    _$el.css({
-                        left: distanceX + 'px',
-                        top: distanceY + 'px'
-                    });
-                } else {
-                    _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)');
-                }
+                _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)');
             }
         });
 
@@ -459,50 +368,40 @@
         var $image = _this.core.$slide.eq(_this.core.index).find('.lg-object');
         var distanceX = (-Math.abs(_$el.attr('data-x'))) + (endCoords.x - startCoords.x);
         var distanceY = (-Math.abs(_$el.attr('data-y'))) + (endCoords.y - startCoords.y);
-        var minY = (_this.core.$outer.find('.lg').height() - $image.prop('offsetHeight')) / 2;
-        var maxY = Math.abs(($image.prop('offsetHeight') * Math.abs($image.attr('data-scale'))) - _this.core.$outer.find('.lg').height() + minY);
-        var minX = (_this.core.$outer.find('.lg').width() - $image.prop('offsetWidth')) / 2;
-        var maxX = Math.abs(($image.prop('offsetWidth') * Math.abs($image.attr('data-scale'))) - _this.core.$outer.find('.lg').width() + minX);
+        var minY = (_this.core.$outer.find('.lg').height() - $image.outerHeight()) / 2;
+        var maxY = Math.abs(($image.outerHeight() * Math.abs($image.attr('data-scale'))) - _this.core.$outer.find('.lg').height() + minY);
+        var minX = (_this.core.$outer.find('.lg').width() - $image.outerWidth()) / 2;
+        var maxX = Math.abs(($image.outerWidth() * Math.abs($image.attr('data-scale'))) - _this.core.$outer.find('.lg').width() + minX);
 
-        if ((Math.abs(endCoords.x - startCoords.x) > 15) || (Math.abs(endCoords.y - startCoords.y) > 15)) {
-            if (allowY) {
-                if (distanceY <= -maxY) {
-                    distanceY = -maxY;
-                } else if (distanceY >= -minY) {
-                    distanceY = -minY;
-                }
+        if (allowY) {
+            if (distanceY <= -maxY) {
+                distanceY = -maxY;
+            } else if (distanceY >= -minY) {
+                distanceY = -minY;
             }
-
-            if (allowX) {
-                if (distanceX <= -maxX) {
-                    distanceX = -maxX;
-                } else if (distanceX >= -minX) {
-                    distanceX = -minX;
-                }
-            }
-
-            if (allowY) {
-                _$el.attr('data-y', Math.abs(distanceY));
-            } else {
-                distanceY = -Math.abs(_$el.attr('data-y'));
-            }
-
-            if (allowX) {
-                _$el.attr('data-x', Math.abs(distanceX));
-            } else {
-                distanceX = -Math.abs(_$el.attr('data-x'));
-            }
-
-            if (_this.core.s.useLeftForZoom) {
-                _$el.css({
-                    left: distanceX + 'px',
-                    top: distanceY + 'px'
-                });
-            } else {
-                _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)');
-            }
-
         }
+
+        if (allowX) {
+            if (distanceX <= -maxX) {
+                distanceX = -maxX;
+            } else if (distanceX >= -minX) {
+                distanceX = -minX;
+            }
+        }
+
+        if (allowY) {
+            _$el.attr('data-y', Math.abs(distanceY));
+        } else {
+            distanceY = -Math.abs(_$el.attr('data-y'));
+        }
+
+        if (allowX) {
+            _$el.attr('data-x', Math.abs(distanceX));
+        } else {
+            distanceX = -Math.abs(_$el.attr('data-x'));
+        }
+
+        _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)');
     };
 
     Zoom.prototype.destroy = function() {
@@ -521,7 +420,4 @@
 
     $.fn.lightGallery.modules.zoom = Zoom;
 
-})();
-
-
-}));
+})(jQuery, window, document);

@@ -1,24 +1,4 @@
-/*! lg-fullscreen - v1.0.1 - 2016-09-30
-* http://sachinchoolur.github.io/lightGallery
-* Copyright (c) 2016 Sachin N; Licensed GPLv3 */
-
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module unless amdModuleId is set
-    define(['jquery'], function (a0) {
-      return (factory(a0));
-    });
-  } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
-    module.exports = factory(require('jquery'));
-  } else {
-    factory(jQuery);
-  }
-}(this, function ($) {
-
-(function() {
+(function($, window, document, undefined) {
 
     'use strict';
 
@@ -57,7 +37,7 @@
         }
     };
 
-    Fullscreen.prototype.requestFullscreen = function() {
+    Fullscreen.prototype.reuestFullscreen = function() {
         var el = document.documentElement;
         if (el.requestFullscreen) {
             el.requestFullscreen();
@@ -93,7 +73,7 @@
         this.core.$outer.find('.lg-fullscreen').on('click.lg', function() {
             if (!document.fullscreenElement &&
                 !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
-                _this.requestFullscreen();
+                _this.reuestFullscreen();
             } else {
                 _this.exitFullscreen();
             }
@@ -111,6 +91,4 @@
 
     $.fn.lightGallery.modules.fullscreen = Fullscreen;
 
-})();
-
-}));
+})(jQuery, window, document);
