@@ -568,7 +568,7 @@ function populatePerformances(year, eventType, loadUpcoming) {
     col ="performer_events";
   }
 
-  $.getJSON(BASE_URL + "/unboundedpress/"+col+"?filter={'$and':[{'start_date':{'$gte':{'$date':'2001-01-01T08:00:00Z'}}},{'start_date':{'$lte':{'$date':'"+(year+1).toString()+"-01-01T08:00:00Z'}}}]}&sort_by=-start_date&pagesize=50", function(data) {
+  $.getJSON(BASE_URL + "/unboundedpress/"+col+"?filter={'$and':[{'start_date':{'$gte':{'$date':'2001-01-01T08:00:00Z'}}},{'start_date':{'$lte':{'$date':'"+(year+1).toString()+"-01-01T08:00:00Z'}}}]}&sort_by=-start_date&pagesize=55", function(data) {
     var objCount = 0;
     var len=Object.keys(data._embedded).length;
     $.each(data._embedded, function(index, data){
