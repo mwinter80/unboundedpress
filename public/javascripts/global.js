@@ -893,7 +893,7 @@ function populatePublications() {
 
           $('ul#myimagegallerylist').lightSlider({
             item:1,
-            loop:false,
+            loop:true,
             pager: false,
             dropOnHover:false,
             enableDrag: false,
