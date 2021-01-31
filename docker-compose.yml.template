@@ -17,6 +17,8 @@ services:
          - "443:443"
       labels:
          com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+      #environment:
+      #   - HTTPS_METHOD=noredirect
       restart: always
       depends_on:
          - unboundedpress
@@ -26,12 +28,15 @@ services:
          - ./nginx/vhost.d:/etc/nginx/vhost.d
          - ./../nginx/html:/usr/share/nginx/html
          - ./../nginx/certs:/etc/nginx/certs:ro
+         - ./../nginx/htpasswd:/etc/nginx/htpasswd:ro
          - /var/run/docker.sock:/tmp/docker.sock:ro
 
    letsencrypt:
       image: jrcs/letsencrypt-nginx-proxy-companion
       container_name: letsencrypt
       restart: always
+      #environment:
+      #   - ACME_CA_URI=https://acme-staging-v02.api.letsencrypt.org/directory
       volumes:
          - ./nginx/conf.d:/etc/nginx/conf.d
          - ./nginx/vhost.d:/etc/nginx/vhost.d
@@ -49,8 +54,8 @@ services:
       environment:
          - VIRTUAL_HOST=restheart.unboundedpress.org
          - VIRTUAL_PORT=8080
-         - LETSENCRYPT_EMAIL=email@address
-         -LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+         - LETSENCRYPT_EMAIL=mail
+         #- LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
       ports:
          - "8080:8080"
       restart: always
@@ -80,15 +85,15 @@ services:
          - USER_UID=1000
          - USER_GID=1000
          - DB_TYPE=mysql
-         - DB_HOST=mariadb:3306
+         - DB_HOST=mysql-gitea:3306
          - DB_NAME=gitea
          - DB_USER=user
          - DB_PASSWD=pass
          - HTTP_PORT=4000
          - VIRTUAL_HOST=gitea.unboundedpress.org
          - VIRTUAL_PORT=4000
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
-         - LETSENCRYPT_EMAIL=email@address
+         #- LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+         - LETSENCRYPT_EMAIL=mail
          - LFS_START_SERVER=true
          - DISABLE_REGISTRATION=true
          - RUN_MODE=prod
@@ -99,27 +104,27 @@ services:
          - "4000:4000"
          - "222:22"
       depends_on:
-         - mariadb
+         - mysql-gitea
 
 
-   mariadb:
+   mysql-gitea:
       image: mariadb:10.1.40
-      container_name: mariadb
+      container_name: mysql-gitea
       restart: always
       environment:
          - MYSQL_ROOT_PASSWORD=pass
       volumes:
-         - ./../mysql:/var/lib/mysql
-         - ./mysql/etc:/etc/mysql/conf.d
-         - ./mysql/init:/docker-entrypoint-initdb.d
+         - ./../mysql_gitea:/var/lib/mysql
+         - ./mysql_gitea/etc:/etc/mysql/conf.d
+         - ./mysql_gitea/init:/docker-entrypoint-initdb.d
 
    unboundedpress:
       build: .
       container_name: unboundedpress
       environment:
          - VIRTUAL_HOST=www.unboundedpress.org,unboundedpress.org
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
-         - LETSENCRYPT_EMAIL=email@address
+         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,express.unboundedpress.org,netdata.unboundedpress.org,nextcloud.unboundedpress.org
+         - LETSENCRYPT_EMAIL=mail
       volumes:
          - ./:/usr/src/unboundedpress
       ports:
@@ -130,7 +135,7 @@ services:
          - restheart
 
    nextcloud:
-      image: nextcloud:stable-apache
+      image: nextcloud:20.0.5
       container_name: nextcloud
       restart: always
       volumes:
@@ -139,48 +144,63 @@ services:
          - MYSQL_DATABASE=nextcloud
          - MYSQL_USER=user
          - MYSQL_PASSWORD=pass
-         - MYSQL_HOST=mariadb
+         - MYSQL_HOST=mysql-nextcloud
          - NEXTCLOUD_ADMIN_USER=user
          - NEXTCLOUD_ADMIN_PASSWORD=pass
          - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.unboundedpress.org
-         - REDIS_HOST=redis
+#         - REDIS_HOST=redis
          - VIRTUAL_HOST=nextcloud.unboundedpress.org
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
-         - LETSENCRYPT_EMAIL=email@address
+#         #- LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+#         - LETSENCRYPT_EMAIL=mail
+#     hostname: nextcloud.unboundedpress.org
       depends_on:
-         - mariadb
-         - redis
-         - solr
+         - mysql-nextcloud
+#         #- redis
+#         #- solr
       ports:
          - 8888:80
 
-   nc_cron:
-      image: nextcloud:stable-apache
-      container_name: nc_cron
+   mysql-nextcloud:
+      image: mariadb:10.5.8
+      container_name: mysql-nextcloud
+      command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
       restart: always
+      environment:
+         - MYSQL_ROOT_PASSWORD=pass
+         - MYSQL_PASSWORD=pass
+         - MYSQL_DATABASE=nextcloud
+         - MYSQL_USER=user
       volumes:
-         - ./../nextcloud:/var/www/html
-      entrypoint: /cron.sh
-      depends_on:
-         - mariadb
-         - redis
-         - solr
+         - ./../mysql_nextcloud:/var/lib/mysql
 
-   solr:
-      image: solr:8.1.1
-      container_name: solr
-      restart: always
-      volumes:
-         - ./../nextcloud/solr:/opt/solr/server/solr/mycores
-      entrypoint:
-         - docker-entrypoint.sh
-         - solr-precreate
-         - nextant
 
-   redis:
-      image: redis:5.0.5-alpine
-      container_name: redis
-      restart: always
+#   nc_cron:
+#     image: nextcloud:stable-apache
+#      container_name: nc_cron
+#      restart: always
+#      volumes:
+#         - ./../nextcloud:/var/www/html
+#      entrypoint: /cron.sh
+#      depends_on:
+#         - mariadb
+#         - redis
+#         - solr
+
+#   solr:
+#      image: solr:8.1.1
+#      container_name: solr
+#      restart: always
+#      volumes:
+#         - ./../nextcloud/solr:/opt/solr/server/solr/mycores
+#      entrypoint:
+#         - docker-entrypoint.sh
+#         - solr-precreate
+#         - nextant
+
+#   redis:
+#      image: redis:5.0.5-alpine
+#      container_name: redis
+#      restart: always
 
    mongo-express:
       image: mongo-express
@@ -197,8 +217,8 @@ services:
          - ME_CONFIG_SITE_GRIDFS_ENABLED=true
          - VIRTUAL_HOST=express.unboundedpress.org
          - VIRTUAL_PORT=8081
-         - LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
-         - LETSENCRYPT_EMAIL=email@address
+         #- LETSENCRYPT_HOST=unboundedpress.org,www.unboundedpress.org,restheart.unboundedpress.org,gitea.unboundedpress.org,nextcloud.unboundedpress.org,express.unboundedpress.org
+         - LETSENCRYPT_EMAIL=mail
       #volumes:
       #   - ./../nginx/certs:/etc/nginx/certs:ro
       depends_on:
@@ -207,3 +227,30 @@ services:
          - "8081:8081"
 
 
+   netdata:
+      image: titpetric/netdata
+      container_name: netdata
+      hostname: netdata.unboundedpress.com # set to fqdn of host
+      ports:
+         - 19999:19999
+      restart: unless-stopped
+      cap_add:
+         - SYS_PTRACE
+      security_opt:
+         - apparmor:unconfined
+      volumes:
+         - ./../netdata/netdataconfig/netdata:/etc/netdata
+         #- ./../netdata/lib/netdata/conf.d:/usr/lib/netdata/conf.d
+         #- ./../netdata/netdatalib:/var/lib/netdata
+         #- ./../netdata/netdatacache:/var/cache/netdata
+         - ./../netdata/etc/passwd:/host/etc/passwd:ro
+         - ./../netdata/etc/group:/host/etc/group:ro
+         - ./../netdata/proc:/host/proc:ro
+         - ./../netdata/sys:/host/sys:ro
+         - ./../netdata/etc/os-release:/host/etc/os-release:ro
+      environment:
+         - SMTP_TO=address
+         #- SMTP_FROM=netdata@unboundedpress.org
+         - SMTP_USER=mail
+         - SMTP_PASS=pass
+         - VIRTUAL_HOST=netdata.unboundedpress.org
