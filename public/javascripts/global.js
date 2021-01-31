@@ -13,15 +13,15 @@ $(document).ready(function() {
     populatePieces('secondary');
     populatePublications();
     populateReleases();
-    populatePerformances(2020, 'composer', true);
-    populateTalks(2020, true);
+    populatePerformances(2021, 'composer', true);
+    populateTalks(2021, true);
     populateAbout();
 
     populateGallerySelector();
     if (window.location.href.split('/').pop().substring(0,3) != "#lg") {
       window.history.replaceState("object or string", "Title", "/");
+    }
   }
-}
 
   $( window ).resize(function() {
     resetDivHeights();
@@ -76,15 +76,15 @@ $(document).ready(function() {
   $('#eventtypepicker').append($('<option />').val('performer').html('as performer/guest'));
 
   $('#eventtypepicker').on('change', function() {
-    $("#performanceeventslist").empty();
-    populatePerformances(parseInt($('#yearpicker').val()), this.value, false);
-  });
+  $("#performanceeventslist").empty();
+  populatePerformances(parseInt($('#yearpicker').val()), this.value, false);
+});
 */
 
-  $("img").load(function() {
-    alert($(this).height());
-    alert($(this).width());
-  });
+$("img").load(function() {
+  alert($(this).height());
+  alert($(this).width());
+});
 
 });
 
@@ -99,7 +99,7 @@ function resetDivHeights(){
   //$('#pieces').height($('#releases').height());
   //$('#releases').height($('#writings').height());
 
-  $('#pieces').css('height', '1850px');
+  $('#pieces').css('height', '2400px');
   //if($('#writings').height() >= $('#releases').height()){
   //  $('#pieces').height($('#writings').height());
   //} else {
@@ -362,14 +362,14 @@ function populatePieces(type) {
         });
 
         if(typeof doc != 'undefined'){
-			} else{
-        documentButton.on('onSlideItemLoad.lg', function(event, index){
-           window.history.replaceState(null, null, "/scores/" + score_data.filename);
-        });
+        } else{
+          documentButton.on('onSlideItemLoad.lg', function(event, index){
+            window.history.replaceState(null, null, "/scores/" + score_data.filename);
+          });
 
-        documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
+          documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
             window.history.replaceState("object or string", "Title", "/");
-        })
+          })
 
         }
 
@@ -445,7 +445,7 @@ function populateReleases() {
       releaseli = $('<li id=release_li_item'+index+'>');
       $('ul#releaseslist').addClass('content-list').prepend(releaseli);
 
-      var img, thumb, head;
+      var img, thumb, head, title, caption, cartButton, infoButton, cartRef, infoRef;
       img = data.img;
       thumb = data.thumb;
       if (typeof thumb === 'undefined' ) {
@@ -457,9 +457,37 @@ function populateReleases() {
         var imgsrc = BASE_URL + "/unboundedpress/album_art.files/" + img._id['$oid'] +"/binary";
         var thumbsrc = BASE_URL + "/unboundedpress/album_art.files/" + thumb._id['$oid'] +"/binary";
 
+        title = $('<div>').addClass('caption').append(data.title);
+        title.css('text-align', 'center');
+        caption = $('<div>').addClass('caption')
+        caption.css('text-align', 'center');
+        caption.css('padding-bottom', '25px');
+
+        if(data.discogs_id) {
+          infoRef = 'https://www.discogs.com/release/' + data.discogs_id;
+          infoButton = $('<button id=release_info_button_'+index+" data-iframe='true' data-src='"+ infoRef +"'>")
+          .attr({title: "discogs info"}).addClass('info_icon');
+
+          infoButton.click(function() {
+            window.open(infoRef);
+          });
+        }
+
+        if(data.buy_link) {
+          cartRef = data.buy_link;
+          cartButton = $('<button id=release_cart_button_'+index+" data-iframe='true' data-src='"+ cartRef +"'>")
+          .attr({title: "buy"}).addClass('cart_icon');
+
+          cartButton.click(function() {
+            window.open(cartRef);
+          });
+        }
+
+
+        caption.append([infoButton, cartButton]);
         head = $('<h4>').append($("<a href='"+imgsrc+"' data-download-url='/album_art/"+data.album_art+"'>")
         .append($('<img>').attr({src: thumbsrc}).css('width','100%')));
-        releaseli.append(head);
+        releaseli.append(title).append(head).append(caption);
       }
 
       objCount++;
@@ -606,7 +634,7 @@ function populatePerformances(year, eventType, loadUpcoming) {
       //console.log(upcomingCount);
       if (upcomingLoadedCount==2) {
 
-        if(upcomingCount == 0 && year == 2020){
+        if(upcomingCount == 0 && year == 2021){
 
           $('#upcoming').css('visibility', 'hidden')
         } else {
@@ -726,163 +754,163 @@ function populatePublications() {
           href = "/pubs/"+data.entryTags.howpublished;
           download = "' data-download-url='/pubs/"+data.entryTags.howpublished;
         } else {
-	     href = data.entryTags.howpublished;
+          href = data.entryTags.howpublished;
         }
-	if (false /*href.substring(0, 4) == "http"*/){
-console.log(href);
-	     documentButton = $('<button id=piece_document_button_'+index+" onclick=' window.open('" + href.replace(/\//g, '\/') + "','_blank')>")
-		.attr({title: "view"}).addClass('score_icon');
-	} else {
+        if (false /*href.substring(0, 4) == "http"*/){
+          console.log(href);
+          documentButton = $('<button id=piece_document_button_'+index+" onclick=' window.open('" + href.replace(/\//g, '\/') + "','_blank')>")
+            .attr({title: "view"}).addClass('score_icon');
+          } else {
 
-	     documentButton = $('<button id=piece_document_button_'+index+" data-iframe='true' data-src='"+href+download+"'>")
-		.attr({title: "view"}).addClass('score_icon');
+            documentButton = $('<button id=piece_document_button_'+index+" data-iframe='true' data-src='"+href+download+"'>")
+            .attr({title: "view"}).addClass('score_icon');
 
-		if(typeof doc != 'undefined'){
+            if(typeof doc != 'undefined'){
 
-		 documentButton.lightGallery({
-			  selector: 'this',
-			  width: '90%',
-                          hash: false,
-			  galleryId: 'pub_viewer_'+index
-			});
+              documentButton.lightGallery({
+                selector: 'this',
+                width: '90%',
+                hash: false,
+                galleryId: 'pub_viewer_'+index
+              });
 
-			if(typeof doc != 'undefined'){
-                          documentButton.on('onSlideItemLoad.lg', function(event, index){
-                           window.history.replaceState(null, null, href);
-                          });
+              if(typeof doc != 'undefined'){
+                documentButton.on('onSlideItemLoad.lg', function(event, index){
+                  window.history.replaceState(null, null, href);
+                });
 
-                          documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
-                            window.history.replaceState("object or string", "Title", "/");
-                          })
+                documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
+                  window.history.replaceState("object or string", "Title", "/");
+                })
 
-			} else{
-			  documentButton.on('onBeforeSlide.lg', function(event, prevIndex, index){
-			    $('.lg-inner').css('background-color', 'white')
-			  });
+              } else{
+                documentButton.on('onBeforeSlide.lg', function(event, prevIndex, index){
+                  $('.lg-inner').css('background-color', 'white')
+                });
 
-                          documentButton.on('onSlideItemLoad.lg', function(event, index){
-                           window.history.replaceState("object or string", "Title", "/redirect=" + href);
-                          });
+                documentButton.on('onSlideItemLoad.lg', function(event, index){
+                  window.history.replaceState("object or string", "Title", "/redirect=" + href);
+                });
 
-                          documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
-                            window.history.replaceState("object or string", "Title", "/");
-                          })
+                documentButton.on('onCloseAfter.lg', function(event, prevIndex, index){
+                  window.history.replaceState("object or string", "Title", "/");
+                })
 
-			}
-		} else {
-			//documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "view"}).addClass('score_icon');
-			documentButton.click(function() {
-                          window.open(href);
-			});
-		}
-	}
-
-
-      } else {
-        documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "view"}).addClass('score_icon');
-        documentButton.css('visibility', 'hidden');
-      }
-
-      icons = $('<span>').addClass('icon_span_pub').append(documentButton);
-      head.append(icons)
-      publi.append(subHead.css('width', '80%').css('margin-top', '-3px'))
-
-      objCount++;
-      if(objCount == len){
-        resetDivHeights();
-      }
-
-    });
-  });
-}
-
-function populateGallerySelector() {
-
-  audioButton = $('<button id=gallery_audio_button>').attr({title: "audio"}).addClass('audio_icon');
-  audioButton.click(function() {
-    embedAudioGallery(true);
-  });
-
-  videoButton = $('<button id=gallery_video_button>').attr({title: "video"}).addClass('video_icon');
-  videoButton.click(function() {
-    embedVideoGallery();
-  });
-
-  imageButton = $('<button id=gallery_image_button>').attr({title: "image"}).addClass('photo_icon');
-  imageButton.click(function() {
-    embedImageGallery();
-  });
-
-  $('#gallerySelector').append([audioButton, videoButton, imageButton]);
-
-}
-
-function populateAbout() {
-
-  var head = $('<h4>').append($('<div>').css('width', '50px').css('min-width', '50px').append('CV'));
-  var documentButton = $("<button id=cv_button data-iframe='true' data-src='/cv'>").attr({title: "CV"}).addClass('score_icon');
-
-  documentButton.lightGallery({
-    selector: 'this',
-    width: '90%',
-    galleryId: 'cv'
-  });
-
-  head.append(documentButton).insertBefore('#mc_embed_signup');
-
-  $('#my_image').html("");
-  $('#my_image').append("<ul id='myimagegallerylist'>");
-
-  $.getJSON(BASE_URL + '/unboundedpress/my_image_gallery/_aggrs/my_image_gallery?pagesize=200', function(data) {
-    var objCount = 0
-    var len=Object.keys(data._embedded).length;
-    $.each(data._embedded, function(index, data){
-
-      var galleryli;
-
-      var img, thumb, head;
-      img = data.img;
-      thumb = data.thumb;
-      if (typeof thumb === 'undefined' ) {
-        thumb = img;
-      } else if (thumb.length === 0 ) {
-        thumb = img;
-      }
-      if (img) {
-        var imgsrc = BASE_URL + "/unboundedpress/images.files/" + img._id['$oid'] +"/binary";
-        var thumbsrc = BASE_URL + "/unboundedpress/images.files/" + thumb._id['$oid'] +"/binary";
-        var caption = "<div class='caption'><p>photo credit: "+ data.credit +"</p></div>";
-        galleryli = $("<li id=my_imagegallery_li_item"+index+" href='"+imgsrc+"' data-download-url='/images/"+data.image+"'>'");
-        $('ul#myimagegallerylist').prepend(galleryli);
-        galleryli.append($('<img>').attr({src: thumbsrc}).css('max-width','100%'))
-        if (data.credit) {
-          galleryli.append(caption);
-        }
-      }
-
-      objCount++;
-      if(objCount == len){
-
-        $('ul#myimagegallerylist').lightSlider({
-          item:1,
-          loop:false,
-          pager: false,
-          dropOnHover:false,
-          enableDrag: false,
-          adaptiveHeight:true,
-          //auto:true,
-          onSliderLoad: function(el) {
-            el.lightGallery({
-              selector: '#myimagegallerylist .lslide',
-              galleryId: 'portaits',
-              //subHtmlSelectorRelative: true
-            });
+              }
+            } else {
+              //documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "view"}).addClass('score_icon');
+              documentButton.click(function() {
+                window.open(href);
+              });
+            }
           }
-        });
 
-      }
 
+        } else {
+          documentButton = $('<button id=piece_document_button_'+index+">").attr({title: "view"}).addClass('score_icon');
+          documentButton.css('visibility', 'hidden');
+        }
+
+        icons = $('<span>').addClass('icon_span_pub').append(documentButton);
+        head.append(icons)
+        publi.append(subHead.css('width', '80%').css('margin-top', '-3px'))
+
+        objCount++;
+        if(objCount == len){
+          resetDivHeights();
+        }
+
+      });
     });
-  });
+  }
 
-}
+  function populateGallerySelector() {
+
+    audioButton = $('<button id=gallery_audio_button>').attr({title: "audio"}).addClass('audio_icon');
+    audioButton.click(function() {
+      embedAudioGallery(true);
+    });
+
+    videoButton = $('<button id=gallery_video_button>').attr({title: "video"}).addClass('video_icon');
+    videoButton.click(function() {
+      embedVideoGallery();
+    });
+
+    imageButton = $('<button id=gallery_image_button>').attr({title: "image"}).addClass('photo_icon');
+    imageButton.click(function() {
+      embedImageGallery();
+    });
+
+    $('#gallerySelector').append([audioButton, videoButton, imageButton]);
+
+  }
+
+  function populateAbout() {
+
+    var head = $('<h4>').append($('<div>').css('width', '50px').css('min-width', '50px').append('CV'));
+    var documentButton = $("<button id=cv_button data-iframe='true' data-src='/cv'>").attr({title: "CV"}).addClass('score_icon');
+
+    documentButton.lightGallery({
+      selector: 'this',
+      width: '90%',
+      galleryId: 'cv'
+    });
+
+    head.append(documentButton).insertBefore('#mc_embed_signup');
+
+    $('#my_image').html("");
+    $('#my_image').append("<ul id='myimagegallerylist'>");
+
+    $.getJSON(BASE_URL + '/unboundedpress/my_image_gallery/_aggrs/my_image_gallery?pagesize=200', function(data) {
+      var objCount = 0
+      var len=Object.keys(data._embedded).length;
+      $.each(data._embedded, function(index, data){
+
+        var galleryli;
+
+        var img, thumb, head;
+        img = data.img;
+        thumb = data.thumb;
+        if (typeof thumb === 'undefined' ) {
+          thumb = img;
+        } else if (thumb.length === 0 ) {
+          thumb = img;
+        }
+        if (img) {
+          var imgsrc = BASE_URL + "/unboundedpress/images.files/" + img._id['$oid'] +"/binary";
+          var thumbsrc = BASE_URL + "/unboundedpress/images.files/" + thumb._id['$oid'] +"/binary";
+          var caption = "<div class='caption'><p>photo credit: "+ data.credit +"</p></div>";
+          galleryli = $("<li id=my_imagegallery_li_item"+index+" href='"+imgsrc+"' data-download-url='/images/"+data.image+"'>'");
+          $('ul#myimagegallerylist').prepend(galleryli);
+          galleryli.append($('<img>').attr({src: thumbsrc}).css('max-width','100%'))
+          if (data.credit) {
+            galleryli.append(caption);
+          }
+        }
+
+        objCount++;
+        if(objCount == len){
+
+          $('ul#myimagegallerylist').lightSlider({
+            item:1,
+            loop:false,
+            pager: false,
+            dropOnHover:false,
+            enableDrag: false,
+            adaptiveHeight:true,
+            //auto:true,
+            onSliderLoad: function(el) {
+              el.lightGallery({
+                selector: '#myimagegallerylist .lslide',
+                galleryId: 'portaits',
+                //subHtmlSelectorRelative: true
+              });
+            }
+          });
+
+        }
+
+      });
+    });
+
+  }
