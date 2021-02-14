@@ -8,16 +8,16 @@
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" media="all">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://bibtex-js.googlecode.com/svn/trunk/src/bibtex_js.js"></script>
-    
+
     <style>
       {{{css}}}
     </style>
   </head>
   <body>
-  
+
 
     <!-- header -->
     <div class="container-fluid">
@@ -55,7 +55,7 @@
       </div>
       <hr />
       -->
-      
+
       <!-- statement -->
       <div class="col-xs-1">
           <h4 class="section-title"> About  </h4>
@@ -63,34 +63,34 @@
         <div class="row section">
         <div class="col-xs-10">
         <p>
-      My work often explores simple processes where dynamic systems, situations, and settings are defined through minimal graphic- and text-based scores that can be realized in a variety of ways. To me, everything we experience is computable. Given this digital philosophy, I acknowledge even my most open works as algorithmic; and, while not always apparent on the surface of any given piece, the considerations of computability and epistemology are integral to my practice. I often reconcile epistemological limits with artistic practicality by considering and addressing the limits of computation from a musical and experiential vantage point and by collaborating with other artists, mathematicians, and scientists in order to integrate objects, ideas, and texts from various domains as structural elements in my pieces. 
+       My work often explores simple processes where dynamic systems, situations, and settings are realized in a variety of ways from performances to installations. To me, everything we experience is computable. Given this digital philosophy, I acknowledge even my most open works as algorithmic; and, while not always apparent on the surface of any given piece, the considerations of computability and epistemology are integral to my practice. I often reconcile epistemological limits with artistic practicality by considering and addressing the limits of computation from an artistic and experiential vantage point and by collaborating with other artists, mathematicians, and scientists in order to integrate objects, ideas, and texts from various domains as structural elements in my pieces.
 </p><p>
-I have performed across the Americas and Europe at venues ranging in size from small basements to large museums to outdoor public spaces (some examples of more well known festivals and venues include REDCAT, Los Angeles; the Ostrava Festival of New Music; Tsonami Arte Sonoro Festival, Valparaiso; the Huddersfield New Music Festival; and Umbral Sesiones at the Museo de Arte Contemporáneo, Oaxaca).  From 2018 to 2019, I was a fellow / artist-in-residence at the Akademie Schloss Solitude in Stuttgart, Germany. In 2008, I co-founded <em>the wulf.</em>, a Los Angeles-based organization dedicated to experimental performance and art. As a laboratory and hub for exploring new ideas, <em>the wulf.</em> has become an experiment in alternative communities and economies. Similarly, my work subverts discriminatory conventions and hierarchies by exploring alternative forms of presentation and interaction.
+My work has been presented at venues and festivals throughout the world such as REDCAT, in Los Angeles; the Ostrava Festival of New Music in the Czech Republic; Tsonami Arte Sonoro Festival in Valparaiso, Chile; the Huddersfield New Music Festival in the United Kingdom; and Umbral Sesiones at the Museo de Arte Contemporáneo in Oaxaca, Mexico. Recordings of my music have been released by Another Timbre, New World Records, Edition Wandelweiser, Bahn Mi Verlag, Tsonami Records, and Pogus Productions.  From 2018 to 2019, I was a fellow / artist-in-residence at the Akademie Schloss Solitude in Stuttgart, Germany. In 2008, I co-founded <em>the wulf.</em>, a Los Angeles-based organization dedicated to experimental performance and art. As a laboratory and hub for exploring new ideas, <em>the wulf.</em> has become an experiment in alternative communities and economies. Similarly, my work subverts discriminatory conventions and hierarchies by exploring alternative forms of presentation and interaction.
 </p>
 </div>
           </div>
            <hr />
-           
+
            <!-- Works -->
       <div class="col-xs-1">
           <h4 class="section-title"> Works </h4>
         </div>
                 <div class="row section">
-                
+
         <div class="col-xs-10">
-        A chronological performance history, scores, and recordings are available at &lt;www.unboundedpress.org&gt;. 
+        A chronological performance history, scores, and recordings are available at &lt;www.unboundedpress.org&gt;.
         <br>
-        All scores are also published or forthcoming through Frog Peak at &lt;www.frogpeak.org/fpartists/fpwinter.html&gt;. 
+        All scores are also published or forthcoming through Frog Peak at &lt;www.frogpeak.org/fpartists/fpwinter.html&gt;.
         </div>
         </div>
-        
+
       <div class="row section">
         <div class="col-xs-12">
           {{#each resume.works}}
-           
+
           {{#each this.works}}
           <div class="entry">
-          {{#if @first}} 
+          {{#if @first}}
           <hr />
           {{/if}}
           <div class="row">
@@ -103,13 +103,13 @@ I have performed across the Americas and Europe at venues ranging in size from s
                   <div class="company-position">&nbsp&nbsp&nbsp{{prettifyDayDate start_date}} - {{ venue.name }}; {{ venue.city }}, {{ venue.state }} </div>
               {{/each}}
             </div>
-            {{#if @first}} 
+            {{#if @first}}
             <div class="col-xs-2">
               <span class="pull-right"> {{prettifyYearDate date}} </span>
             </div>
             {{/if}}
             <div class="col-xs-2">
-              
+
             </div>
           </div>
           <div class="row company-description">
@@ -124,14 +124,14 @@ I have performed across the Americas and Europe at venues ranging in size from s
           </div>
           </div>
           {{/each}}
-          
+
           {{/each}}
         </div>
       </div>
-      
+
       <hr />
 
-      
+
             <!-- Publications -->
       <div class="col-xs-1">
           <h4 class="section-title">Publications</h4>
@@ -143,7 +143,7 @@ I have performed across the Americas and Europe at venues ranging in size from s
           <div class="row">
             <div class="col-xs-12">
               <div class="company"> {{entryTags.title}} </div>
-              <div class="company-position">{{entryTags.author}} 
+              <div class="company-position">{{entryTags.author}}
               {{#if entryTags.booktitle}}{{entryTags.booktitle}}. {{/if}}
               {{#if entryTags.journal}}{{entryTags.journal}}. {{/if}}
               {{#if entryTags.editor}}editors {{entryTags.editor}}{{/if}}
@@ -170,10 +170,10 @@ I have performed across the Americas and Europe at venues ranging in size from s
         </div>
       </div>
       </div>
-        <hr /> 
-      
+        <hr />
 
-             
+
+
       <!-- Talks -->
       <div class="col-xs-1">
           <h4 class="section-title"> Talks </h4>
@@ -206,7 +206,7 @@ I have performed across the Americas and Europe at venues ranging in size from s
         </div>
       </div>
       <hr />
-      
+
                   <!-- Releases -->
       <div class="col-xs-1">
           <h4 class="section-title">Releases</h4>
@@ -238,10 +238,10 @@ I have performed across the Americas and Europe at venues ranging in size from s
           </div>
           {{/each}}
         </div>
-      </div> 
-      
+      </div>
+
       <hr/>
-      
+
                  <!-- Residencies -->
       <div class="col-xs-1">
           <h4 class="section-title">Residencies and Awards</h4>
@@ -275,7 +275,7 @@ I have performed across the Americas and Europe at venues ranging in size from s
           </div>
           {{/each}}
         </div>
-      </div> 
+      </div>
 
 {{!--
         <div class="col-xs-1">
@@ -286,14 +286,14 @@ I have performed across the Americas and Europe at venues ranging in size from s
           Work list, scores, and performance list available at www.unboundedpress.org or on request.
         </div>
       </div>
-      <hr /> 
+      <hr />
       --}}
-      
-      
+
+
        <hr />
-      
+
         <!-- Experience -->
-        
+
         <div class="col-xs-1">
           <h4 class="section-title"> Work Experience </h4>
         </div>
@@ -325,8 +325,8 @@ I have performed across the Americas and Europe at venues ranging in size from s
         </div>
       </div>
       <hr />
-      
-    
+
+
       <!-- Education -->
        <div class="col-xs-1">
           <h4 class="section-title"> Education </h4>
@@ -355,9 +355,9 @@ I have performed across the Americas and Europe at venues ranging in size from s
           {{/each}}
         </div>
       </div>
-      
+
       <hr />
-      
+
        <!-- Skills -->
       <div class="col-xs-1">
           <h4 class="section-title"> Skills </h4>
@@ -377,7 +377,7 @@ I have performed across the Americas and Europe at venues ranging in size from s
           {{/each}}
         </div>
       </div>
-      
+
      <hr />
 
 
@@ -403,8 +403,8 @@ I have performed across the Americas and Europe at venues ranging in size from s
       </div>
       <hr />
       -->
-      
-      
+
+
       <!-- References -->
       <div class="col-xs-1">
           <h4 class="section-title"> References </h4>
@@ -437,8 +437,8 @@ I have performed across the Americas and Europe at venues ranging in size from s
           {{/each}}
         </div>
       </div>
-      
-      
+
+
     </div>    <!-- /end container-fluid -->
 
   </body>
