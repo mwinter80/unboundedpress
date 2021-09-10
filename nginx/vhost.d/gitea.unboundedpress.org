@@ -11,3 +11,6 @@ location ^~ /.well-known/acme-challenge/ {
 location = / {
      rewrite ^ http://gitea.unboundedpress.org/mwinter/ redirect;
 }
+
+include /etc/nginx/bots.d/ddos.conf;
+include /etc/nginx/bots.d/blockbots.conf;

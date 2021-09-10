@@ -648,6 +648,7 @@ function populatePerformances(year, eventType, loadUpcoming) {
             loop:true,
             pauseOnHover: true,
             pager: true,
+            controls: false,
             dropOnHover:false,
             speed: 1000,
             pause: 5000,
