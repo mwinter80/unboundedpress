@@ -2,6 +2,10 @@
 
 body {
     font-size: 12px;
+    width: 175mm;
+    margin-top: 30px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 hr {
@@ -34,7 +38,13 @@ a {
 
 .section-title {
     font-size: 14px;
+    margin-left: -45px;
     margin-top: 0px;
+}
+
+.section-subtitle {
+    font-size: 14px;
+    margin-left: -30px;
 }
 
 .skill {
@@ -58,18 +68,34 @@ a {
 }
 
 .section {
-    margin-left: 100px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.entry {
+    margin-left: 10px;
+}
+
+.subsection {
+    margin-left: 1px;
 }
 
 .company-position {
+  padding-left: 30px
 }
 
 .company-summary {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 .company-description {
     margin-bottom: 0px;
+    padding-left: 30px;
+    text-indent: -15px;
+}
+
+.bib {
+    padding-left: 15px;
 }
 
 .company-description ul {
@@ -91,19 +117,45 @@ a {
 
 .pagebreak { page-break-before: always; }
 
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.35) !important;
+-webkit-print-color-adjust: exact;//:For Chrome
+color-adjust: exact;//:For Firefox
+}
+
+.separator::before {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
+}
+
 @media print {
   @page {
-    size: 330mm 427mm;
-    margin: 14mm;
-  }
-  .container {
-    width: 1170px;
+    margin: 15mm;
   }
 
+    body {
+        margin-top: 0px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
   .entry { page-break-inside: avoid;}
-  .col-xs-1 { page-break-after: avoid;}
+  .h4 { page-break-after: avoid;}
   .section { page-break-before: avoid;}
-  
+  .section-subtitle { page-break-after: avoid;}
+
 }
 
 @page {
@@ -113,5 +165,3 @@ a {
         content: counter(page);
     }
 }
-
-

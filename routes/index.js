@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 router.get('/cv', function(req, res, next) {
 
   var css = fs.readFileSync( path.join(__dirname, '../public/stylesheets/resume_style.css'), 'utf8');
-  var pubdata = fs.readFileSync( path.join(__dirname, '../public/bibtex/bibtex.bib'), 'utf8');
+  var pubdata = fs.readFileSync( path.join(__dirname, '../public/bibtex/bibtex_cv.bib'), 'utf8');
   var db = req.db;
 
   db.collection('resume').find().toArray(function (err, items) {
@@ -57,6 +57,7 @@ router.get('/cv', function(req, res, next) {
       }
 
       function processWork(err, work) {
+        /*
         if(work === null) {
           db.collection('works').aggregate(
             [
@@ -72,6 +73,29 @@ router.get('/cv', function(req, res, next) {
               });
               return; // All done!
             }
+            */
+
+            if(work === null) {
+              db.collection('works').aggregate(
+                [
+                  {'$sort' : {'date' : -1}},
+                  {'$group': {_id: { $year: "$date" }, works: { $push: "$$ROOT" }}},
+                  {'$sort' : {'_id' : -1}}]).toArray(function (err, worksCV) {
+                    db.collection('talks').aggregate(
+                      [
+                        {'$sort' : {'date' : -1}},
+                        {'$group': {_id: { $substr: ['$date',0,4] }, talks: { $push: "$$ROOT" }}},
+                        {'$sort' : {'_id' : -1}}]).toArray(function (err, talks) {
+                      dict.works = worksCV;
+                      dict.talks = talks;
+                      console.log('talks: ' + talks);
+                      console.log('works: ' + worksCV);
+                      res.render('cv.template', {resume: dict, css: css});
+                      db.collection('works').update({}, {$unset: {'events':1}}, {multi: true});
+                    });
+                  });
+                  return; // All done!
+                }
 
             var titleToSearch = work.title;
             //the abstract will need to be handled better eventually
@@ -227,6 +251,14 @@ router.get('/cv', function(req, res, next) {
 
     Handlebars.registerHelper('toLowerCase', function(str) {
       return str.toLowerCase();
+    });
+
+    Handlebars.registerHelper('toArray', function(val) {
+      if (typeof val === 'string') {
+        return [val]
+      } else {
+        return val
+      }
     });
 
     Handlebars.registerHelper('unless_blank', function(item, block) {
