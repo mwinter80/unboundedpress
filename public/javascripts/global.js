@@ -672,8 +672,15 @@ function populateTalks(year, loadUpcoming) {
       var head, subHead;
 
       head = $('<span>').addClass('header_span').append($('<h4>').append(formatDate(data.date) + ': ' + data.location));
-      subHead = $('<div>').addClass('venue').append(data.title);
-      $('ul#talkeventslist').addClass('content-list').prepend($('<li>').append([head, subHead]));
+      if (typeof data.title === 'string') {
+        subHead = $('<div>').addClass('venue').append(data.title);
+        $('ul#talkeventslist').addClass('content-list').prepend($('<li>').append([head, subHead]));
+      } else {
+        //assuming I do not give more than two talks a day
+        subHead = $('<div>').addClass('venue').append(data.title[0]);
+        subSubHead = $('<div>').addClass('venue').append(data.title[1]);
+        $('ul#talkeventslist').addClass('content-list').prepend($('<li>').append([head, subHead, subSubHead]));
+      }
 
       if(loadUpcoming && alterDate(new Date(data.date)) >=  new Date()){
         var clonedHead = head.clone(true);
