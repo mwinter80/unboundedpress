@@ -855,23 +855,32 @@ function populatePublications() {
 
   function populateAbout() {
 
-    var head = $('<h4>').append($('<div>').css('width', '50px').css('min-width', '50px').append('CV'));
+    var cvHead = $('<h4>').append($('<div>').css('width', '50px').css('min-width', '50px').append('CV'));
     //var documentButton = $("<button id=cv_button data-iframe='true' data-src='/cv'>").attr({title: "CV"}).addClass('score_icon');
-    var documentButton = $("<button id=cv_button>").attr({title: "CV"}).addClass('score_icon');
+    var cvButton = $("<button id=cv_button>").attr({title: "CV"}).addClass('score_icon');
 
-    documentButton.click(function() {
+    var wlHead = $('<h4>').append($('<div>').css('width', '300px').css('min-width', '300px').append('Works List with Presentation History'));
+    var wlButton = $("<button id=cv_button>").attr({title: "Works List with Presentation History"}).addClass('score_icon');
+
+    cvButton.click(function() {
       window.open('/cv');
     });
 
+    wlButton.click(function() {
+      window.open('/works_list');
+    });
+
     /*
-    documentButton.lightGallery({
+    cvButton.lightGallery({
       selector: 'this',
       width: '90%',
       galleryId: 'cv'
     });
     */
 
-    head.append(documentButton).insertBefore('#mc_embed_signup');
+    cvHead.append(cvButton).insertBefore('#mc_embed_signup');
+
+    wlHead.append(wlButton).insertBefore('#mc_embed_signup');
 
     $('#my_image').html("");
     $('#my_image').append("<ul id='myimagegallerylist'>");

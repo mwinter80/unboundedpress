@@ -107,6 +107,14 @@ a {
     margin-bottom: 5px;
 }
 
+.work-info {
+    margin-left: -30px;
+}
+
+.venue-info {
+    margin-left: 15px;
+}
+
 .education-gpa {
     padding-left: 2px;
 }
