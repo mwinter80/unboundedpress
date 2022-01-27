@@ -295,7 +295,7 @@ function formatDate(date) {
   date.setHours(date.getHours() + (offset / 60));
   date = alterDate(date);
 
-  return ("0" + (date.getMonth() + 1)).slice(-2) + "." + ("0" + date.getDate()).slice(-2) + "." + date.getFullYear();
+  return ("0" + (date.getMonth() + 1)).slice(-2) + "." + date.getFullYear();
 }
 
 function openToggle(toggle){
