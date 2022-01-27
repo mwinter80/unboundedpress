@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{#resume.basics}}{{name}}{{/resume.basics}}</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://bibtex-js.googlecode.com/svn/trunk/src/bibtex_js.js"></script>
+
+    <style>
+      {{{css}}}
+    </style>
+  </head>
+  <body>
+
+
+    <!-- header -->
+    <div class="container-fluid">
+      {{#resume.basics}}
+      <div class="row">
+        <div class="col-xs-6">
+          <h1 class="name"> {{name}}</h1>
+          <h3 class="title">Works List with Presentation History</h3>
+        </div>
+        <div class="col-xs-6 contact-info">
+          <ul class="pull-right">
+            <li>{{email}}</li>
+            <li>{{phone}}</li>
+            <li>{{website}}</li>
+            <li>
+              {{#each profiles}}
+              <i class="fa fa-{{toLowerCase network}}"></i> {{username}}
+              {{/each}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <hr style="margin-top: 0;" />
+
+      <!-- Profile/summary -->
+      <!--
+      <div class="row">
+        <div class="col-xs-2">
+          <h4 class="section-title"> Profile </h4>
+        </div>
+        <div class="col-xs-10">
+          {{summary}}
+        </div>
+        {{/resume.basics}}
+      </div>
+      <hr />
+      -->
+
+      <!-- Works -->
+      <div class="row section">
+      <div class="col-xs-11">
+      A chronological performance / exhibition history, scores, and recordings are available at
+      <br>
+      &lt;www.unboundedpress.org&gt;.
+      <br>
+      All scores are also published or forthcoming through Frog Peak at
+      <br>
+      &lt;www.frogpeak.org/fpartists/fpwinter.html&gt;.
+      <br>
+      <br>
+      </div>
+          {{#each resume.works}}
+          {{#each this.works}}
+          {{#if @first}}
+
+          <div class="row subsection">
+            {{/if}}
+              <div class="col-xs-12">
+            <div class="entry">
+            {{#if @../first}}
+            {{#if @first}}
+
+        {{/if}}
+              {{/if}}
+            {{#if @first}}
+            <div class="row">
+          <div class="divider"></div>
+      </div>
+            <div class="col-xs-7">
+            <div class="separator">{{prettifyYearDate date}}</div>
+            </div>
+            {{/if}}
+              <div class="row">
+                <div class="col-xs-10">
+                  <div class="company"> {{location}} </div>
+                  </div>
+                  <div class="col-xs-10">
+                    <div class="section-subtitle"> <em>{{title}}</em> </div>
+                    <div class="work-info">
+                    {{#each instrument_tags}}
+                    <div class="company-description">{{this}}</div>
+                    {{/each}}
+                    {{#each events}}
+                    <div class="venue-info">
+                        <div class="company-description">{{ venue.name }}; {{ venue.city }}, {{ venue.state }} - {{prettifyDayDate start_date}}</div>
+                        </div>
+                    {{/each}}
+                    </div>
+                  </div>
+              </div>
+              <div class="row company-description">
+                <div class="col-xs-11">
+                  <ul>
+                    <li class="company-summary">{{summary}}</li>
+                    {{#each highlights}}
+                    <li><i class="fa fa-chevron-circle-right"></i> {{this}}</li>
+                    {{/each}}
+                  </ul>
+                </div>
+              </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          {{/each}}
+      </div>
+
+
+    </div>    <!-- /end container-fluid -->
+
+  </body>
+</html>
