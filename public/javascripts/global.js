@@ -849,13 +849,20 @@ function populatePublications() {
   function populateAbout() {
 
     var head = $('<h4>').append($('<div>').css('width', '50px').css('min-width', '50px').append('CV'));
-    var documentButton = $("<button id=cv_button data-iframe='true' data-src='/cv'>").attr({title: "CV"}).addClass('score_icon');
+    //var documentButton = $("<button id=cv_button data-iframe='true' data-src='/cv'>").attr({title: "CV"}).addClass('score_icon');
+    var documentButton = $("<button id=cv_button>").attr({title: "CV"}).addClass('score_icon');
 
+    documentButton.click(function() {
+      window.open('/cv');
+    });
+
+    /*
     documentButton.lightGallery({
       selector: 'this',
       width: '90%',
       galleryId: 'cv'
     });
+    */
 
     head.append(documentButton).insertBefore('#mc_embed_signup');
 
