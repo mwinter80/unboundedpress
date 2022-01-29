@@ -388,6 +388,30 @@
   </div>
 </div>
 
+<!-- Languages -->
+<div class="row section">
+  <div class="col-xs-11">
+    <div class="entry">
+<div class="col-xs-11">
+  <h4 class="section-title">
+  <hr/>
+  Languages</h4>
+</div>
+  <div class="row">
+<div class="col-xs-11">
+    {{#each resume.languages}}
+    {{#if @last}}
+    {{language}} - {{fluency}}
+    {{else}}
+    {{language}} - {{fluency}},
+    {{/if}}
+    {{/each}}
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- References -->
 
