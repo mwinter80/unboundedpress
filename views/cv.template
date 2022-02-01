@@ -177,7 +177,7 @@
 <div class="col-xs-12">
   <h4 class="section-title">
   <hr/>
-  Relevant Positions</h4>
+  Relevant Work</h4>
 </div>
       {{/if}}
       <div class="row">
@@ -213,6 +213,7 @@
 </div>
   <div class="row">
 <div class="col-xs-11">
+<div class="company">
     {{#each resume.skills}}
     Expertise in:
     {{#each keywords}}
@@ -223,6 +224,31 @@
     {{/if}}
     {{/each}}
     <br />
+    {{/each}}
+    </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Languages -->
+<div class="row section">
+  <div class="col-xs-11">
+    <div class="entry">
+<div class="col-xs-11">
+  <h4 class="section-title">
+  <hr/>
+  Language Skills</h4>
+</div>
+  <div class="row">
+<div class="col-xs-11">
+    {{#each resume.languages}}
+    {{#if @last}}
+    {{language}} - {{fluency}}
+    {{else}}
+    {{language}} - {{fluency}},
+    {{/if}}
     {{/each}}
       </div>
       </div>
@@ -248,26 +274,13 @@
           <div class="company"> {{{entryTags.title}}} </div>
           <div class="company">
           <div class="bib">
-          {{entryTags.author}} ({{entryTags.year}}).
-          {{#if entryTags.editor}}(Eds.) {{entryTags.editor}}{{/if}}
+          {{#if entryTags.author}}{{entryTags.author}}{{/if}}
+          {{#if entryTags.editor}}{{entryTags.editor}}, editors.{{/if}}
             {{#if entryTags.booktitle}}<em>{{entryTags.booktitle}}.</em>{{/if}}
             {{#if entryTags.journal}}<em>{{entryTags.journal}}</em>,{{/if}}
-            {{#if entryTags.volume}}<em>{{entryTags.volume}}</em>{{#if entryTags.number}}({{entryTags.number}}){{/if}}.{{/if}}
-            {{#if entryTags.publisher}}{{entryTags.publisher}}.{{/if}}</div>
+            {{#if entryTags.volume}}vol. {{entryTags.volume}}{{#if entryTags.number}}, no. {{entryTags.number}}{{/if}},{{/if}}
+            {{#if entryTags.publisher}}{{entryTags.publisher}},{{/if}} {{entryTags.year}}.</div>
           </div>
-          </div>
-        </div>
-        <div class="row company-description">
-          <div class="col-xs-11">
-            <ul>
-              {{#if website}}
-              <li><a href="{{website}}">{{website}}</a></li>
-              {{/if}}
-              <li class="company-summary">{{summary}}</li>
-              {{#each highlights}}
-              <li><i class="fa fa-chevron-circle-right"></i> {{this}}</li>
-              {{/each}}
-            </ul>
           </div>
         </div>
       </div>
@@ -291,7 +304,7 @@
     Recordings</h4>
   </div>
   <div class="col-xs-11">
-    <div class="section-subtitle">Solo Albums</div>
+    <div class="section-subtitle"><em>Solo Albums</em></div>
   </div>
         {{/if}}
         <div class="row">
@@ -322,7 +335,7 @@
       {{#each resume.compilation_releases}}
       {{#if @first}}
   <div class="col-xs-11">
-    <div class="section-subtitle">Compilation Albums</div>
+    <div class="section-subtitle"><em>Compilation Albums</em></div>
   </div>
         {{/if}}
       <div class="entry">
@@ -385,30 +398,6 @@
       </div>
     </div>
     {{/each}}
-  </div>
-</div>
-
-<!-- Languages -->
-<div class="row section">
-  <div class="col-xs-11">
-    <div class="entry">
-<div class="col-xs-11">
-  <h4 class="section-title">
-  <hr/>
-  Languages</h4>
-</div>
-  <div class="row">
-<div class="col-xs-11">
-    {{#each resume.languages}}
-    {{#if @last}}
-    {{language}} - {{fluency}}
-    {{else}}
-    {{language}} - {{fluency}},
-    {{/if}}
-    {{/each}}
-      </div>
-      </div>
-    </div>
   </div>
 </div>
 
