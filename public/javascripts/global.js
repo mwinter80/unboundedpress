@@ -744,7 +744,7 @@ function populatePublications() {
       if (data.entryTags.journal){ subHead.append([data.entryTags.journal, ". "]) }
       if (data.entryTags.editor){ subHead.append(["editors ", data.entryTags.editor, " "]) }
       if (data.entryTags.volume){ subHead.append(["volume ", data.entryTags.volume, ". "]) }
-      if (data.entryTags.pages){ subHead.append([data.entryTags.pages, ". "]) }
+      //if (data.entryTags.pages){ subHead.append([data.entryTags.pages, ". "]) }
       if (data.entryTags.publisher){ subHead.append([data.entryTags.publisher, ". "]) }
       subHead.append([data.entryTags.year, "."]);
       head = $('<span>').addClass('header_span')
