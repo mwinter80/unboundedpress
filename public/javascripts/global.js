@@ -99,7 +99,7 @@ function resetDivHeights(){
   //$('#pieces').height($('#releases').height());
   //$('#releases').height($('#writings').height());
 
-  $('#pieces').css('height', '2650px');
+  $('#pieces').css('height', '2900px');
   //if($('#writings').height() >= $('#releases').height()){
   //  $('#pieces').height($('#writings').height());
   //} else {
