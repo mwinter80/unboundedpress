@@ -13,8 +13,8 @@ $(document).ready(function() {
     populatePieces('secondary');
     populatePublications();
     populateReleases();
-    populatePerformances(2022, 'composer', true);
-    populateTalks(2022, true);
+    populatePerformances(2023, 'composer', true);
+    populateTalks(2023, true);
     populateAbout();
 
     populateGallerySelector();
@@ -635,7 +635,7 @@ function populatePerformances(year, eventType, loadUpcoming) {
       //console.log(upcomingCount);
       if (upcomingLoadedCount==2) {
 
-        if(upcomingCount == 0 && year == 2022){
+        if(upcomingCount == 0 && year == 2023){
 
           $('#upcoming').css('visibility', 'hidden')
         } else {
