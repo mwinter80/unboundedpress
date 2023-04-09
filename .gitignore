@@ -1,0 +1,9 @@
+portfolio/mongo/data/
+portfolio/mongo/db_backups/
+portfolio/mongo/auth/
+portfolio/src/node_modules/
+nginx/certs/
+nginx/conf.d/default.conf
+nextcloud/
+gitea/
+.env*

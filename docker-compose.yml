@@ -1,0 +1,298 @@
+version: '3'
+services:
+
+  nginx-proxy:
+    build: ./nginx
+      # TODO: Note that this is built with ultimate-bad-bot-blocker scripts
+      #       that currently need to be run manually to update
+      #       (with the possibility that the bots.d folder has to be blown away first - not sure)
+      #       Eventually, this needs to be checked and put on a chron job
+      #       docker exec -t nginx-proxy bash
+      #       /usr/local/sbin/setup-ngxblocker -x
+      #       /usr/local/sbin/update-ngxblocker -x email
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    #environment:
+    #   - HTTPS_METHOD=noredirect
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - ./nginx/bots.d:/etc/nginx/bots.d
+      - ./nginx/certs:/etc/nginx/certs:rw
+      - nginx:/usr/share/nginx/html
+      #- nginx:/app/nginx.tmpl
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      #- ./nginx/htpasswd:/etc/nginx/htpasswd
+
+  acme-companion:
+    image: nginxproxy/acme-companion:2.2
+    container_name: nginx-proxy-acme
+    environment:
+      - DEFAULT_EMAIL=${EMAIL}
+      # Uncomment this for testing
+      - LETSENCRYPT_TEST=true
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - ./nginx/certs:/etc/nginx/certs:rw
+      - nginx:/usr/share/nginx/html
+      - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - nginx-proxy
+    restart: always
+
+  portfolio:
+    # TODO: This will eventually be rewritten with something like VUE
+    container_name: portfolio
+    build: ./src/portfolio
+    # To just server running the following command
+    #command: bash -c "npm run serve"
+    # To reinstall the packages run the following command instead
+    command: bash -c "npm install && npm run serve"
+    volumes:
+      - portfolio:/src/node_modules
+      - ./portfolio/src:/src
+    environment:
+      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN}
+      - VIRTUAL_PATH=/
+      #- VIRTUAL_DEST=/
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=${DOMAIN}
+      - LETSENCRYPT_EMAIL=${EMAIL}
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_healthy
+      #restheart:
+      #nginx-proxy:
+    #labels:
+    #  com.github.nginx-proxy.nginx-proxy.keepalive: "64"
+
+  mongo:
+    container_name: mongo
+    # using mongo5 as opposed to mongo:6 for server status in mongo-express and because of bugs
+    image: mongo:5
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${PASSWORD}
+      - MONGO_INITDB_DATABASE=portfolio
+    command: ["--keyFile", "/auth/keyfile", "--replSet", "rs0", "--bind_ip_all"]
+    # NOTE: If starting from scracth, create key for mongo then put it in ./mongo/auth/
+    #       openssl rand -base64 756 > keyfile
+    #       chmod 600 keyfile
+    #       sudo chown 999 keyfile
+    #       sudo chgrp 999 keyfile
+    ports:
+      - 27017:27017
+    volumes:
+      - ./portfolio/mongo/data/db:/data/db
+      - ./portfolio/mongo/data/configdb:/data/configdb
+      - ./portfolio/mongo/auth/keyfile:/auth/keyfile
+      - ./portfolio/mongo/db_backups:/db_backups
+    healthcheck:
+      test: echo 'rs.status().ok' | mongosh --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
+      interval: 15s
+      start_period: 20s
+
+  mongo-init:
+    container_name: mongo-init
+    # using mongo5 as opposed to mongo:6 for server status in mongo-express and because of bugs
+    image: mongo:5
+    restart: on-failure
+    volumes:
+      - ./portfolio/mongo/scripts/mongosetup.sh:/scripts/mongosetup.sh
+      # these two are necessary otherwise they get created again as anonymous volumes
+      - ./portfolio/mongo/data/db:/data/db
+      - ./portfolio/mongo/data/configdb:/data/configdb
+    entrypoint: ["bash", "/scripts/mongosetup.sh" ]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${PASSWORD}
+    depends_on:
+      mongo:
+        condition: service_started
+
+  mongo-express:
+    # using mongo-express:0.54 as opposed to mongo-express:1 for server status and because of bugs
+    image: mongo-express:0.54
+    container_name: mongo-express
+    restart: always
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://${USER}:${PASSWORD}@mongo:27017/?replicaSet=rs0
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${USER}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${PASSWORD}
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_BASICAUTH_USERNAME=${USER}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${PASSWORD}
+      - ME_CONFIG_SITE_BASEURL=/admin
+      - ME_CONFIG_SITE_GRIDFS_ENABLED=true
+      - VIRTUAL_HOST=${DOMAIN}
+      - VIRTUAL_PATH=/admin/
+      - VIRTUAL_PORT=8081
+    #volumes:
+    #   - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+
+  restheart:
+    image: softinstigate/restheart:7
+    container_name: restheart
+    environment:
+      - RHO=
+        /mongo/mongo-mounts[1]->{'where':'/api','what':'portfolio'};
+        /mongo/mongo-mounts[2]->{'where':'/api_admin','what':'restheart'};
+        /mclient/connection-string->'mongodb://${USER}:${PASSWORD}@mongo:27017/?replicaSet=rs0';
+        /http-listener/host->'0.0.0.0';
+        # NOTE: If starting from scratch use must set admin password!
+        #       curl -u admin:secret -X PATCH localhost:8080/users/admin -H "Content-Type: application/json" -d '{ "password": "my-strong-password" }'
+        # NOTE: An ACL entry to allow unaunthenticated users to perform gets must be added
+        #       For now, it was added to the restheart db manually
+        #       by adding the following to the acl collection with curl or using mongo-express
+        #       {
+        #         predicate: 'path-prefix[/api] and method[GET]',
+        #         roles: ['$unauthenticated'],
+        #         priority: 50
+        #       }
+        # This does not seem to do anything but should somehow use a file for the realm creations
+        #/fileRealmAuthenticator/users[userid='admin']/password->'${PASSWORD}';
+      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},restheart.${DOMAIN},api.${DOMAIN}
+      - VIRTUAL_PATH=/api/
+      - VIRTUAL_DEST=/
+      - VIRTUAL_PORT=8080
+    depends_on:
+      mongo:
+        condition: service_healthy
+    #command: ["--envFile", "/opt/restheart/etc/default.properties"]
+    ports:
+      - "8080:8080"
+    restart: always
+    #volumes:
+    #  - ./restheart:/opt/restheart/etc:ro
+
+  gitea:
+    image: gitea/gitea:1
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=mysql
+      - GITEA__database__HOST=mysql-gitea
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=${USER}
+      - GITEA__database__PASSWD=${PASSWORD}
+      - GITEA__server__LANDING_PAGE=/${USER}
+      # NOTE: This next line can be commented out if you want to run the wizard locally
+      #       But it needs to be set properly as the base url to work remotely
+      #       no matter how you run the wizard
+      - GITEA__server__ROOT_URL=https://${DOMAIN}/code/
+      - HTTP_PORT=4000
+      - LFS_START_SERVER=true
+      - DISABLE_REGISTRATION=true
+      - RUN_MODE=prod
+      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},code.${DOMAIN},git.${DOMAIN},gitea.${DOMAIN}
+      - VIRTUAL_PORT=4000
+      - VIRTUAL_PATH=/code/
+      - VIRTUAL_DEST=/
+    restart: always
+    volumes:
+      - ./gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "4000:4000"
+      - "222:22"
+    depends_on:
+      mysql-gitea:
+        condition: service_healthy
+
+  mysql-gitea:
+    image: mariadb:10
+    container_name: mysql-gitea
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${PASSWORD}
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_DATABASE=gitea
+      - MYSQL_USER=${USER}
+    volumes:
+      - ./gitea/mysql:/var/lib/mysql
+      #- ./mysql_gitea/etc:/etc/mysql/conf.d
+      #- ./mysql_gitea/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 15s
+      start_period: 20s
+
+  nextcloud:
+    image: nextcloud:25
+    container_name: nextcloud
+    restart: always
+    volumes:
+      - ./nextcloud/data:/var/www/html/data
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${USER}
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_HOST=mysql-nextcloud
+      - NEXTCLOUD_ADMIN_USER=${USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${PASSWORD}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${DOMAIN} *.${DOMAIN} cloud.${DOMAIN} nextcloud.${DOMAIN}
+      - TRUSTED_PROXIES=nginx-proxy
+      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},cloud.${DOMAIN},nextcloud.${DOMAIN}
+      - VIRTUAL_PORT=8888
+      #- APACHE_DISABLE_REWRITE_IP=1
+      #- OVERWRITEHOST=${DOMAIN}
+      #- OVERWRITEWEBROOT=/cloud
+      #- OVERWRITEPROTOCOL=https
+      #- OVERWRITECLIURL=http://localhost/
+      # TODO: It would be great to move thie to a subdirectory ${DOMAIN}/cloud
+      #       as opposed to a subdomain cloud.${DOMAIN}
+      #       but it is really, really difficult with nextcloud
+      - VIRTUAL_PATH=/cloud/
+      - VIRTUAL_DEST=/
+      # TODO: add redis and chron
+      #- REDIS_HOST=redis
+    depends_on:
+      mysql-nextcloud:
+        condition: service_healthy
+      #redis:
+    ports:
+      - 8888:80
+    expose:
+      - 8888
+
+  mysql-nextcloud:
+    image: mariadb:10
+    container_name: mysql-nextcloud
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${PASSWORD}
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${USER}
+    volumes:
+      - ./nextcloud/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 15s
+      start_period: 20s
+
+volumes:
+  nginx:
+  nextcloud:
+  acme:
+  portfolio:
