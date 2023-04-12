@@ -6,4 +6,4 @@ nginx/certs/
 nginx/conf.d/default.conf
 nextcloud/
 gitea/
-.env*
+.env

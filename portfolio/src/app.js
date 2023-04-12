@@ -16,8 +16,8 @@ require('dotenv').config();
 const port = process.env.PORT || 3000;
 
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://' + process.env.USER + ':' + process.env.PASSWORD + '@mongo:27017/unboundedpress?authSource=admin';
-var dbName = "unboundedpress";
+var url = 'mongodb://' + process.env.USER + ':' + process.env.PASSWORD + '@mongo:27017/portfolio?authSource=admin';
+var dbName = "portfolio";
 var assert = require('assert');
 
 
@@ -39,7 +39,6 @@ var client = MongoClient.connect(url, function (err, client) {
 });
 
 // close client when app closes
-
 const cleanup = (event) => { // SIGINT is sent for example when you Ctrl+C a running process from the command line.
   client.close(); // Close MongodDB Connection when Process ends
   process.exit(); // Exit with default success-code '0'.
