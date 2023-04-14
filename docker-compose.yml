@@ -50,7 +50,7 @@ services:
   portfolio:
     # TODO: This will eventually be rewritten with something like VUE
     container_name: portfolio
-    build: ./src/portfolio
+    build: ./portfolio
     # To just server running the following command
     #command: bash -c "npm run serve"
     # To reinstall the packages run the following command instead
@@ -169,7 +169,7 @@ services:
         #/fileRealmAuthenticator/users[userid='admin']/password->'${PASSWORD}';
       - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},restheart.${DOMAIN},api.${DOMAIN}
       - VIRTUAL_PATH=/api/
-      - VIRTUAL_DEST=/
+      - VIRTUAL_DEST=/api/
       - VIRTUAL_PORT=8080
     depends_on:
       mongo:
@@ -242,8 +242,9 @@ services:
     container_name: nextcloud
     restart: always
     volumes:
-      - ./nextcloud/data:/var/www/html/data
-      - nextcloud:/var/www/html
+      #- ./nextcloud/data:/var/www/html/data
+      #- nextcloud:/var/www/html
+      - ./nextcloud/html:/var/www/html
     environment:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=${USER}
@@ -252,6 +253,7 @@ services:
       - NEXTCLOUD_ADMIN_USER=${USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${PASSWORD}
       - NEXTCLOUD_TRUSTED_DOMAINS=${DOMAIN} *.${DOMAIN} cloud.${DOMAIN} nextcloud.${DOMAIN} #localdev.${DOMAIN}
+      - NEXTCLOUD_INIT_LOCK=true
       #- APACHE_DISABLE_REWRITE_IP=1
       #- TRUSTED_PROXIES=nginx-proxy
       #- OVERWRITEHOST=${DOMAIN}:8888
@@ -273,9 +275,6 @@ services:
       #redis:
     ports:
       - 8888:80
-      - 8443:443
-    #expose:
-    #  - 8888
 
   mysql-nextcloud:
     image: mariadb:10
@@ -296,6 +295,6 @@ services:
 
 volumes:
   nginx:
-  nextcloud:
+  #nextcloud:
   acme:
   portfolio:

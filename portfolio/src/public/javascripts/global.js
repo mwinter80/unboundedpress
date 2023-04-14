@@ -89,10 +89,7 @@ $("img").load(function() {
 });
 
 // Functions =============================================================
-//BASE_URL='https://restheart.unboundedpress.org';
-//BASE_URL='https://dev2.unboundedpress.org';
-//http://127.0.0.1:8080/api/
-BASE_URL='http://127.0.0.1:8080/api';
+BASE_URL = window.location.origin + '/api'
 
 function resetDivHeights(){
 
