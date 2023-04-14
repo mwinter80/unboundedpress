@@ -144,7 +144,7 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=${PASSWORD}
       - ME_CONFIG_SITE_BASEURL=/admin
       - ME_CONFIG_SITE_GRIDFS_ENABLED=true
-      - VIRTUAL_HOST=${DOMAIN}
+      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},admin.${DOMAIN}
       - VIRTUAL_PATH=/admin/
       - VIRTUAL_PORT=8081
     #volumes:
