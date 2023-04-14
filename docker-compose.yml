@@ -78,8 +78,12 @@ services:
 
   mongo:
     container_name: mongo
-    # using mongo5 as opposed to mongo:6 for server status in mongo-express and because of bugs
-    image: mongo:5
+    # using mongo4 or mongo5 as opposed to mongo:6 for server status in mongo-express and because of bugs
+    # mongo 5 requires avx support so if the machine is not capable of avx support use mongo4
+    # NOTE: mongo 4 shell uses mongo and mongo 5 uses mongosh!
+    #       These need to be changed accordingly in the health check and the mongosetup.sh file for the container mongo-init
+    #image: mongo:4
+    image: mongo:4
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${USER}
@@ -91,6 +95,8 @@ services:
     #       chmod 600 keyfile
     #       sudo chown 999 keyfile
     #       sudo chgrp 999 keyfile
+    # NOTE: If you tar archive the site and move it without retaining permissions,
+    #       you will need to run the last 3 lines on the file to make it work
     ports:
       - 27017:27017
     volumes:
@@ -99,7 +105,10 @@ services:
       - ./portfolio/mongo/auth/keyfile:/auth/keyfile
       - ./portfolio/mongo/db_backups:/db_backups
     healthcheck:
-      test: echo 'rs.status().ok' | mongosh --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
+      # mongo 5
+      #test: echo 'rs.status().ok' | mongosh --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
+      # mongo 4
+      test: echo 'rs.status().ok' | mongo --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
       interval: 15s
       start_period: 20s
 
@@ -156,7 +165,7 @@ services:
         /mclient/connection-string->'mongodb://${USER}:${PASSWORD}@mongo:27017/?replicaSet=rs0';
         /http-listener/host->'0.0.0.0';
         # NOTE: If starting from scratch use must set admin password!
-        #       curl -u admin:secret -X PATCH localhost:8080/users/admin -H "Content-Type: application/json" -d '{ "password": "my-strong-password" }'
+        #       curl -u admin:secret -X PATCH localhost:8080/api_admin/users/admin -H "Content-Type: application/json" -d '{ "password": "my-strong-password" }'
         # NOTE: An ACL entry to allow unaunthenticated users to perform gets must be added
         #       For now, it was added to the restheart db manually
         #       by adding the following to the acl collection with curl or using mongo-express

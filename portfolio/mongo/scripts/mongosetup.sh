@@ -4,7 +4,13 @@ sleep 15
 echo "done"
 
 echo SETUP.sh time now: `date +"%T" `
+
+# mongo 5
+#mongosh --host mongo:27017 -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} <<EOF
+
+# mongo 4
 mongosh --host mongo:27017 -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} <<EOF
+
 var cfg = {
     "_id": "rs0",
     "protocolVersion": 1,
