@@ -33,7 +33,7 @@ services:
     environment:
       - DEFAULT_EMAIL=${EMAIL}
       # Uncomment this for testing
-      - LETSENCRYPT_TEST=true
+      #- LETSENCRYPT_TEST=true
     volumes_from:
       - nginx-proxy
     volumes:
@@ -59,11 +59,11 @@ services:
       - portfolio:/src/node_modules
       - ./portfolio/src:/src
     environment:
-      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN}
+      - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
       - VIRTUAL_PATH=/
       #- VIRTUAL_DEST=/
       - VIRTUAL_PORT=3000
-      - LETSENCRYPT_HOST=${DOMAIN} #,*.${DOMAIN}
+      - LETSENCRYPT_HOST=${DOMAIN},www.${DOMAIN},gitea.${DOMAIN} #this last one is for legacy support
       - LETSENCRYPT_EMAIL=${EMAIL}
     ports:
       - "3000:3000"
@@ -144,7 +144,7 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=${PASSWORD}
       - ME_CONFIG_SITE_BASEURL=/admin
       - ME_CONFIG_SITE_GRIDFS_ENABLED=true
-      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},admin.${DOMAIN}
+      - VIRTUAL_HOST=${DOMAIN},admin.${DOMAIN}
       - VIRTUAL_PATH=/admin/
       - VIRTUAL_PORT=8081
     #volumes:
@@ -176,7 +176,7 @@ services:
         #       }
         # This does not seem to do anything but should somehow use a file for the realm creations
         #/fileRealmAuthenticator/users[userid='admin']/password->'${PASSWORD}';
-      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},restheart.${DOMAIN},api.${DOMAIN}
+      - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
       - VIRTUAL_PATH=/api/
       - VIRTUAL_DEST=/api/
       - VIRTUAL_PORT=8080
@@ -212,7 +212,7 @@ services:
       - LFS_START_SERVER=true
       - DISABLE_REGISTRATION=true
       - RUN_MODE=prod
-      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},code.${DOMAIN},git.${DOMAIN},gitea.${DOMAIN}
+      - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN},gitea.${DOMAIN} # this last one is for legacy support
       - VIRTUAL_PORT=4000
       - VIRTUAL_PATH=/code/
       - VIRTUAL_DEST=/
@@ -261,20 +261,19 @@ services:
       - MYSQL_HOST=mysql-nextcloud
       - NEXTCLOUD_ADMIN_USER=${USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${PASSWORD}
-      - NEXTCLOUD_TRUSTED_DOMAINS=${DOMAIN} *.${DOMAIN} cloud.${DOMAIN} nextcloud.${DOMAIN} #localdev.${DOMAIN}
-      - NEXTCLOUD_INIT_LOCK=true
-      #- APACHE_DISABLE_REWRITE_IP=1
+      - NEXTCLOUD_TRUSTED_DOMAINS=${DOMAIN} www.${DOMAIN}
+      #- NEXTCLOUD_INIT_LOCK=true
+      - APACHE_DISABLE_REWRITE_IP=1
       - TRUSTED_PROXIES=nginx-proxy
-      #- OVERWRITEHOST=${DOMAIN}:8888
-      #- OVERWRITEWEBROOT=/cloud
-      #- OVERWRITEPROTOCOL=https
-      #- OVERWRITECLIURL=http://localhost/
-      - VIRTUAL_HOST=${DOMAIN},*.${DOMAIN},cloud.${DOMAIN},nextcloud.${DOMAIN} #,localdev.${DOMAIN}
-      - VIRTUAL_PORT=8888
-      # TODO: It would be great to move thie to a subdirectory ${DOMAIN}/cloud
-      #       as opposed to a subdomain cloud.${DOMAIN}
-      #       but it is really, really difficult with nextcloud
-      - VIRTUAL_PATH=/cloud
+      - OVERWRITEHOST=${DOMAIN}
+      - OVERWRITEWEBROOT=/cloud
+      - OVERWRITEPROTOCOL=https
+      - OVERWRITECLIURL=http://localhost/
+      # NOTE: These configurations above make it work with the subdirectory
+      #       but you cannot set VIRTUAL_PORT 
+      #       for reasons I have no idea
+      - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
+      - VIRTUAL_PATH=/cloud/
       - VIRTUAL_DEST=/
       # TODO: add redis and chron
       #- REDIS_HOST=redis
