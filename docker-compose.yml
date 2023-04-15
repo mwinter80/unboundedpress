@@ -63,7 +63,7 @@ services:
       - VIRTUAL_PATH=/
       #- VIRTUAL_DEST=/
       - VIRTUAL_PORT=3000
-      - LETSENCRYPT_HOST=${DOMAIN}
+      - LETSENCRYPT_HOST=${DOMAIN} #,*.${DOMAIN}
       - LETSENCRYPT_EMAIL=${EMAIL}
     ports:
       - "3000:3000"
@@ -264,7 +264,7 @@ services:
       - NEXTCLOUD_TRUSTED_DOMAINS=${DOMAIN} *.${DOMAIN} cloud.${DOMAIN} nextcloud.${DOMAIN} #localdev.${DOMAIN}
       - NEXTCLOUD_INIT_LOCK=true
       #- APACHE_DISABLE_REWRITE_IP=1
-      #- TRUSTED_PROXIES=nginx-proxy
+      - TRUSTED_PROXIES=nginx-proxy
       #- OVERWRITEHOST=${DOMAIN}:8888
       #- OVERWRITEWEBROOT=/cloud
       #- OVERWRITEPROTOCOL=https
