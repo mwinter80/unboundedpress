@@ -35,7 +35,7 @@ mysql-nextcloud
 
 # Here are some useful tips for mongo
 # dump and restore example:
-mongodump --host localhost --port 27017 -d unboundedpress -o /backup/db_dump_2023_04_07 -u username -p password --authenticationDatabase admin
+mongodump --host localhost --port 27017 -d portfolio -o /db_backups/db_dump_2023_04_07 -u username -p password --authenticationDatabase admin
 mongorestore --host localhost --port 27017 -d portfolio -u username -p password --authenticationDatabase admin /db_backups/db_dump_2023_04_07/unboundedpress
 # here is an example of a file upload through restheart:
 curl -v -u user:pass -X POST -F 'properties={"filename":"filename"}' -F "file=@filepath_here" https://unboundedpress.org/api/scores.files
