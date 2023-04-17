@@ -82,8 +82,8 @@ services:
     # mongo 5 requires avx support so if the machine is not capable of avx support use mongo4
     # NOTE: mongo 4 shell uses mongo and mongo 5 uses mongosh!
     #       These need to be changed accordingly in the health check and the mongosetup.sh file for the container mongo-init
+    image: mongo:5
     #image: mongo:4
-    image: mongo:4
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${USER}
@@ -106,9 +106,9 @@ services:
       - ./portfolio/mongo/db_backups:/db_backups
     healthcheck:
       # mongo 5
-      #test: echo 'rs.status().ok' | mongosh --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
+      test: echo 'rs.status().ok' | mongosh --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
       # mongo 4
-      test: echo 'rs.status().ok' | mongo --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
+      #test: echo 'rs.status().ok' | mongo --host mongo:27017 -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
       interval: 15s
       start_period: 20s
 
@@ -118,11 +118,17 @@ services:
     image: mongo:5
     restart: on-failure
     volumes:
-      - ./portfolio/mongo/scripts/mongosetup.sh:/scripts/mongosetup.sh
+      # mongo 5
+      - ./portfolio/mongo/scripts/mongo5setup.sh:/scripts/mongo5setup.sh
+      # mongo 4
+      #- ./portfolio/mongo/scripts/mongo4setup.sh:/scripts/mongo4setup.sh
       # these two are necessary otherwise they get created again as anonymous volumes
       - ./portfolio/mongo/data/db:/data/db
       - ./portfolio/mongo/data/configdb:/data/configdb
-    entrypoint: ["bash", "/scripts/mongosetup.sh" ]
+    # mongo 5
+    entrypoint: ["bash", "/scripts/mongo5setup.sh" ]
+    # mongo 4
+    #entrypoint: ["bash", "/scripts/mongo4setup.sh" ]
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${USER}
       - MONGO_INITDB_ROOT_PASSWORD=${PASSWORD}
@@ -158,6 +164,7 @@ services:
   restheart:
     image: softinstigate/restheart:7
     container_name: restheart
+    # NOTE: the api_admin endpoint only works locally
     environment:
       - RHO=
         /mongo/mongo-mounts[1]->{'where':'/api','what':'portfolio'};
