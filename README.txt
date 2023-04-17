@@ -19,7 +19,7 @@ The current server is running on ubuntu server 22.04/
 
 # There are two .env files that are the same and go at the top level folder and again in portfolio/src. Templates are provided.
 
-# Here are a list of the service
+# Here is a list of the services
 # Main components
 porfolio - node server and frontend for my porfilio that uses mongo backend
 mongo - houses the data of my portfolio
