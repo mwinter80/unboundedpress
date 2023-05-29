@@ -277,7 +277,7 @@ services:
       - OVERWRITEPROTOCOL=https
       - OVERWRITECLIURL=http://localhost/
       # NOTE: These configurations above make it work with the subdirectory
-      #       but you cannot set VIRTUAL_PORT 
+      #       but you cannot set VIRTUAL_PORT
       #       for reasons I have no idea
       - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
       - VIRTUAL_PATH=/cloud/
@@ -290,6 +290,17 @@ services:
       #redis:
     ports:
       - 8888:80
+
+  cron-nextcloud:
+    image: nextcloud:25
+    restart: always
+    volumes:
+      - ./nextcloud/html:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      mysql-nextcloud:
+        condition: service_healthy
+      #redis:
 
   mysql-nextcloud:
     image: mariadb:10
