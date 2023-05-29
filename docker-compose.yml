@@ -293,6 +293,7 @@ services:
 
   cron-nextcloud:
     image: nextcloud:25
+    container_name: cron-nextcloud
     restart: always
     volumes:
       - ./nextcloud/html:/var/www/html
