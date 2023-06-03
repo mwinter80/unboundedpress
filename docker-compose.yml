@@ -296,7 +296,6 @@ services:
     image: collabora/code:22.05.14.3.1
     container_name: collabora
     depends_on:
-      # NOT the reverse proxy, but nginx webserver for nextcloud-fpm image:
       - nextcloud
     cap_add:
      - MKNOD
@@ -307,11 +306,12 @@ services:
       - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
       - VIRTUAL_PATH=/collab/
       - VIRTUAL_DEST=/
-      #
       # Extra parameters to Collabora, see also
       # https://www.collaboraoffice.com/code/nginx-reverse-proxy/:
       # SSL terminates at the proxy
       - extra_params=--o:ssl.enable=false --o:ssl.termination=true
+      # NOTE: The file nginx/vhosts.d/unboundedpress.org handles
+      #       routing for collabora on production only
     ports:
       - 9980:9980
 

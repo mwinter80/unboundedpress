@@ -1,0 +1,55 @@
+## Start of configuration add by letsencrypt container
+location ^~ /.well-known/acme-challenge/ {
+    auth_basic off;
+    auth_request off;
+    allow all;
+    root /usr/share/nginx/html;
+    try_files $uri =404;
+    break;
+}
+## End of configuration add by letsencrypt container
+
+
+# The following are all for collabora routing
+
+# static files
+location ^~ /browser {
+  proxy_pass http://unboundedpress.org-cd15914db06db1d6722abd3bcfd0beaa541bbc60;
+  proxy_set_header Host $http_host;
+}
+
+# WOPI discovery URL
+location ^~ /hosting/discovery {
+  proxy_pass http://unboundedpress.org-cd15914db06db1d6722abd3bcfd0beaa541bbc60;
+  proxy_set_header Host $http_host;
+}
+
+# Capabilities
+location ^~ /hosting/capabilities {
+  proxy_pass http://unboundedpress.org-cd15914db06db1d6722abd3bcfd0beaa541bbc60;
+  proxy_set_header Host $http_host;
+}
+
+# main websocket
+location ~ ^/cool/(.*)/ws$ {
+  proxy_pass http://unboundedpress.org-cd15914db06db1d6722abd3bcfd0beaa541bbc60;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "Upgrade";
+  proxy_set_header Host $http_host;  
+  proxy_read_timeout 36000s;
+}
+
+# download, presentation and image upload
+location ~ ^/(c|l)ool {
+  proxy_pass http://unboundedpress.org-cd15914db06db1d6722abd3bcfd0beaa541bbc60;
+  proxy_set_header Host $http_host;
+}
+
+# Admin Console websocket
+location ^~ /cool/adminws {
+  proxy_pass http://unboundedpress.org-cd15914db06db1d6722abd3bcfd0beaa541bbc60;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "Upgrade";
+  proxy_set_header Host $http_host;
+  proxy_read_timeout 36000s;
+}
