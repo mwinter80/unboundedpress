@@ -275,7 +275,8 @@ services:
       - OVERWRITEHOST=${DOMAIN}
       - OVERWRITEWEBROOT=/cloud
       - OVERWRITEPROTOCOL=https
-      - OVERWRITECLIURL=http://localhost/
+      #- OVERWRITECLIURL=http://localhost/
+      - OVERWRITECLIURL=https://unboundedpress.org
       # NOTE: These configurations above make it work with the subdirectory
       #       but you cannot set VIRTUAL_PORT
       #       for reasons I have no idea
@@ -290,6 +291,29 @@ services:
       #redis:
     ports:
       - 8888:80
+
+  collabora:
+    image: collabora/code:22.05.14.3.1
+    container_name: collabora
+    depends_on:
+      # NOT the reverse proxy, but nginx webserver for nextcloud-fpm image:
+      - nextcloud
+    cap_add:
+     - MKNOD
+    environment:
+      - username=${USER}
+      - password=${PASSWORD}
+      - domain=${DOMAIN}
+      - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
+      - VIRTUAL_PATH=/collab/
+      - VIRTUAL_DEST=/
+      #
+      # Extra parameters to Collabora, see also
+      # https://www.collaboraoffice.com/code/nginx-reverse-proxy/:
+      # SSL terminates at the proxy
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true
+    ports:
+      - 9980:9980
 
   cron-nextcloud:
     image: nextcloud:25
