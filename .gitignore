@@ -7,3 +7,5 @@ nginx/conf.d/default.conf
 nextcloud/
 gitea/
 .env
+portfolio-nuxt/.nuxt/
+portfolio-nuxt/node_modules/
