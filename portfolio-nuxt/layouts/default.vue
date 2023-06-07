@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <h1 class="text-4xl">michael winter</h1>
-    <h2>
-      <ul class="inline-list">
-        <li>works</li>
-        <li>events</li>
-        <li>about</li>
-        <li>code</li>
-      </ul>
-    </h2>
-    <slot /> <!-- required here only -->
+  <div class="font-thin sticky top-0 bg-white p-2">
+    <div class="text-5xl p-2">michael winter</div>
+    <div class="text-2xl px-8">
+      works
+      events
+      about
+      code
+    </div>
   </div>
+  <slot /> <!-- required here only -->
 </template>
 
 <style>
