@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-3 gap-10 bg-white divide-x divide-solid divide-black p-4">
+  <div class="bg-gray-50 rounded-lg m-5 grid grid-cols-3 gap-10 bg-white divide-x divide-solid divide-black p-4">
     <div class="px-5">
       <p class="text-lg">pieces</p>
       <div class="py-2 ml-3" v-for="item in works">
@@ -8,41 +8,15 @@
           <div class="grid grid-cols-[70%,30%] gap-1 font-thin">
             <p class="italic text-sm">{{ work.title }}</p>
              <div class="grid grid-cols-4">
-              <div class="p-1">
-                <button
-                  type="button"
-                  class="inline-flex bg-black rounded-full text-xs p-1"
-                >
-                  <Icon name="ion:book-outline" color="white" />
-                </button>
-              </div>
 
-              <div class="p-1">
-                <button
-                  type="button"
-                  class="inline-flex bg-black rounded-full text-xs p-1"
-                >
-                  <Icon name="wpf:speaker" color="white" />
-                </button>
-              </div>
+              <Button :visible="work.score" icon="ion:book-outline" :work="work"></Button>
 
-              <div class="p-1">
-                <button
-                  type="button"
-                  class="inline-flex bg-black rounded-full text-xs p-1"
-                >
-                  <Icon name="fluent:video-48-filled" color="white" />
-                </button>
-              </div>
+              <Button :visible="work.soundcloud_trackid" icon="wpf:speaker" :work="work"></Button>
 
-              <div class="p-1">
-                <button
-                  type="button"
-                  class="inline-flex bg-black rounded-full text-xs p-1"
-                >
-                  <Icon name="mdi:camera" color="white" />
-                </button>
-              </div>
+              <Button :visible="work.vimeo_trackid" icon="fluent:video-48-filled" :work="work"></Button>
+
+              <Button :visible="work.images" icon="mdi:camera" :work="work"></Button>
+
             </div>
           </div>
         </div>
@@ -51,18 +25,21 @@
 
     <div class="px-5">
       <p class="text-lg">writings</p>
-      <div class="leading-tight py-2 ml-3 text-sm" v-for="item in pubs">{{ item.entryTags.title }}</div>
+      <div class="leading-tight py-2 ml-3 text-sm" v-for="item in pubs">
+        {{ item.entryTags.title }}
+      </div>
     </div>
 
     <div class="px-5">
       <p class="text-lg">releases</p>
-      <div class="leading-tight py-2 ml-3 text-sm" v-for="item in releases">
-        {{ item.title }}
-        <nuxt-img :src="'https://unboundedpress.org/api/album_art.files/' + item.album_art_id + '/binary'" />
+      <div class="leading-tight py-4 ml-3 text-sm" v-for="item in releases">
+        <p class="text-center leading-tight py-2">{{ item.title }}</p>
+        <nuxt-img :src="'https://unboundedpress.org/api/album_art.files/' + item.album_art_id + '/binary'" 
+        quality="50"/>
       </div>
     </div>
   </div>
-  </template>
+</template>
 
 <script setup>
 
