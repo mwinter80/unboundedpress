@@ -9,12 +9,14 @@
     </div>
   </div>
   <slot /> <!-- required here only -->
+  <div class="sticky bottom-0 bg-white p-2 flex justify-center">
+    <iframe width="400rem" height="20" scrolling="no" frameborder="no" allow="autoplay" 
+    :src="'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + audioPlayerStore.soundcloud_trackid + '&color=%23ff5500&inverse=false&auto_play=true&show_user=true'"></iframe>
+  </div>
 </template>
 
-<style>
-.inline-list li {
-    display: inline;
-    padding-left: 5px;
-    padding-right: 20px;
-}
-</style>
+<script setup>
+  import { useAudioPlayerStore } from "@/stores/AudioPlayerStore"
+  const audioPlayerStore = useAudioPlayerStore()
+
+</script>
