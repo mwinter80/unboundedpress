@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <embed :src="'https://unboundedpress.org/api/scores.files/' + metadata._id.$oid + '/binary'" width="100%" height="900px" />
+    <div class="flex min-h-full items-center justify-center text-center">
+        <embed :src="'https://unboundedpress.org/api/scores.files/' + metadata._id.$oid + '/binary'" class="w-[85%] h-[88vh]" />
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 rounded-lg m-5 grid grid-cols-3 gap-10 bg-white divide-x divide-solid divide-black p-4">
+  <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-3 gap-10 bg-white divide-x divide-solid divide-black p-4">
     <div class="px-5">
       <p class="text-lg">pieces</p>
       <div class="py-2 ml-3" v-for="item in works">
@@ -9,7 +9,7 @@
             <p class="italic text-sm">{{ work.title }}</p>
              <div class="grid grid-cols-4">
 
-              <Button :visible="work.score" type="document" :work="work" :link="'/scores/' + work.score"></Button>
+              <Button :visible="work.score" type="document" :work="work"></Button>
  
               <Button :visible="work.soundcloud_trackid" type="audio" :work="work"></Button>
 
@@ -25,6 +25,7 @@
 
     <div class="px-5">
       <p class="text-lg">writings</p>
+
       <div class="leading-tight py-2 ml-3 text-sm" v-for="item in pubs">
         {{ item.entryTags.title }}
       </div>
