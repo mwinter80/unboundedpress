@@ -21,8 +21,15 @@
                 
             </button>
 
-            <button v-else="type === 'image'" class="inline-flex p-1">
+            <button @click="isOpen = true" v-else="type === 'image'" class="inline-flex p-1">
                 <Icon name="mdi:camera" color="white" />
+
+                <Modal v-model="isOpen">
+                    <ModalBody>
+                        <ImageSlider :image_ids="work.image_ids"></ImageSlider>
+                    </ModalBody>
+                </Modal>
+
             </button>
 
         </div>

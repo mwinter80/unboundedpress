@@ -9,13 +9,13 @@
             <p class="italic text-sm">{{ work.title }}</p>
              <div class="grid grid-cols-4">
 
-              <Button :visible="work.score" type="document" :work="work"></Button>
+              <IconButton :visible="work.score" type="document" :work="work"></IconButton>
  
-              <Button :visible="work.soundcloud_trackid" type="audio" :work="work"></Button>
+              <IconButton :visible="work.soundcloud_trackid" type="audio" :work="work"></IconButton>
 
-              <Button :visible="work.vimeo_trackid" type="video" :work="work"></Button>
+              <IconButton :visible="work.vimeo_trackid" type="video" :work="work"></IconButton>
 
-              <Button :visible="work.images" type="image" :work="work"></Button>
+              <IconButton :visible="work.image_ids" type="image" :work="work"></IconButton>
 
             </div>
           </div>
@@ -46,8 +46,19 @@
 
   const groupBy = (x,f)=>x.reduce((a,b,i)=>((a[f(b,i,x)]||=[]).push(b),a),{});
 
+  const { data: images } = await useFetch('https://unboundedpress.org/api/images.files?pagesize=200')
+
   const { data: works } = await useFetch('https://unboundedpress.org/api/works?pagesize=200', {
     transform: (works) => {
+      for (const work of works) {
+        if(work.images){
+          let image_ids = [];
+          for (const image of work.images){
+            image_ids.push(images.value.find(obj => {return obj.filename === image.filename})._id.$oid)
+          }
+          work.image_ids = image_ids
+        }
+      }
       let res = groupBy(works, work => new Date(work.date.$date).getFullYear())
       res = Object.keys(res).map((year) => {
         return {
@@ -97,7 +108,6 @@
   })
   */
 </script>
-
 
 <style>
   .metamask-icon {
