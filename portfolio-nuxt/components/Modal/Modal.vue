@@ -96,7 +96,7 @@ provide('modal', api)
                 class="w-full transform overflow-hidden bg-white text-left align-middle shadow-xl transition-all"
                 :class="{
                   'h-screen': fullscreen,
-                  'max-w-[85%] rounded-lg': !fullscreen,
+                  'max-w-[85vw] rounded-lg': !fullscreen,
                 }"
               >
                 <slot />

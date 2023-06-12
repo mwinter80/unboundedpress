@@ -1,9 +1,10 @@
 <template>
     <Swiper
+      :autoHeight="true"
       :spaceBetween="30"
       :centeredSlides="true"
       :autoplay="{
-        delay: 7000,
+        delay: 4000,
         disableOnInteraction: false,
       }"
       :pagination="{
@@ -14,16 +15,14 @@
     >
 
       <SwiperSlide v-for="image_id in image_ids">
-        <div>
-          <nuxt-img :src="'https://unboundedpress.org/api/images.files/' + image_id + '/binary'" 
+          <nuxt-img :src="'https://unboundedpress.org/api/' + bucket + '.files/' + image_id + '/binary'" 
           quality="50"/>
-        </div>
       </SwiperSlide>
     </Swiper>
   </template>
 
 <script>
 export default {
-    props: ['image_ids']
+    props: ['image_ids', 'bucket']
 }
 </script>

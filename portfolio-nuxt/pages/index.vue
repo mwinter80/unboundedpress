@@ -7,9 +7,9 @@
         <div class="leading-tight py-1 ml-3" v-for="work in item.works">
           <div class="grid grid-cols-[70%,30%] gap-1 font-thin">
             <p class="italic text-sm">{{ work.title }}</p>
-             <div class="grid grid-cols-4">
+             <div class="grid grid-cols-[28px_28px_28px_28px]">
 
-              <IconButton :visible="work.score" type="document" :work="work"></IconButton>
+              <IconButton :visible="work.score" type="score" bucket="scores" :work="work"></IconButton>
  
               <IconButton :visible="work.soundcloud_trackid" type="audio" :work="work"></IconButton>
 
@@ -27,7 +27,23 @@
       <p class="text-lg">writings</p>
 
       <div class="leading-tight py-2 ml-3 text-sm" v-for="item in pubs">
-        {{ item.entryTags.title }}
+        <div class="grid grid-cols-[95%,5%] gap-1">
+          <div>
+            {{ item.entryTags.title }}
+            <div class="ml-4 text-[#7F7F7F]">
+              {{ item.entryTags.author }}
+              <span v-if=item.entryTags.booktitle>{{ item.entryTags.booktitle}}.&nbsp;</span>
+              <span v-if=item.entryTags.journal>{{item.entryTags.journal}}.&nbsp;</span>
+              <span v-if=item.entryTags.editor>editors {{item.entryTags.editor}}&nbsp;</span>
+              <span v-if=item.entryTags.volume>volume {{item.entryTags.volume}}.</span>
+              <span v-if=item.entryTags.publisher>{{item.entryTags.publisher}}.</span>
+              {{ item.entryTags.year }}.
+            </div>
+          </div>
+          <div>
+            <IconButton :visible=true type="pub" class="inline-flex p-1"></IconButton>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -35,14 +51,19 @@
       <p class="text-lg">releases</p>
       <div class="leading-tight py-4 ml-3 text-sm" v-for="item in releases">
         <p class="text-center leading-tight py-2">{{ item.title }}</p>
-        <nuxt-img :src="'https://unboundedpress.org/api/album_art.files/' + item.album_art_id + '/binary'" 
-        quality="50"/>
+        <button @click="modalStore.setModalProps('image', 'aspect-auto', true, 'album_art', [item.album_art_id], '')">
+          <nuxt-img :src="'https://unboundedpress.org/api/album_art.files/' + item.album_art_id + '/binary'" 
+          quality="50"/>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+
+  import { useModalStore } from "@/stores/ModalStore"
+  const modalStore = useModalStore()
 
   const groupBy = (x,f)=>x.reduce((a,b,i)=>((a[f(b,i,x)]||=[]).push(b),a),{});
 

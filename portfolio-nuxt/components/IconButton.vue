@@ -1,8 +1,12 @@
 <template>
     <div class="p-1">
-        <div v-show="visible" class="inline-flex bg-black rounded-full text-xs" >
+        <div v-show="visible" class="bg-black rounded-full text-xs" >
 
-            <NuxtLink v-if="type === 'document'" class="inline-flex p-1" :to="'/scores/' + work.score">
+            <NuxtLink v-if="type === 'score'" class="inline-flex p-1" :to="'/' + bucket + '/' + work.score">
+                <Icon name="ion:book-outline" color="white" />
+            </NuxtLink>
+
+            <NuxtLink v-else-if="type === 'pub'" class="inline-flex p-1">
                 <Icon name="ion:book-outline" color="white" />
             </NuxtLink>
 
@@ -10,26 +14,12 @@
                 <Icon name="wpf:speaker" color="white" />
             </button>
 
-            <button @click="isOpen = true" v-else-if="type === 'video'" class="inline-flex p-1">
+            <button @click="modalStore.setModalProps('video', 'aspect-video', true, '', '', work.vimeo_trackid)" v-else-if="type === 'video'" class="inline-flex p-1">
                 <Icon name="fluent:video-48-filled" color="white" />
-
-                <Modal v-model="isOpen">
-                    <ModalBody class="aspect-video">
-                        <iframe :src="'https://player.vimeo.com/video/' + work.vimeo_trackid" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                    </ModalBody>
-                </Modal>
-                
             </button>
 
-            <button @click="isOpen = true" v-else="type === 'image'" class="inline-flex p-1">
+            <button @click="modalStore.setModalProps('image', 'aspect-auto', true, 'images', work.image_ids, '')" v-else="type === 'image'" class="inline-flex p-1">
                 <Icon name="mdi:camera" color="white" />
-
-                <Modal v-model="isOpen">
-                    <ModalBody>
-                        <ImageSlider :image_ids="work.image_ids"></ImageSlider>
-                    </ModalBody>
-                </Modal>
-
             </button>
 
         </div>
@@ -38,13 +28,15 @@
 
 <script setup>
   import { useAudioPlayerStore } from "@/stores/AudioPlayerStore"
-  const audioPlayerStore = useAudioPlayerStore()
+  import { useModalStore } from "@/stores/ModalStore"
 
-  const isOpen = ref(false)
+  const audioPlayerStore = useAudioPlayerStore()
+  const modalStore = useModalStore()
+
 </script>
 
 <script>
     export default {
-        props: ['type', 'work', 'visible']
+        props: ['type', 'work', 'bucket', 'visible']
     }
 </script>
