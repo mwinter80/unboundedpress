@@ -16,5 +16,19 @@ export default defineNuxtConfig({
       host: 'https://analytics.umami.is/',
       version: 2
     },
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true
+    }
+  },
+  routeRules: {
+    "https://unboundedpress.org/api/*": {
+      swr: 60 * 60,
+      // or
+      cache: {
+        maxAge: 60 * 60
+      }
+    },
   }
 })

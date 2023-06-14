@@ -44,7 +44,6 @@ const { data: gallery } = await useFetch('https://unboundedpress.org/api/my_imag
         for (const item of gallery) {
             item.image_id =  images.value.find(obj => {return obj.filename === item.image})._id.$oid
         }
-        console.log(gallery)
         return gallery //.sort((a,b) => a.priority - b.priority)
     }
 })
