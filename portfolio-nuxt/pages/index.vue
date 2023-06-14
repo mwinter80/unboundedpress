@@ -1,7 +1,9 @@
 <template>
   <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-3 gap-10 bg-white divide-x divide-solid divide-black p-4">
+
     <div class="px-5">
       <p class="text-lg">pieces</p>
+
       <div class="py-2 ml-3" v-for="item in works">
         <p class="font-thin">{{ item.year }}</p>
         <div class="leading-tight py-1 ml-3" v-for="work in item.works">
@@ -9,7 +11,7 @@
             <p class="italic text-sm">{{ work.title }}</p>
              <div class="grid grid-cols-[28px_28px_28px_28px]">
 
-              <IconButton :visible="work.score" type="score" bucket="scores" :work="work"></IconButton>
+              <IconButton :visible="work.score" type="document" :work="work" :link="work.score"></IconButton>
  
               <IconButton :visible="work.soundcloud_trackid" type="audio" :work="work"></IconButton>
 
@@ -41,7 +43,7 @@
             </div>
           </div>
           <div>
-            <IconButton :visible=true type="pub" class="inline-flex p-1"></IconButton>
+            <IconButton :visible=item.entryTags.howpublished type="document" :link="item.entryTags.howpublished" class="inline-flex p-1"></IconButton>
           </div>
         </div>
       </div>
@@ -55,8 +57,13 @@
           <nuxt-img :src="'https://unboundedpress.org/api/album_art.files/' + item.album_art_id + '/binary'" 
           quality="50"/>
         </button>
+        <div class="flex place-content-center place-items-center">
+          <IconButton :visible="item.discogs_id" type="discogs" :work="work" :link="'https://www.discogs.com/release/' + item.discogs_id"></IconButton>
+          <IconButton :visible="item.buy_link" type="buy" :work="work" :link="item.buy_link"></IconButton>
+        </div>
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -67,11 +74,25 @@
 
   const groupBy = (x,f)=>x.reduce((a,b,i)=>((a[f(b,i,x)]||=[]).push(b),a),{});
 
+  const isValidUrl = urlString => {
+    var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+    '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+	  return !!urlPattern.test(urlString);
+	}
+
+
   const { data: images } = await useFetch('https://unboundedpress.org/api/images.files?pagesize=200')
 
   const { data: works } = await useFetch('https://unboundedpress.org/api/works?pagesize=200', {
     transform: (works) => {
       for (const work of works) {
+        if(work.score){
+          work.score = "/scores/" + work.score
+        }
         if(work.images){
           let image_ids = [];
           for (const image of work.images){
@@ -96,7 +117,18 @@
   //const { data: pubs } = await useFetch('https://unboundedpress.org/api/publications?sort=-entryTags.year&pagesize=200')
   const { data: pubs } = await useFetch('https://unboundedpress.org/api/publications?pagesize=200', {
     transform: (pubs) => {
-      return pubs.sort((a,b) => b.entryTags.year - a.entryTags.year)
+      for (const pub of pubs) {
+        if(pub.entryTags.howpublished && !(isValidUrl(pub.entryTags.howpublished))){
+          pub.entryTags.howpublished = "/pubs/" + pub.entryTags.howpublished
+        }
+      }
+      return pubs.sort((a,b) => {
+        let aPrime = 5000
+        let bPrime = 5000
+        if(a.entryTags.year === 'forthcoming'){aPrime =  5000} else {aPrime = a.entryTags.year}
+        if(b.entryTags.year === 'forthcoming'){bPrime =  5000} else {bPrime = b.entryTags.year}
+        return bPrime - aPrime
+      })
     }
   })
 
@@ -130,12 +162,3 @@
   */
 </script>
 
-<style>
-  .metamask-icon {
-    width:25px;
-    height: 25px;
-    background-size: contain!important;
-    background: url('../../styles/img/metamask-icon.svg');
-    background-repeat: no-repeat;
-  }
-</style>

@@ -2,12 +2,16 @@
     <div class="p-1">
         <div v-show="visible" class="bg-black rounded-full text-xs" >
 
-            <NuxtLink v-if="type === 'score'" class="inline-flex p-1" :to="'/' + bucket + '/' + work.score">
-                <Icon name="ion:book-outline" color="white" />
+            <NuxtLink v-if="type === 'document'" class="inline-flex p-1" :to="link">
+                <Icon name="ion:book-sharp" color="white" />
             </NuxtLink>
 
-            <NuxtLink v-else-if="type === 'pub'" class="inline-flex p-1">
-                <Icon name="ion:book-outline" color="white" />
+            <NuxtLink v-else-if="type === 'buy'" class="inline-flex p-1" :to="link">
+                <Icon name="bxs:purchase-tag" color="white" />
+            </NuxtLink>
+
+            <NuxtLink v-else-if="type === 'discogs'" class="inline-flex p-1" :to="link">
+                <Icon name="simple-icons:discogs" color="white" />
             </NuxtLink>
 
             <button @click="audioPlayerStore.setSoundCloudTrackID(work.soundcloud_trackid)" v-else-if="type === 'audio'" class="inline-flex p-1">
@@ -37,6 +41,6 @@
 
 <script>
     export default {
-        props: ['type', 'work', 'bucket', 'visible']
+        props: ['type', 'work', 'visible', 'link']
     }
 </script>
