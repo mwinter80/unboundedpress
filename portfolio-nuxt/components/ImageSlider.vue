@@ -14,8 +14,8 @@
       :modules="[SwiperAutoplay, SwiperPagination, SwiperNavigation]"
     >
 
-      <SwiperSlide v-for="image_id in image_ids">
-          <nuxt-img :src="'https://unboundedpress.org/api/' + bucket + '.files/' + image_id + '/binary'" 
+      <SwiperSlide v-for="image in gallery">
+          <nuxt-img :src="'https://unboundedpress.org/api/' + bucket + '.files/' + image.image_id + '/binary'" 
           quality="50"/>
       </SwiperSlide>
     </Swiper>
@@ -23,6 +23,6 @@
 
 <script>
 export default {
-    props: ['image_ids', 'bucket']
+    props: ['gallery', 'bucket']
 }
 </script>

@@ -1,11 +1,11 @@
 <template>
   <div class="font-thin sticky top-0 bg-white p-2">
     <div class="text-5xl p-2"> <NuxtLink to='/'>michael winter</NuxtLink></div>
-    <div class="text-2xl px-8">
-      works
-      events
-      about
-      code
+    <div class="inline-flex text-2xl">
+      <NuxtLink class="px-8" to='/'>works</NuxtLink>
+      <NuxtLink class="px-8" to='/events'>events</NuxtLink>
+      <NuxtLink class="px-8" to='/about'>about</NuxtLink>
+      <NuxtLink class="px-8" to='https://unboundedpress.org/code'>code</NuxtLink>
     </div>
   </div>
   <slot /> <!-- required here only -->
@@ -16,7 +16,7 @@
 
   <Modal v-model="modalStore.isOpen">
       <ModalBody :class="modalStore.aspect">
-          <ImageSlider v-if="modalStore.type === 'image'" :bucket="modalStore.bucket" :image_ids="modalStore.image_ids"></ImageSlider>
+          <ImageSlider v-if="modalStore.type === 'image'" :bucket="modalStore.bucket" :gallery="modalStore.gallery"></ImageSlider>
           <iframe v-if="modalStore.type === 'video'" :src="'https://player.vimeo.com/video/' + modalStore.vimeo_trackid" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       </ModalBody>
   </Modal>

@@ -22,7 +22,7 @@
                 <Icon name="fluent:video-48-filled" color="white" />
             </button>
 
-            <button @click="modalStore.setModalProps('image', 'aspect-auto', true, 'images', work.image_ids, '')" v-else="type === 'image'" class="inline-flex p-1">
+            <button @click="modalStore.setModalProps('image', 'aspect-auto', true, 'images', work.gallery, '')" v-else="type === 'image'" class="inline-flex p-1">
                 <Icon name="mdi:camera" color="white" />
             </button>
 

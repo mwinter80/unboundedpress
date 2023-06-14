@@ -17,7 +17,7 @@
 
               <IconButton :visible="work.vimeo_trackid" type="video" :work="work"></IconButton>
 
-              <IconButton :visible="work.image_ids" type="image" :work="work"></IconButton>
+              <IconButton :visible="work.gallery" type="image" :work="work"></IconButton>
 
             </div>
           </div>
@@ -53,13 +53,13 @@
       <p class="text-lg">releases</p>
       <div class="leading-tight py-4 ml-3 text-sm" v-for="item in releases">
         <p class="text-center leading-tight py-2">{{ item.title }}</p>
-        <button @click="modalStore.setModalProps('image', 'aspect-auto', true, 'album_art', [item.album_art_id], '')">
+        <button @click="modalStore.setModalProps('image', 'aspect-auto', true, 'album_art', [{image_id: item.album_art_id}], '')">
           <nuxt-img :src="'https://unboundedpress.org/api/album_art.files/' + item.album_art_id + '/binary'" 
           quality="50"/>
         </button>
         <div class="flex place-content-center place-items-center">
-          <IconButton :visible="item.discogs_id" type="discogs" :work="work" :link="'https://www.discogs.com/release/' + item.discogs_id"></IconButton>
-          <IconButton :visible="item.buy_link" type="buy" :work="work" :link="item.buy_link"></IconButton>
+          <IconButton :visible="item.discogs_id" type="discogs" :link="'https://www.discogs.com/release/' + item.discogs_id"></IconButton>
+          <IconButton :visible="item.buy_link" type="buy" :link="item.buy_link"></IconButton>
         </div>
       </div>
     </div>
@@ -75,6 +75,7 @@
   const groupBy = (x,f)=>x.reduce((a,b,i)=>((a[f(b,i,x)]||=[]).push(b),a),{});
 
   const isValidUrl = urlString => {
+    /*
     var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
     '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
@@ -82,6 +83,10 @@
     '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
     '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
 	  return !!urlPattern.test(urlString);
+    */
+   
+    var pattern = /^((http|https|ftp):\/\/)/;
+    return pattern.test(urlString)
 	}
 
 
@@ -93,12 +98,23 @@
         if(work.score){
           work.score = "/scores/" + work.score
         }
+        /*
         if(work.images){
           let image_ids = [];
           for (const image of work.images){
             image_ids.push(images.value.find(obj => {return obj.filename === image.filename})._id.$oid)
           }
           work.image_ids = image_ids
+        }
+        */
+        if(work.images){
+          let gallery = [];
+          for (const image of work.images){
+            gallery.push({
+              image_id: images.value.find(obj => {return obj.filename === image.filename})._id.$oid,
+            })
+          }
+          work.gallery = gallery
         }
       }
       let res = groupBy(works, work => new Date(work.date.$date).getFullYear())
