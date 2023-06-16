@@ -70,6 +70,7 @@
 <script setup>
 
   import { useModalStore } from "@/stores/ModalStore"
+  
   const modalStore = useModalStore()
 
   const groupBy = (x,f)=>x.reduce((a,b,i)=>((a[f(b,i,x)]||=[]).push(b),a),{});
@@ -117,15 +118,15 @@
           work.gallery = gallery
         }
       }
-      let res = groupBy(works, work => new Date(work.date.$date).getFullYear())
-      res = Object.keys(res).map((year) => {
+      let groups = groupBy(works, work => new Date(work.date.$date).getFullYear())
+      groups = Object.keys(groups).map((year) => {
         return {
           year,
-          works: res[year]
+          works: groups[year].sort((a,b) => b.date.$date - a.date.$date)
         };
       });
-      res.sort((a,b) => b.year - a.year)
-      return res
+      groups.sort((a,b) => b.year - a.year)
+      return groups
     }
   })
 

@@ -60,8 +60,10 @@ services:
       - ./portfolio/src:/src
     environment:
       - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
-      - VIRTUAL_PATH=/
-      #- VIRTUAL_DEST=/
+      #- VIRTUAL_PATH=/
+      # For subdirectory baseURL needs to be set in app.js for static files and routes
+      - VIRTUAL_PATH=/legacy
+      - VIRTUAL_DEST=/legacy
       - VIRTUAL_PORT=3000
       - LETSENCRYPT_HOST=${DOMAIN},www.${DOMAIN},gitea.${DOMAIN} #this last one is for legacy support
       - LETSENCRYPT_EMAIL=${EMAIL}
@@ -71,6 +73,39 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+      #restheart:
+      #nginx-proxy:
+    #labels:
+    #  com.github.nginx-proxy.nginx-proxy.keepalive: "64"
+
+  portfolio-nuxt:
+    # NOTE: This is the rewrite of the frontend
+    # NOTE: The build process for nuxt seems to require that sharp be reinstalled in the .output folder
+    container_name: portfolio-nuxt
+    build: ./portfolio-nuxt
+    # To rebuild the site and the server run this
+    #command: bash -c "npm run build && node .output/server/index.mjs"
+    # To just start the server run this
+    command: bash -c "node .output/server/index.mjs"
+    volumes:
+      #- portfolio-nuxt:/src/node_modules
+      - ./portfolio-nuxt:/src
+    environment:
+      - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}
+      - VIRTUAL_PATH=/
+      #- VIRTUAL_DEST=/dev
+      # For subdirectory baseURL needs to be set in nuxt config
+      #- VIRTUAL_PATH=/dev
+      #- VIRTUAL_DEST=/dev
+      - VIRTUAL_PORT=4000
+      #- LETSENCRYPT_HOST=${DOMAIN},www.${DOMAIN},gitea.${DOMAIN} #this last one is for legacy support
+      #- LETSENCRYPT_EMAIL=${EMAIL}
+    ports:
+      - "4000:4000"
+    restart: always
+    #depends_on:
+      #mongo:
+        #condition: service_healthy
       #restheart:
       #nginx-proxy:
     #labels:
@@ -349,3 +384,4 @@ volumes:
   #nextcloud:
   acme:
   portfolio:
+  portfolio-nuxt:

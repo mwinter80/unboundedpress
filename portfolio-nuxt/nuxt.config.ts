@@ -2,12 +2,13 @@
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', 'nuxt-icon', '@pinia/nuxt', 'nuxt-headlessui', 'nuxt-swiper'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', 'nuxt-icon', '@pinia/nuxt', 'nuxt-headlessui', 'nuxt-swiper', 'nuxt-api-party'],
   extends: ['nuxt-umami'],
   image: {
     domains: ['unboundedpress.org']
   },
   app: {
+    //baseURL: "/dev/",
     pageTransition: { name: 'page', mode: 'out-in' }
   },
   appConfig: {
@@ -17,18 +18,21 @@ export default defineNuxtConfig({
       version: 2
     },
   },
-  nitro: {
-    prerender: {
-      crawlLinks: true
+  apiParty: {
+    endpoints: {
+      jsonPlaceholder: {
+        url: process.env.JSON_PLACEHOLDER_API_BASE_URL!,
+        // Global headers sent with each request
+        headers: {
+          Authorization: `Bearer ${process.env.JSON_PLACEHOLDER_API_TOKEN!}`
+        }
+      }
     }
   },
-  routeRules: {
-    "https://unboundedpress.org/api/*": {
-      swr: 60 * 60,
-      // or
-      cache: {
-        maxAge: 60 * 60
-      }
-    },
+  nitro: {
+    prerender: { crawlLinks: true}
+  },
+  experimental: {
+    payloadExtraction: true
   }
 })

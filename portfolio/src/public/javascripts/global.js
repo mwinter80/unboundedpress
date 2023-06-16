@@ -18,9 +18,13 @@ $(document).ready(function() {
     populateAbout();
 
     populateGallerySelector();
+
+    // I am not sure why I was changing the url here, but for legacy more I am taking this out
+    /*
     if (window.location.href.split('/').pop().substring(0,3) != "#lg") {
       window.history.replaceState("object or string", "Title", "/");
     }
+    */
   }
 
   $( window ).resize(function() {
@@ -863,11 +867,11 @@ function populatePublications() {
     var wlButton = $("<button id=cv_button>").attr({title: "Works List with Presentation History"}).addClass('score_icon');
 
     cvButton.click(function() {
-      window.open('/cv');
+      window.open(window.location.href + 'cv');
     });
 
     wlButton.click(function() {
-      window.open('/works_list');
+      window.open(window.location.href + 'works_list');
     });
 
     /*

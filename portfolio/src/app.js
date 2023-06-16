@@ -62,7 +62,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// change first argument here to be on subdirectory
+app.use('/legacy', express.static(path.join(__dirname, 'public')));
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
@@ -70,7 +71,8 @@ app.use(function(req,res,next){
   next();
 });
 
-app.use('/', routes);
+// change first argument here to be on subdirectory
+app.use('/legacy/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -12,7 +12,6 @@ const { data: metadata } = await useFetch('https://unboundedpress.org/api/' + ro
     //lazy: true,
     //server: false,
     transform: (metadata) => {
-        console.log(metadata)
         return metadata[0]
     }
   })
