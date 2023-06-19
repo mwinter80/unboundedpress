@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-[60%,37%] gap-10 bg-white divide-x divide-solid divide-black p-4 min-h-[86vh]">
+    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-[60%,37%] gap-10 bg-white divide-x divide-solid divide-black py-4 min-h-[86vh]">
         <div class="px-5">
             <p class="text-lg">about</p>
         
@@ -9,7 +9,21 @@
                 </div>
                 <div class="leading-tight py-2">
                     My work has been presented at venues and festivals throughout the world such as REDCAT, in Los Angeles; the Ostrava Festival of New Music in the Czech Republic; Tsonami Arte Sonoro Festival in Valparaiso, Chile; the Huddersfield New Music Festival in the United Kingdom; and Umbral Sesiones at the Museo de Arte Contemporáneo in Oaxaca, Mexico. Recordings of my music have been released by XI Records, Another Timbre, New World Records, Edition Wandelweiser, Bahn Mi Verlag, Tsonami Records, and Pogus Productions. In 2008, I co-founded <em>the wulf.</em>, a Los Angeles-based organization dedicated to experimental performance and art. From 2018 to 2019, I was a fellow / artist-in-residence at the Akademie Schloss Solitude in Stuttgart, Germany. I currently reside in Berlin.
-                </div>  
+                </div> 
+                <div class="inline-flex place-items-center p-2">
+                    CV
+                    <div class="w-[28px]">
+                        <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/cv"></IconButton>
+                    </div>
+                </div>
+                <br>
+                <div class="inline-flex place-items-center p-2">
+                    Works List with Presentation History
+                    <div class="w-[28px]">
+                        <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/works_list"></IconButton>
+                    </div>
+                </div>
+                <br>
                 <br>
                 <div id="mc_embed_signup">
                     <form action="https://unboundedpress.us12.list-manage.com/subscribe/post?u=bdadd25738fedf704641f3a80&amp;id=01c5761ebb&amp;f_id=00f143e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self">

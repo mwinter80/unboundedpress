@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-2 gap-10 bg-white divide-x divide-solid divide-black p-4">
+    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-2 gap-10 bg-white divide-x divide-solid divide-black py-4">
     
         <div class="px-5">
             <p class="text-lg">performances</p>

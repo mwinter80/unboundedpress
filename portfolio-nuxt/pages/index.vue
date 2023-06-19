@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-3 gap-10 bg-white divide-x divide-solid divide-black p-4">
+  <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-3 gap-10 bg-white divide-x divide-solid divide-black py-4">
 
     <div class="px-5">
       <p class="text-lg">pieces</p>
@@ -7,17 +7,17 @@
       <div class="py-2 ml-3" v-for="item in works">
         <p class="font-thin">{{ item.year }}</p>
         <div class="leading-tight py-1 ml-3" v-for="work in item.works">
-          <div class="grid grid-cols-[70%,30%] gap-1 font-thin">
-            <p class="italic text-sm">{{ work.title }}</p>
-             <div class="grid grid-cols-[28px_28px_28px_28px]">
+          <div class="grid grid-cols-[65%,30%] gap-1 font-thin">
+            <div class="italic text-sm">{{ work.title }}</div>
+            <div class="grid grid-cols-[28px_28px_28px_28px]">
 
-              <IconButton :visible="work.score" type="document" :work="work" :link="work.score"></IconButton>
- 
-              <IconButton :visible="work.soundcloud_trackid" type="audio" :work="work"></IconButton>
+            <IconButton :visible="work.score" type="document" :work="work" :link="work.score"></IconButton>
 
-              <IconButton :visible="work.vimeo_trackid" type="video" :work="work"></IconButton>
+            <IconButton :visible="work.soundcloud_trackid" type="audio" :work="work"></IconButton>
 
-              <IconButton :visible="work.gallery" type="image" :work="work"></IconButton>
+            <IconButton :visible="work.vimeo_trackid" type="video" :work="work"></IconButton>
+
+            <IconButton :visible="work.gallery" type="image" :work="work"></IconButton>
 
             </div>
           </div>

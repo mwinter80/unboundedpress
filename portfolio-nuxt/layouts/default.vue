@@ -1,12 +1,18 @@
 <template>
-  <div class="font-thin sticky top-0 bg-white p-2 z-20">
-    <div class="text-5xl p-2"> <NuxtLink to='/'>michael winter</NuxtLink></div>
-    <div class="inline-flex text-2xl">
-      <NuxtLink class="px-8" to='/'>works</NuxtLink>
-      <NuxtLink class="px-8" to='/events'>events</NuxtLink>
-      <NuxtLink class="px-8" to='/about'>about</NuxtLink>
-      <NuxtLink class="px-8" to='https://unboundedpress.org/code'>code</NuxtLink>
-    </div>
+  <div class="grid grid-cols-[60%,40%] w-full font-thin sticky top-0 bg-white p-2 z-20">
+      <div>
+        <div class="text-5xl p-2"> <NuxtLink to='/'>michael winter</NuxtLink></div>
+        <div class="inline-flex text-2xl ml-4">
+          <NuxtLink class="px-3" to='/'>works</NuxtLink>
+          <NuxtLink class="px-3" to='/events'>events</NuxtLink>
+          <NuxtLink class="px-3" to='/about'>about</NuxtLink>
+          <NuxtLink class="px-3" to='https://unboundedpress.org/code'>code</NuxtLink>
+          <NuxtLink class="px-3" to='https://unboundedpress.org/legacy'>legacy</NuxtLink>
+        </div>
+      </div>
+      <div class="ml-3 p-2 text-sm justify-end">
+        Welcome to the new front-end of my website, which is still in development. It functions similar to the former site. In case you cannot find something here, you can still view the old front-end by clicking on the "legacy" link in the menu below. If you have any questions or find any problems please contact me at the email link in the about section.
+      </div>
   </div>
   <slot /> <!-- required here only -->
   <div class="sticky bottom-0 bg-white p-2 flex justify-center z-20">
