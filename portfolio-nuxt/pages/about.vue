@@ -1,14 +1,14 @@
 <template>
-    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-[60%,40%] gap-10 bg-white divide-x divide-solid divide-black p-4">
-        <div class="px-5 h-[76vh]">
+    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-[60%,37%] gap-10 bg-white divide-x divide-solid divide-black p-4 min-h-[86vh]">
+        <div class="px-5">
             <p class="text-lg">about</p>
         
             <div class="leading-tight py-2 ml-3 text-sm">
                 <div class="leading-tight py-2">
-                    My work often explores simple processes where dynamic systems, situations, and settings are realized in a variety of ways from performances to installations. To me, everything we experience is computable. Given this digital philosophy, I acknowledge even my most open works as algorithmic; and, while not always apparent on the surface of any given piece, the considerations of computability and epistemology are integral to my practice. I often reconcile epistemological limits with artistic practicality by considering and addressing the limits of computation from an artistic and experiential vantage point and by collaborating with other artists, mathematicians, and scientists in order to integrate objects, ideas, and texts from various domains as structural elements in my pieces.
+                    My practice as a composer and sound artist is diverse, ranging from music created by digital and acoustic instruments to installations and kinetic sculptures. Each piece typically explores one simple process and often reflects various related interests of mine such as phenomenology, mathematics, epistemology, algorithmic information theory, and the history of science. To me, everything we experience is computable. Given this digital philosophy, I acknowledge even my most open works as algorithmic; and, while not always apparent on the surface of any given piece, the considerations of computability and epistemology are integral to my practice. I often reconcile epistemological limits with artistic practicality by considering and addressing the limits of computation from an artistic and experiential vantage point and by collaborating with other artists, mathematicians, and scientists in order to integrate objects, ideas, and texts from various domains as structural elements in my pieces. My work also aims to subvert discriminatory conventions and hierarchies by exploring alternative forms of presentation and interaction, often with minimal resources and low information.
                 </div>
                 <div class="leading-tight py-2">
-                    My work has been presented at venues and festivals throughout the world such as REDCAT, in Los Angeles; the Ostrava Festival of New Music in the Czech Republic; Tsonami Arte Sonoro Festival in Valparaiso, Chile; the Huddersfield New Music Festival in the United Kingdom; and Umbral Sesiones at the Museo de Arte Contemporáneo in Oaxaca, Mexico. Recordings of my music have been released by Another Timbre, New World Records, Edition Wandelweiser, Bahn Mi Verlag, Tsonami Records, and Pogus Productions. From 2018 to 2019, I was a fellow / artist-in-residence at the Akademie Schloss Solitude in Stuttgart, Germany. In 2008, I co-founded <em>the wulf.</em>, a Los Angeles-based organization dedicated to experimental performance and art. As a laboratory and hub for exploring new ideas, <em>the wulf.</em> has become an experiment in alternative communities and economies. Similarly, my work subverts discriminatory conventions and hierarchies by exploring alternative forms of presentation and interaction.
+                    My work has been presented at venues and festivals throughout the world such as REDCAT, in Los Angeles; the Ostrava Festival of New Music in the Czech Republic; Tsonami Arte Sonoro Festival in Valparaiso, Chile; the Huddersfield New Music Festival in the United Kingdom; and Umbral Sesiones at the Museo de Arte Contemporáneo in Oaxaca, Mexico. Recordings of my music have been released by XI Records, Another Timbre, New World Records, Edition Wandelweiser, Bahn Mi Verlag, Tsonami Records, and Pogus Productions. In 2008, I co-founded <em>the wulf.</em>, a Los Angeles-based organization dedicated to experimental performance and art. From 2018 to 2019, I was a fellow / artist-in-residence at the Akademie Schloss Solitude in Stuttgart, Germany. I currently reside in Berlin.
                 </div>  
                 <br>
                 <div id="mc_embed_signup">
@@ -29,8 +29,8 @@
                 </div>     
             </div> 
         </div>
-        <div>
-            <ImageSlider bucket="images" :gallery="gallery" class="max-w-[70%]"></ImageSlider>
+        <div class="px-5">
+            <ImageSlider bucket="images" :gallery="gallery" class="max-w-[90%]"></ImageSlider>
         </div>
     </div>
 </template>

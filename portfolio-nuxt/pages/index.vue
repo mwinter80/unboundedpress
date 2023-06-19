@@ -31,7 +31,7 @@
       <div class="leading-tight py-2 ml-3 text-sm" v-for="item in pubs">
         <div class="grid grid-cols-[95%,5%] gap-1">
           <div>
-            {{ item.entryTags.title }}
+            <span v-html="item.entryTags.title"></span>
             <div class="ml-4 text-[#7F7F7F]">
               {{ item.entryTags.author }}
               <span v-if=item.entryTags.booktitle>{{ item.entryTags.booktitle}}.&nbsp;</span>
@@ -118,7 +118,8 @@
           work.gallery = gallery
         }
       }
-      let groups = groupBy(works, work => new Date(work.date.$date).getFullYear())
+      let priorityGroups = groupBy(works, work => work.priority)
+      let groups = groupBy(priorityGroups["1"], work => new Date(work.date.$date).getFullYear())
       groups = Object.keys(groups).map((year) => {
         return {
           year,
@@ -126,6 +127,7 @@
         };
       });
       groups.sort((a,b) => b.year - a.year)
+      groups.push({year: "miscellany", works: priorityGroups["2"].sort((a,b) => b.date.$date - a.date.$date)})
       return groups
     }
   })

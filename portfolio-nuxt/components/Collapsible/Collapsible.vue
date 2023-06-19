@@ -2,6 +2,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { ref, toRefs, watch } from 'vue'
 import CollapseTransition from './CollapseTransition.vue'
+import Modal from '../Modal/Modal.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -70,12 +71,14 @@ const toggle = () => {
       type="button"
       @click="toggle"
     >
-      <slot name="title"></slot>
+    <div class="inline-flex w-full">
       <Icon
         name="heroicons:chevron-down"
-        :class="open ? 'transform rotate-180' : ''"
+        :class="isOpen ? 'transform rotate-180' : ''"
         class="w-5 h-5"
       />
+      <slot name="title"></slot>
+    </div>
     </DisclosureButton>
     <CollapseTransition>
       <div v-show="isOpen">

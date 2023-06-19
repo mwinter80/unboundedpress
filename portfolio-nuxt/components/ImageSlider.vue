@@ -23,10 +23,8 @@
     >
 
       <SwiperSlide v-for="image in gallery" class="p-10 bg-zinc-100">
-        <div class="place-items-center">
           <nuxt-img :src="'https://unboundedpress.org/api/' + bucket + '.files/' + image.image_id + '/binary'" 
           quality="50"/>
-        </div>
       </SwiperSlide>
     </Swiper>
   </template>

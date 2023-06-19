@@ -59,11 +59,11 @@ provide('modal', api)
 </script>
 
 <template>
-  <ClientOnly>
+  
     <slot name="activator" :open="openModal" :on="{ click: openModal }" />
 
     <TransitionRoot appear :show="isOpen" as="template">
-      <Dialog as="div" class="relative z-10" @close="onModalClose">
+      <Dialog as="div" class="relative z-20" @close="onModalClose">
         <TransitionChild
           as="template"
           enter="duration-300 ease-out"
@@ -106,5 +106,5 @@ provide('modal', api)
         </div>
       </Dialog>
     </TransitionRoot>
-  </ClientOnly>
+  
 </template>

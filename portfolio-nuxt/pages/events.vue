@@ -4,32 +4,37 @@
         <div class="px-5">
             <p class="text-lg">performances</p>
 
-            <Collapsible title='placeholder' class="leading-tight py-2 ml-3 text-sm" v-for="item in events">
-                <template v-slot:title>
-                    <div class="gap-1 w-[85%]">
-                        <div>
-                            {{ item.formatted_date }}: {{item.venue.city}}, {{item.venue.state}}
-                            <div class="ml-4 text-[#7F7F7F]">
-                                {{ item.venue.name }}
+            <div v-for="(item, index) in events">
+                <Collapsible title='placeholder' :modelValue='index <= 10' class="leading-tight py-2 ml-3 text-sm">
+                    <template v-slot:title>
+                        <div class="gap-1 w-[95%] px-2">
+                            <div>
+                                {{ item.formatted_date }}: {{item.venue.city}}, {{item.venue.state}}
+                                <div class="ml-4 text-[#7F7F7F]">
+                                    {{ item.venue.name }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </template>
-                <template v-slot:content>
-                    <div v-for="performance in item.program">
-                        <div class="italic text-sm ml-8 pt-1">{{performance.work}}</div>
-                        <div v-for="performer in performance.performers" class="ml-12">
-                            {{ performer.name }} - 
-                            <span v-for="(instrument, index) in performer.instrument_tags">
-                                <span v-if="index !== 0">, </span>
-                                {{ instrument }}
-                            </span>
+                    </template>
+                    <template v-slot:content>
+                        <div v-for="performance in item.program">
+                            <div class="italic text-sm ml-16 pt-1">{{performance.work}}</div>
+                            <div v-if="performance.ensemble" class="ml-20">
+                                {{ performance.ensemble }}
+                            </div>
+                            <div v-for="performer in performance.performers" class="ml-20">
+                                {{ performer.name }} - 
+                                <span v-for="(instrument, index) in performer.instrument_tags">
+                                    <span v-if="index !== 0">, </span>
+                                    {{ instrument }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="italic text-sm ml-8 pt-1">{{item.legacy_program}}</div>
-                    <div class="ml-12">{{item.legacy_performers}}</div>
-                </template>
-            </Collapsible>
+                        <div class="italic text-sm ml-16 pt-1">{{item.legacy_program}}</div>
+                        <div class="ml-20">{{item.legacy_performers}}</div>
+                    </template>
+                </Collapsible>
+            </div>
         </div>
 
         <div class="px-5">
