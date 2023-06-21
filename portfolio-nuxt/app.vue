@@ -6,6 +6,12 @@
   </div>
 </template>
 
+<script setup>
+useHead({
+  titleTemplate: 'Michael Winter'
+})
+</script>
+
 <style>
 .page-enter-active,
 .page-leave-active {
