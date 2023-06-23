@@ -2,7 +2,7 @@
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', 'nuxt-icon', '@pinia/nuxt', 'nuxt-headlessui', 'nuxt-swiper', 'nuxt-api-party'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', 'nuxt-icon', '@pinia/nuxt', 'nuxt-headlessui', 'nuxt-swiper'],
   extends: ['nuxt-umami'],
   image: {
     domains: ['unboundedpress.org']
@@ -17,17 +17,6 @@ export default defineNuxtConfig({
       host: 'https://analytics.umami.is/',
       version: 2
     },
-  },
-  apiParty: {
-    endpoints: {
-      jsonPlaceholder: {
-        url: process.env.JSON_PLACEHOLDER_API_BASE_URL!,
-        // Global headers sent with each request
-        headers: {
-          Authorization: `Bearer ${process.env.JSON_PLACEHOLDER_API_TOKEN!}`
-        }
-      }
-    }
   },
   nitro: {
     prerender: { crawlLinks: true}

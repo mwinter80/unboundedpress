@@ -10,6 +10,10 @@
                 <Icon name="bxs:purchase-tag" color="white" />
             </NuxtLink>
 
+            <NuxtLink v-else-if="type === 'email'" class="inline-flex p-1" :to="link">
+                <Icon name="ic:baseline-email" color="white" />
+            </NuxtLink>
+
             <NuxtLink v-else-if="type === 'discogs'" class="inline-flex p-1" :to="link">
                 <Icon name="simple-icons:discogs" color="white" />
             </NuxtLink>

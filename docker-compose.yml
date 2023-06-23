@@ -86,11 +86,11 @@ services:
     # To rebuild the site and the server run this
     #command: bash -c "npm run build && node .output/server/index.mjs"
     # To just start the server run this
-    #command: bash -c "node .output/server/index.mjs"
+    # command: bash -c "node .output/server/index.mjs"
     # To start the server in dev mode
-    command: bash -c "yarn dev -o"
+    command: bash -c "npm run dev -o"
     volumes:
-      #- portfolio-nuxt:/src/node_modules
+      - portfolio-nuxt:/src/node_modules
       - ./portfolio-nuxt:/src
     environment:
       - VIRTUAL_HOST=${DOMAIN},www.${DOMAIN}

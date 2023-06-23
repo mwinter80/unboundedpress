@@ -12,12 +12,11 @@
     "@nuxt/image": "^1.0.0-rc.1",
     "@nuxtjs/tailwindcss": "^6.7.0",
     "@types/node": "^18",
-    "nuxt": "^3.5.2",
-    "nuxt-api-party": "^0.11.4",
     "nuxt-headlessui": "^1.1.4",
     "nuxt-icon": "^0.4.1"
   },
   "dependencies": {
+    "nuxt": "^3.6.0",
     "@pinia/nuxt": "^0.4.11",
     "nuxt-swiper": "^1.1.0",
     "nuxt-umami": "^2.4.2",

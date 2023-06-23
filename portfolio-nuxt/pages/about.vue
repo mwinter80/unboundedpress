@@ -10,6 +10,14 @@
                 <div class="leading-tight py-2">
                     My work has been presented at venues and festivals throughout the world such as REDCAT, in Los Angeles; the Ostrava Festival of New Music in the Czech Republic; Tsonami Arte Sonoro Festival in Valparaiso, Chile; the Huddersfield New Music Festival in the United Kingdom; and Umbral Sesiones at the Museo de Arte Contemporáneo in Oaxaca, Mexico. Recordings of my music have been released by XI Records, Another Timbre, New World Records, Edition Wandelweiser, Bahn Mi Verlag, Tsonami Records, and Pogus Productions. In 2008, I co-founded <em>the wulf.</em>, a Los Angeles-based organization dedicated to experimental performance and art. From 2018 to 2019, I was a fellow / artist-in-residence at the Akademie Schloss Solitude in Stuttgart, Germany. I currently reside in Berlin.
                 </div> 
+                <br>
+                <div class="inline-flex place-items-center p-2">
+                    Email
+                    <div class="w-[28px]">
+                        <IconButton :visible="true" type="email" work="placeholder" link="javascript:location='mailto:\u006d\u0077\u0069\u006e\u0074\u0065\u0072\u0040\u0075\u006e\u0062\u006f\u0075\u006e\u0064\u0065\u0064\u0070\u0072\u0065\u0073\u0073\u002e\u006f\u0072\u0067';void 0"></IconButton>
+                    </div>
+                </div>
+                <br>
                 <div class="inline-flex place-items-center p-2">
                     CV
                     <div class="w-[28px]">

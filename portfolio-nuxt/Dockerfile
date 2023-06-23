@@ -7,8 +7,7 @@ COPY package*.json ./
 COPY . .
 
 RUN apk add bash
-RUN npm ci --platform=linuxmusl --arch=x64 --ignore-scripts=false --foreground-scripts --verbose
-# RUN npm run build
+RUN npm install
 
 ENV NITRO_HOST=0.0.0.0
 ENV NITRO_PORT=4000
