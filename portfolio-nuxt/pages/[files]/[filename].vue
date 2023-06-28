@@ -1,6 +1,6 @@
 <template>
     <div class="flex min-h-full items-center justify-center text-center">
-        <embed v-if="route.params.filename.split('.').pop()==='pdf'" :src="'https://unboundedpress.org/api/' + route.params.files + '.files/' + metadata._id.$oid + '/binary'" class="w-[85%] h-[88vh]" />
+        <embed v-if="route.params.filename.split('.').pop()==='pdf'" :src="'https://unboundedpress.org/api/' + route.params.files + '.files/' + metadata._id.$oid + '/binary'" class="w-[85%] h-[88vh]"/>
         <nuxt-img v-else-if="route.params.filename.split('.').pop()==='jpg'" :src="'https://unboundedpress.org/api/' + route.params.files + '.files/' + metadata._id.$oid + '/binary'" class="w-[85%]"/>
     </div>
 </template>

@@ -9,15 +9,23 @@
         <div class="leading-tight py-1 ml-3" v-for="work in item.works">
           <div class="grid grid-cols-[65%,30%] gap-1 font-thin">
             <div class="italic text-sm">{{ work.title }}</div>
-            <div class="grid grid-cols-[28px_28px_28px_28px]">
+            <div class="inline-flex">
 
-            <IconButton :visible="work.score" type="document" :work="work" :link="work.score"></IconButton>
+              <div>
+                <IconButton :visible="work.score" type="document" :work="work" :link="work.score" class="inline-flex p-1"></IconButton>
+              </div>
 
-            <IconButton :visible="work.soundcloud_trackid" type="audio" :work="work"></IconButton>
+              <div>
+                <IconButton :visible="work.soundcloud_trackid" type="audio" :work="work" class="inline-flex p-1"></IconButton>
+              </div>
 
-            <IconButton :visible="work.vimeo_trackid" type="video" :work="work"></IconButton>
+              <div>
+                <IconButton :visible="work.vimeo_trackid" type="video" :work="work" class="inline-flex p-1"></IconButton>
+              </div>
 
-            <IconButton :visible="work.gallery" type="image" :work="work"></IconButton>
+              <div>
+                <IconButton :visible="work.gallery" type="image" :work="work" class="inline-flex p-1"></IconButton>
+              </div>
 
             </div>
           </div>

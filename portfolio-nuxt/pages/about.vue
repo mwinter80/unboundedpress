@@ -13,21 +13,21 @@
                 <br>
                 <div class="inline-flex place-items-center p-2">
                     Contact
-                    <div class="w-[28px]">
+                    <div>
                         <IconButton :visible="true" type="email" work="placeholder" link="javascript:location='mailto:\u006d\u0077\u0069\u006e\u0074\u0065\u0072\u0040\u0075\u006e\u0062\u006f\u0075\u006e\u0064\u0065\u0064\u0070\u0072\u0065\u0073\u0073\u002e\u006f\u0072\u0067';void 0"></IconButton>
                     </div>
                 </div>
                 <br>
                 <div class="inline-flex place-items-center p-2">
                     CV
-                    <div class="w-[28px]">
+                    <div>
                         <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/legacy/cv"></IconButton>
                     </div>
                 </div>
                 <br>
                 <div class="inline-flex place-items-center p-2">
                     Works List with Presentation History
-                    <div class="w-[28px]">
+                    <div>
                         <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/legacy/works_list"></IconButton>
                     </div>
                 </div>

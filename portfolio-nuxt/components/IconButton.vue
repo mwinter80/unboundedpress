@@ -1,6 +1,6 @@
 <template>
-    <div class="p-1">
-        <div v-show="visible" class="bg-black rounded-full text-xs" >
+    <div class="inline-flex p-1 min-w-[25px]">
+        <div v-show="visible" class="bg-black rounded-full text-xs inline-flex" >
 
             <NuxtLink v-if="type === 'document'" class="inline-flex p-1" :to="link">
                 <Icon name="ion:book-sharp" color="white" />
