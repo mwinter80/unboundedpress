@@ -18,6 +18,10 @@ export default defineNuxtConfig({
       version: 2
     },
   },
+  routeRules: {
+    '/cv': { redirect: '/legacy/cv' },
+    '/works_list': { redirect: '/legacy/works_list' },
+  },
   nitro: {
     prerender: { crawlLinks: true}
   },

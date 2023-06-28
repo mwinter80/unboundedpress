@@ -17,4 +17,7 @@ const { data: metadata } = await useFetch('https://unboundedpress.org/api/' + ro
     }
   })
 
+    useHead({
+        titleTemplate: 'Michael Winter - Files - ' + route.params.filename
+    })
 </script>

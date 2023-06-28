@@ -83,5 +83,9 @@
             return events.sort((a,b) => b.date - a.date)
         }
     })
+
+    useHead({
+        titleTemplate: 'Michael Winter - Events - Performances and Lectures'
+    })
 </script>
 

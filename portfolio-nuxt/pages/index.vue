@@ -160,7 +160,7 @@
       for (const release of releases) {
         release.album_art_id = album_art.value.find(obj => {return obj.filename === release.album_art})._id.$oid
       }
-      return releases
+      return releases.sort((a,b) => b.date - a.date)
     }
   })
 
@@ -179,5 +179,9 @@
       immediate: true
   })
   */
-</script>
 
+  useHead({
+    titleTemplate: 'Michael Winter - Home / Works - Pieces, Publications, and Albums'
+  })
+
+</script>

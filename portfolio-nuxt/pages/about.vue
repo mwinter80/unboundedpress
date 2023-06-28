@@ -12,7 +12,7 @@
                 </div> 
                 <br>
                 <div class="inline-flex place-items-center p-2">
-                    Email
+                    Contact
                     <div class="w-[28px]">
                         <IconButton :visible="true" type="email" work="placeholder" link="javascript:location='mailto:\u006d\u0077\u0069\u006e\u0074\u0065\u0072\u0040\u0075\u006e\u0062\u006f\u0075\u006e\u0064\u0065\u0064\u0070\u0072\u0065\u0073\u0073\u002e\u006f\u0072\u0067';void 0"></IconButton>
                     </div>
@@ -21,19 +21,19 @@
                 <div class="inline-flex place-items-center p-2">
                     CV
                     <div class="w-[28px]">
-                        <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/cv"></IconButton>
+                        <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/legacy/cv"></IconButton>
                     </div>
                 </div>
                 <br>
                 <div class="inline-flex place-items-center p-2">
                     Works List with Presentation History
                     <div class="w-[28px]">
-                        <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/works_list"></IconButton>
+                        <IconButton :visible="true" type="document" work="placeholder" link="https://unboundedpress.org/legacy/works_list"></IconButton>
                     </div>
                 </div>
                 <br>
                 <br>
-                <div id="mc_embed_signup">
+                <div id="mc_embed_signup" class="p-2">
                     <form action="https://unboundedpress.us12.list-manage.com/subscribe/post?u=bdadd25738fedf704641f3a80&amp;id=01c5761ebb&amp;f_id=00f143e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self">
                         <label for="mce-EMAIL">subscribe to my mailing list to know about upcoming events</label>
                         <input id="mce-EMAIL" type="email" value="" name="EMAIL" placeholder="email address" required="" class="email">
@@ -69,6 +69,10 @@ const { data: gallery } = await useFetch('https://unboundedpress.org/api/my_imag
         return gallery //.sort((a,b) => a.priority - b.priority)
     }
 })
+
+useHead({
+    titleTemplate: 'Michael Winter - About - Short Bio, Contact, CV, Works List, and Mailing List'
+  })
 </script>
 
 <style>
