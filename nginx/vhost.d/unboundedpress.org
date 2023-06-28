@@ -9,6 +9,15 @@ location ^~ /.well-known/acme-challenge/ {
 }
 ## End of configuration add by letsencrypt container
 
+# This is to set the content type to prevent downloading until I actually implement a proper pdf viewer
+
+location ~ ^/api/(scores|pubs)(.*)/binary$ {
+  proxy_pass http://unboundedpress.org-357322ae39f93f572e23cd9edd3307e2ac5a321f;
+  # types { } default_type application/pdf;
+  proxy_hide_header Content-Type;
+  add_header Content-Type "application/pdf";
+}
+
 # The following are all for collabora routing
 
 # static files
