@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="ml-3 p-2 text-sm justify-end">
-        Welcome to the new front-end of my website, which is still in development. It functions similar to the former site. In case you cannot find something here, you can still view the old front-end by clicking on the "legacy" link in the menu below. If you have any questions or find any problems please contact, me at the email link in the about section.
+        Welcome to the new front-end of my website, which is still in development. It functions similar to the former site. In case you cannot find something here, you can still view the old front-end by clicking on the "legacy" link in the menu below. If you have any questions or find any problems, please contact me at the email link in the about section.
       </div>
   </div>
   <slot /> <!-- required here only -->
