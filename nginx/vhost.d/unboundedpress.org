@@ -9,12 +9,6 @@ location ^~ /.well-known/acme-challenge/ {
 }
 ## End of configuration add by letsencrypt container
 
-# This is to make sure that the pdf opens in browser
-
-location ~ ^/api/(.*).pdf$ {
-  proxy_set_header content-type "application/pdf";
-}
-
 # The following are all for collabora routing
 
 # static files

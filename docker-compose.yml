@@ -84,11 +84,11 @@ services:
     container_name: portfolio-nuxt
     build: ./portfolio-nuxt
     # To rebuild the site and the server run this
-    #command: bash -c "npm run build && node .output/server/index.mjs"
+    command: bash -c "npm run build && node .output/server/index.mjs"
     # To just start the server run this
     #command: bash -c "node .output/server/index.mjs"
     # To start the server in dev mode
-    command: bash -c "npm run dev -o"
+    #command: bash -c "npm run dev -o"
     volumes:
       - portfolio-nuxt:/src/node_modules
       - ./portfolio-nuxt:/src
