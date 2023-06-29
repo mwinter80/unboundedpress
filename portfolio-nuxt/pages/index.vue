@@ -12,7 +12,7 @@
             <div class="inline-flex">
 
               <div>
-                <IconButton :visible="work.score" type="document" :work="work" :link="work.score" class="inline-flex p-1"></IconButton>
+                <IconButton :visible="work.score" type="score" :work="work" :link="work.score" class="inline-flex p-1"></IconButton>
               </div>
 
               <div>

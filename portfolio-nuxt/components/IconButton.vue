@@ -2,7 +2,11 @@
     <div class="inline-flex p-1 min-w-[25px]">
         <div v-show="visible" class="bg-black rounded-full text-xs inline-flex" >
 
-            <NuxtLink v-if="type === 'document'" class="inline-flex p-1" :to="link">
+            <NuxtLink @click.native="audioPlayerStore.setSoundCloudTrackID(work.soundcloud_trackid)" v-if="type === 'score'" class="inline-flex p-1" :to="link">
+                <Icon name="ion:book-sharp" color="white" />
+            </NuxtLink>
+
+            <NuxtLink v-else-if="type === 'document'" class="inline-flex p-1" :to="link">
                 <Icon name="ion:book-sharp" color="white" />
             </NuxtLink>
 
