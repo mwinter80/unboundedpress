@@ -15,8 +15,8 @@
       </div>
   </div>
   <slot /> <!-- required here only -->
-  <div class="sticky bottom-0 bg-white p-2 flex justify-center z-20">
-    <iframe width="400rem" height="20" scrolling="no" frameborder="no" allow="autoplay" v-if="audioPlayerStore.soundcloud_trackid !== 'undefined'"
+  <div class="fixed bottom-0 bg-white p-2 w-full flex justify-center z-20">
+    <iframe width="400rem" height="20px" scrolling="no" frameborder="no" allow="autoplay" v-if="audioPlayerStore.soundcloud_trackid !== 'undefined'"
     :src="'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + audioPlayerStore.soundcloud_trackid + '&inverse=false&auto_play=true&show_user=false'"></iframe>
   </div>
 
