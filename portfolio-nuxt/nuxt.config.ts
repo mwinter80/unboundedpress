@@ -9,7 +9,10 @@ export default defineNuxtConfig({
   },
   app: {
     //baseURL: "/dev/",
-    pageTransition: { name: 'page', mode: 'out-in' }
+    pageTransition: { name: 'page', mode: 'out-in' },
+    head: {
+      viewport: 'width=device-width'
+    },
   },
   appConfig: {
     umami: {
