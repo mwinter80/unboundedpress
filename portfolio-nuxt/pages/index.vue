@@ -157,7 +157,7 @@
         if(b.entryTags.year === 'forthcoming'){bPrime =  5000} else {bPrime = b.entryTags.year}
         return bPrime - aPrime
         */
-        b.citationKey - a.citationKey
+        a.citationKey - b.citationKey
       })
     }
   })
