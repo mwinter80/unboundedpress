@@ -150,11 +150,14 @@
         }
       }
       return pubs.sort((a,b) => {
+        /*
         let aPrime = 5000
         let bPrime = 5000
         if(a.entryTags.year === 'forthcoming'){aPrime =  5000} else {aPrime = a.entryTags.year}
         if(b.entryTags.year === 'forthcoming'){bPrime =  5000} else {bPrime = b.entryTags.year}
         return bPrime - aPrime
+        */
+        b.citationKey - a.citationKey
       })
     }
   })
