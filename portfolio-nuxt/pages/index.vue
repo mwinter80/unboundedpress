@@ -58,7 +58,7 @@
     </div>
 
     <div class="px-5">
-      <p class="text-lg">releases</p>
+      <p class="text-lg">albums</p>
       <div class="leading-tight py-4 ml-3 text-sm" v-for="item in releases">
         <p class="text-center leading-tight py-2">{{ item.title }}</p>
         <button @click="modalStore.setModalProps('image', 'aspect-auto', true, 'album_art', [{image_id: item.album_art_id}], '')">
