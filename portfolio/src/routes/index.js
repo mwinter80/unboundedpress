@@ -126,6 +126,10 @@ router.get('/works_list', function(req, res, next) {
         if( (titleToSearch.indexOf('one') !== -1) && (titleToSearch.indexOf('two') !== -1)){
           titleToSearch = 'two';
         }
+	if( (titleToSearch == 'berger-knuth') || (titleToSearch == 'robinson') || (titleToSearch == 'penrose') || (titleToSearch == 'ammann') || (titleToSearch == 'kari-culik') || (titleToSearch == 'jaendel-rao')){ 
+          titleToSearch = 'a history of the domino problem';
+        }
+
         // bug: why is mercado san juan or first not updating?
         db.collection('events').find( { $text: { $search: "\"" + titleToSearch + "\"" } } ).toArray(function (err, events1) {
           db.collection('events').find( { 'program' : { "$elemMatch" : { 'work' : { $regex : titleToSearch.replace('(','\\(').replace(')','\\)'), $options : 'i' } } } } ).toArray(function (err, events2) {
