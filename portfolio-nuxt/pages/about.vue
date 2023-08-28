@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-[60%,37%] gap-10 bg-white divide-x divide-solid divide-black py-4 min-h-[86vh]">
+    <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-[60%,35%] gap-10 divide-x divide-solid divide-black py-4 h-[calc(100vh-10.5rem)] overflow-auto">
         <div class="px-5">
             <p class="text-lg">about</p>
         
@@ -10,6 +10,25 @@
                 <div class="leading-tight py-2">
                     My work has been presented at venues and festivals throughout the world such as REDCAT, in Los Angeles; the Ostrava Festival of New Music in the Czech Republic; Tsonami Arte Sonoro Festival in Valparaiso, Chile; the Huddersfield New Music Festival in the United Kingdom; and Umbral Sesiones at the Museo de Arte Contemporáneo in Oaxaca, Mexico. Recordings of my music have been released by XI Records, Another Timbre, New World Records, Edition Wandelweiser, Bahn Mi Verlag, Tsonami Records, and Pogus Productions. In 2008, I co-founded <em>the wulf.</em>, a Los Angeles-based organization dedicated to experimental performance and art. From 2018 to 2019, I was a fellow / artist-in-residence at the Akademie Schloss Solitude in Stuttgart, Germany. I currently reside in Berlin.
                 </div> 
+                <br>
+                <br>
+                <div id="mc_embed_signup">
+                    <form action="https://unboundedpress.us12.list-manage.com/subscribe/post?u=bdadd25738fedf704641f3a80&amp;id=01c5761ebb&amp;f_id=00f143e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self">
+                        <label for="mce-EMAIL">subscribe to my mailing list to know about upcoming events</label>
+                        <input id="mce-EMAIL" type="email" value="" name="EMAIL" placeholder="email address" required="" class="email">
+                        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                            <input type="text" name="b_bdadd25738fedf704641f3a80_01c5761ebb" tabindex="-1" value="">
+                        </div>
+                        <div id="mce-responses" class="clear foot">
+                            <div class="response" id="mce-error-response" style="display:none"></div>
+                            <div class="response" id="mce-success-response" style="display:none"></div>
+                        </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div class="clear">
+                            <input id="mc-embedded-subscribe" type="submit" value="subscribe" name="subscribe" class="button">
+                        </div>
+                    </form>
+                </div>  
+                <br>
                 <br>
                 <div class="inline-flex place-items-center p-2">
                     Contact
@@ -33,22 +52,6 @@
                 </div>
                 <br>
                 <br>
-                <div id="mc_embed_signup" class="p-2">
-                    <form action="https://unboundedpress.us12.list-manage.com/subscribe/post?u=bdadd25738fedf704641f3a80&amp;id=01c5761ebb&amp;f_id=00f143e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self">
-                        <label for="mce-EMAIL">subscribe to my mailing list to know about upcoming events</label>
-                        <input id="mce-EMAIL" type="email" value="" name="EMAIL" placeholder="email address" required="" class="email">
-                        <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                            <input type="text" name="b_bdadd25738fedf704641f3a80_01c5761ebb" tabindex="-1" value="">
-                        </div>
-                        <div id="mce-responses" class="clear foot">
-                            <div class="response" id="mce-error-response" style="display:none"></div>
-                            <div class="response" id="mce-success-response" style="display:none"></div>
-                        </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                        <div class="clear">
-                            <input id="mc-embedded-subscribe" type="submit" value="subscribe" name="subscribe" class="button">
-                        </div>
-                    </form>
-                </div>     
             </div> 
         </div>
         <div class="px-5">

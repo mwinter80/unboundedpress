@@ -24,6 +24,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/cv': { redirect: '/legacy/cv' },
     '/works_list': { redirect: '/legacy/works_list' },
+    '/hdp': { redirect: '/a_history_of_the_domino_problem' },
   },
   nitro: {
     prerender: { crawlLinks: true}
