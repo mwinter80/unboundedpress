@@ -1,16 +1,20 @@
 <template>
-    <div class="bg-contain bg-no-repeat bg-center rounded-lg m-5 gap-10 bg-[#0A0A19] py-4 text-2xl text-white h-[calc(100vh-10.5rem)] overflow-hidden" :style="{ backgroundImage: `url(${image})`}">
+    <div class="bg-contain bg-no-repeat bg-center rounded-lg m-5 gap-10 bg-[#0A0A19] py-4 text-2xl text-white py-4 mb-10 overflow-hidden" :style="{ backgroundImage: `url(${image})`}">
         <div class="rounded-lg w-full sticky top-[10px] grid grid-cols-[63%,35%]">
             <div>
                 <div class="p-5 text-5xl font-bold">a history of the domino problem</div>
                 
-                <div class="inline-flex text-2xl ml-4 mb-5">
-                    <a href="#about" class="px-3">about</a>
-                    <a href="#exhibition" class="px-3">exhibition</a>
-                    <a href="#events" class="px-3">events</a>
-                    <a href="#participants" class="px-3">participants</a>
-                    <a href="#media" class="px-3">media</a>
-                    <a href="#contributors" class="px-3">contributors</a>
+                <div>
+                    <div class="inline-flex text-2xl ml-4 mb-5">
+                        <a href="#about" class="px-3">about</a>
+                        <a href="#exhibition" class="px-3">exhibition</a>
+                        <a href="#events" class="px-3">events</a>
+                    </div>
+                    <div class="inline-flex text-2xl ml-4 mb-5">
+                        <a href="#participants" class="px-3">participants</a>
+                        <a href="#media" class="px-3">media</a>
+                        <a href="#contributors" class="px-3">contributors</a>
+                    </div>
                 </div>
             </div>
             <div>
@@ -55,10 +59,9 @@
                 watchState: true,
             }"
             :modules="[SwiperAutoplay, SwiperPagination, SwiperNavigation, SwiperHashNavigation]"
-            class="max-w-[95vw]"
             >
         <SwiperSlide data-hash="about" class="p-10 text-xl overflow-hidden">
-            <div class="max-h-[calc(100vh-27rem)] overflow-auto">
+            <div class="overflow-auto">
                 <p class="mb-5">
                     <span class="italic">a history of the domino problem</span> is a performance-installation that traces the history of an epistemological problem in mathematics about how things that one could never imagine fitting together, actually come together and unify in unexpected ways. The work comprises a set of musical compositions and a kinetic sculpture that sonify and visualize rare mosaics constructed from dominoes. The dominoes in these mosaics are similar yet slightly different than those used in the popular game of the same name. As opposed to rectangles, they are squares with various color combinations along the edges (which can alternatively also be represented by numbers or patterns) called <NuxtLink to='https://en.wikipedia.org/wiki/Wang_tile'>wang tiles</NuxtLink>. Like in the game, the rule is that edges of adjacent dominoes in a mosaic must match.  
                 </p>
@@ -68,7 +71,7 @@
             </div>
         </SwiperSlide>
         <SwiperSlide data-hash="exhibition" class="p-10 text-xl overflow-hidden">
-            <div class="max-h-[calc(100vh-27rem)] overflow-auto">
+            <div class="overflow-auto">
                 <div class="mb-5">
                     in collaboration with MAREIKE YIN-YEE LEE
                 </div>
@@ -83,7 +86,7 @@
             </div>
         </SwiperSlide>
         <SwiperSlide data-hash="events" class="p-10 text-xl overflow-hidden">
-            <div class="max-h-[calc(100vh-27rem)] overflow-auto">
+            <div class="overflow-auto">
                 <div class="mb-5">
                     Exhibition Opening - TBA
                 </div>
@@ -117,7 +120,7 @@
             </div>
         </SwiperSlide>
         <SwiperSlide data-hash="participants" class="p-10 text-xl overflow-hidden">
-            <div class="max-h-[calc(100vh-27rem)] overflow-auto">
+            <div class="max-h-[500px] overflow-auto">
                 <div class="mb-5 py-10">
                     <NuxtLink class="text-3xl font-bold" to='https://unboundedpress.org/'>Michael Winter - composer | sound artist</NuxtLink>
                     <div class="grid grid-cols-[20%,70%] p-5">

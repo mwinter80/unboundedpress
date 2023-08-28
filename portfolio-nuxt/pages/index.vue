@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-3 gap-10 divide-x divide-solid divide-black py-4 h-[calc(100vh-10.5rem)] overflow-auto">
+  <div class="bg-zinc-100 rounded-lg m-5 grid grid-cols-3 gap-10 divide-x divide-solid divide-black py-4 mb-10">
 
     <div class="px-5">
       <p class="text-lg">pieces</p>
