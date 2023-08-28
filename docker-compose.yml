@@ -105,11 +105,9 @@ services:
     ports:
       - "5000:5000"
     restart: always
-    #depends_on:
-      #mongo:
-        #condition: service_healthy
-      #restheart:
-      #nginx-proxy:
+    depends_on:
+      - restheart
+      - nginx-proxy
     #labels:
     #  com.github.nginx-proxy.nginx-proxy.keepalive: "64"
 
