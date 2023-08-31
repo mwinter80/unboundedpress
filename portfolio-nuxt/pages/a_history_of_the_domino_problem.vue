@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div>
-                For the Lecture-Concert on 22 Nov 2023, priority will be given to those who RSVP. Sign up <NuxtLink class="text-2xl font-bold" to='https://www.surveymonkey.de/r/FDL8XW3'>HERE</NuxtLink>.
+                For the Lecture-Concert on 22 Nov 2023, Registration recommended. Sign up <NuxtLink class="text-2xl font-bold" to='https://www.surveymonkey.de/r/FDL8XW3'>HERE</NuxtLink>.
             </div>
         </div>
         <!---
@@ -63,10 +63,13 @@
         <SwiperSlide data-hash="about" class="p-10 text-xl overflow-hidden">
             <div class="overflow-auto">
                 <p class="mb-5">
-                    <span class="italic">a history of the domino problem</span> is a performance-installation that traces the history of an epistemological problem in mathematics about how things that one could never imagine fitting together, actually come together and unify in unexpected ways. The work comprises a set of musical compositions and a kinetic sculpture that sonify and visualize rare mosaics constructed from dominoes. The dominoes in these mosaics are similar yet slightly different than those used in the popular game of the same name. As opposed to rectangles, they are squares with various color combinations along the edges (which can alternatively also be represented by numbers or patterns) called <NuxtLink to='https://en.wikipedia.org/wiki/Wang_tile'>wang tiles</NuxtLink>. Like in the game, the rule is that edges of adjacent dominoes in a mosaic must match.  
+                    <span class="italic">a history of the domino problem</span> is a performance-installation that traces the history of an epistemological problem in mathematics about how things that one could never imagine fitting together, actually come together and unify in unexpected ways. The work comprises a set of musical compositions and a kinetic sculpture that sonify and visualize rare tilings (more commonly known as mosaics) constructed from dominoes. The dominoes in these tilings are similar yet slightly different than those used in the popular game of the same name. As opposed to rectangles, they are squares with various color combinations along the edges (which can alternatively also be represented by numbers or patterns) called <NuxtLink to='https://en.wikipedia.org/wiki/Wang_tile'>wang tiles</NuxtLink>. Like in the game, the rule is that edges of adjacent dominoes in a tiling must match.  
+                </p>
+                <p class="mb-5">
+                    The tilings sonified and visualized in <span class="italic">a history of the domino problem</span> are rare because there is no systematic way to find them. This is due to the fact that they are  <NuxtLink to='https://en.wikipedia.org/wiki/Aperiodic_tiling'><span class="italic">aperiodic</span></NuxtLink>. One can think of an aperiodic tiling like an infinite puzzle with a peculiar characteristic. Given unlimited copies of dominoes with a finite set of color/pattern combinations for the edges, there is a solution that will result in a tiling that expands infinitely. However, in that solution, any periodic/repeating structure in the tiling will eventually be interrupted. This phenomenon is one of the most intriguing aspects of the work. As the music and the visuals are derived from the tilings, the resulting textures are always shifting ever so slightly. 
                 </p>
                 <p>
-                    The mosaics sonified and visualized in <span class="italic">a history of the domino problem</span> are rare because there is no systematic way to find them. This is due to the fact that they are  <NuxtLink to='https://en.wikipedia.org/wiki/Aperiodic_tiling'><span class="italic">aperiodic</span></NuxtLink>. One can think of an aperiodic mosaic like an infinite puzzle with a peculiar characteristic. Given unlimited copies of dominoes with a finite set of color/pattern combinations for the edges, there is a solution that will result in a mosaic that expands infinitely. However, in that solution, any periodic/repeating structure in the mosaic will eventually be interrupted. This phenomenon is one of the most intriguing aspects of the work. As the music and the visuals are derived from the mosaics, the resulting textures are always shifting ever so slightly. 
+                    The Domino Problem and its corresponding history are somewhat vexing and difficult to describe. The original problem asked if there exists an algorithm/computer program that, when given as input a finite set of dominoes with varying color combinations for the edges, can output a binary answer, `yes' or `no', whether or not copies of that set can form an infinite tiling. The reason why the Domino Problem is inextricably linked to whether or not aperiodic tilings exist is the following. The existence of aperiodic tilings would mean that such an algorithm <span class="italic">does not</span> exist. The problem was first posed by Hao Wang in 1961. He actually conjectured that aperiodic tilings do not exist. However, in 1966, his student, Robert Berger, proved him wrong by discovering an infinite, aperiodic tiling constructed with copies of a set of 20,426 dominoes. With the original problem solved, mathematicians then took on the challenge of finding the smallest set of dominoes that would construct an infinite aperiodic tiling. Over the past 60 years, this number has been continually reduced until the most recent discovery of a set of 11 dominoes along with a proof that no smaller sets exist. It is a remarkable narrative/history of a particular epistemological problem that challenged a group of people not only to solve it, but to understand it to the extent possible.
                 </p>
             </div>
         </SwiperSlide>
@@ -79,9 +82,7 @@
                     Nov. - Exact dates and exhibition opening hours TBA soon!
                 </div>
                 <div class="mb-5">
-                    Lichthof (Ost) Ausstellungsraum der Humboldt-Universität
-                    <br>
-                    Hauptgebäude, Erdgeschoss, Unter den Linden 6, 10117 Berlin
+                    Lichthof Ost, HU Berlin, Campus Mitte, Unter den Linden 6, U Bahn Unter den Linden oder Museuminsel
                 </div>
             </div>
         </SwiperSlide>
@@ -102,9 +103,7 @@
                     <br>
                     22 Nov 2023 | 19 Uhr
                     <br>
-                    Senatssal der Humboldt-Universität
-                    <br>
-                    Hauptgebäude, 1. Obergeschoss, Unter den Linden 6, 10117 Berlin
+                    Senatssal, HU Berlin, Campus Mitte, Unter den Linden 6, U Bahn Unter den Linden oder Museuminsel
                 </div>
                 <div class="mb-5">
                     Concert
